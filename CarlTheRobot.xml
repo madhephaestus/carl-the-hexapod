@@ -2,10 +2,26 @@
 <mobilebase>
 
 <driveType>walking</driveType>
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>WalkingDriveEngine.groovy</file>
+</kinematics>
+
 
 <name>WalkingBase</name>
 <leg>
-
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <name>Hex_One</name>
 <link>
 	<name>basePan</name>
@@ -102,7 +118,14 @@
 
 </leg>
 <leg>
-
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <name>Hex_Two</name>
 <link>
 	<name>basePan</name>
@@ -199,7 +222,14 @@
 
 </leg>
 <leg>
-
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <name>Hex_Three</name>
 <link>
 	<name>basePan</name>
@@ -296,7 +326,14 @@
 
 </leg>
 <leg>
-
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <name>Hex_Four</name>
 <link>
 	<name>basePan</name>
@@ -393,7 +430,14 @@
 
 </leg>
 <leg>
-
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <name>Hex_Five</name>
 <link>
 	<name>basePan</name>
@@ -490,7 +534,14 @@
 
 </leg>
 <leg>
-
+<cad>
+	<gist>bcb4760a449190206170</gist>
+	<file>ThreeDPrintCad.groovy</file>
+</cad>
+<kinematics>
+	<gist>bcb4760a449190206170</gist>
+	<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <name>Hex_Six</name>
 <link>
 	<name>basePan</name>
