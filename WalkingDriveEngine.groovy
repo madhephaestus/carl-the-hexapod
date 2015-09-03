@@ -102,10 +102,10 @@ IDriveEngine engine =  new IDriveEngine (){
 							double time = 0.2
 							// lift leg above home
 							legs.get(i).setDesiredTaskSpaceTransform(home[i], 0);
-							ThreadUtil.wait(100);
+							ThreadUtil.wait(2000);
 							//step to new target
 							legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], 0);
-							ThreadUtil.wait(100);
+							ThreadUtil.wait(2000);
 							//set new target for the coordinated motion step at the end
 							feetLocations[i].translateX(newPose.getX());
 							feetLocations[i].translateY(newPose.getY());
