@@ -14,9 +14,9 @@ import com.neuronrobotics.sdk.util.ThreadUtil;
 import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 
 IDriveEngine engine =  new IDriveEngine (){
-	double stepOverHeight=25;
+	double stepOverHeight=20;
 	boolean takingStep = false;
-	private Double zLock=null;
+	private Double zLock=-75;
 	TransformNR previousGLobalState;
 	TransformNR target;
 	RotationNR rot;
