@@ -2,26 +2,10 @@
 <mobilebase>
 
 <driveType>walking</driveType>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>WalkingDriveEngine.groovy</file>
-</kinematics>
-
 
 <name>WalkingBase</name>
 <leg>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>DefaultDhSolver.groovy</file>
-</kinematics>
+
 <name>Hex_One</name>
 <link>
 	<name>basePan</name>
@@ -97,8 +81,8 @@
 </link>
 
 <ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
+>	<x>-5.8258309960365295</x>
+	<y>-38.246101550757885</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -110,22 +94,15 @@
 	<x>-42.0</x>
 	<y>-28.0</y>
 	<z>0.0</z>
-	<rotw>0.43145405354352245</rotw>
-	<rotx>-0.11965279868172733</rotx>
-	<roty>0.23895513682818023</roty>
-	<rotz>-0.8616443872224332</rotz>
+	<rotw>0.43145405354352023</rotw>
+	<rotx>-0.11965279868172773</rotx>
+	<roty>0.238955136828181</roty>
+	<rotz>-0.8616443872224361</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>DefaultDhSolver.groovy</file>
-</kinematics>
+
 <name>Hex_Two</name>
 <link>
 	<name>basePan</name>
@@ -137,7 +114,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>164.15671641791042</staticOffset>
+	<staticOffset>162.25373134328353</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>171</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -201,8 +178,8 @@
 </link>
 
 <ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
+>	<x>-5.8258309960365295</x>
+	<y>-38.246101550757885</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -214,22 +191,15 @@
 	<x>0.0</x>
 	<y>-40.0</y>
 	<z>0.0</z>
-	<rotw>0.6813896280216821</rotw>
-	<rotx>-0.18896606791821657</rotx>
-	<roty>0.18896606791821657</roty>
-	<rotz>-0.6813896280216847</rotz>
+	<rotw>0.6813896280216819</rotw>
+	<rotx>-0.18896606791821663</rotx>
+	<roty>0.18896606791821663</roty>
+	<rotz>-0.6813896280216849</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>DefaultDhSolver.groovy</file>
-</kinematics>
+
 <name>Hex_Three</name>
 <link>
 	<name>basePan</name>
@@ -241,7 +211,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>131.80597014925374</staticOffset>
+	<staticOffset>144.84283804856315</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>124</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -265,7 +235,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>112.77611940298506</staticOffset>
+	<staticOffset>137.51492537313433</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>91</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -305,8 +275,8 @@
 </link>
 
 <ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
+>	<x>-5.8258309960365295</x>
+	<y>-38.246101550757885</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -326,14 +296,7 @@
 
 </leg>
 <leg>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>DefaultDhSolver.groovy</file>
-</kinematics>
+
 <name>Hex_Four</name>
 <link>
 	<name>basePan</name>
@@ -345,7 +308,7 @@
 	<lowerLimit>55.18656716417911</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>103.26119402985077</staticOffset>
+	<staticOffset>109.22577411450214</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>133</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -409,8 +372,8 @@
 </link>
 
 <ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
+>	<x>-5.8258309960365295</x>
+	<y>-38.246101550757885</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -430,14 +393,7 @@
 
 </leg>
 <leg>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>DefaultDhSolver.groovy</file>
-</kinematics>
+
 <name>Hex_Five</name>
 <link>
 	<name>basePan</name>
@@ -449,7 +405,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>120.38805970149254</staticOffset>
+	<staticOffset>122.2910447761194</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -513,8 +469,8 @@
 </link>
 
 <ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
+>	<x>-5.8258309960365295</x>
+	<y>-38.246101550757885</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -526,22 +482,15 @@
 	<x>0.0</x>
 	<y>40.0</y>
 	<z>0.0</z>
-	<rotw>0.6813896280216821</rotw>
-	<rotx>0.18896606791821657</rotx>
-	<roty>0.18896606791821657</roty>
-	<rotz>0.6813896280216847</rotz>
+	<rotw>0.6813896280216819</rotw>
+	<rotx>0.18896606791821663</rotx>
+	<roty>0.18896606791821663</roty>
+	<rotz>0.6813896280216849</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
-<cad>
-	<gist>bcb4760a449190206170</gist>
-	<file>ThreeDPrintCad.groovy</file>
-</cad>
-<kinematics>
-	<gist>bcb4760a449190206170</gist>
-	<file>DefaultDhSolver.groovy</file>
-</kinematics>
+
 <name>Hex_Six</name>
 <link>
 	<name>basePan</name>
@@ -577,7 +526,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>97.55223880597015</staticOffset>
+	<staticOffset>108.97014925373135</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -617,8 +566,8 @@
 </link>
 
 <ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
+>	<x>-5.8258309960365295</x>
+	<y>-38.246101550757885</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -630,10 +579,10 @@
 	<x>-42.0</x>
 	<y>28.0</y>
 	<z>0.0</z>
-	<rotw>0.43135287782391324</rotw>
-	<rotx>0.1196247401714166</rotx>
-	<roty>0.23896918459890443</roty>
-	<rotz>0.8616950418472228</rotz>
+	<rotw>0.4313528778239112</rotw>
+	<rotx>0.119624740171417</rotx>
+	<roty>0.23896918459890518</roty>
+	<rotz>0.8616950418472256</rotz>
 </baseToZframe>
 
 </leg>

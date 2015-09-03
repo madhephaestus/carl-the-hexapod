@@ -4,7 +4,7 @@ import com.neuronrobotics.sdk.addons.kinematics.DHChain;
 import com.neuronrobotics.sdk.addons.kinematics.DHLink;
 import com.neuronrobotics.sdk.addons.kinematics.DhInverseSolver;
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
-import com.neuronrobotics.sdk.common.Log;
+import com.neuronrobotics.sdk.common.Log;					
 import Jama.Matrix;
 
 return new DhInverseSolver() {
@@ -14,7 +14,7 @@ return new DhInverseSolver() {
 			double[] jointSpaceVector,DHChain chain ) {
 		ArrayList<DHLink> links = chain.getLinks();
 		// THis is the jacobian for the given configuration
-		Matrix jacobian =  chain.getJacobian(jointSpaceVector);
+		//Matrix jacobian =  chain.getJacobian(jointSpaceVector);
 		Matrix taskSpacMatrix = target.getMatrixTransform();
 		
 		int linkNum = jointSpaceVector.length;
@@ -115,7 +115,6 @@ return new DhInverseSolver() {
 		for(;i<inv.length && i<jointSpaceVector.length ;i++){
 			inv[i]=jointSpaceVector[i];
 		}
-		println inv
 		return inv;
 	}
 };
