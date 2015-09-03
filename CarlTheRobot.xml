@@ -3,10 +3,42 @@
 
 <driveType>walking</driveType>
 
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<walkingEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>WalkingDriveEngine.groovy</file>
+</walkingEngine>
+
 <name>WalkingBase</name>
 <leg>
 
 <name>Hex_One</name>
+
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<kinematics>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -81,8 +113,8 @@
 </link>
 
 <ZframeToRAS
->	<x>-5.8258309960365295</x>
-	<y>-38.246101550757885</y>
+>	<x>0.0</x>
+	<y>0.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -94,16 +126,32 @@
 	<x>-42.0</x>
 	<y>-28.0</y>
 	<z>0.0</z>
-	<rotw>0.43145405354352023</rotw>
-	<rotx>-0.11965279868172773</rotx>
-	<roty>0.238955136828181</roty>
-	<rotz>-0.8616443872224361</rotz>
+	<rotw>0.43145405354351535</rotw>
+	<rotx>-0.11965279868172869</rotx>
+	<roty>0.23895513682818287</roty>
+	<rotz>-0.8616443872224429</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
 
 <name>Hex_Two</name>
+
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<kinematics>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -178,8 +226,8 @@
 </link>
 
 <ZframeToRAS
->	<x>-5.8258309960365295</x>
-	<y>-38.246101550757885</y>
+>	<x>0.0</x>
+	<y>0.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -191,9 +239,9 @@
 	<x>0.0</x>
 	<y>-40.0</y>
 	<z>0.0</z>
-	<rotw>0.6813896280216819</rotw>
-	<rotx>-0.18896606791821663</rotx>
-	<roty>0.18896606791821663</roty>
+	<rotw>0.6813896280216818</rotw>
+	<rotx>-0.18896606791821666</rotx>
+	<roty>0.18896606791821666</roty>
 	<rotz>-0.6813896280216849</rotz>
 </baseToZframe>
 
@@ -201,6 +249,22 @@
 <leg>
 
 <name>Hex_Three</name>
+
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<kinematics>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -275,8 +339,8 @@
 </link>
 
 <ZframeToRAS
->	<x>-5.8258309960365295</x>
-	<y>-38.246101550757885</y>
+>	<x>0.0</x>
+	<y>0.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -298,6 +362,22 @@
 <leg>
 
 <name>Hex_Four</name>
+
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<kinematics>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -372,8 +452,8 @@
 </link>
 
 <ZframeToRAS
->	<x>-5.8258309960365295</x>
-	<y>-38.246101550757885</y>
+>	<x>0.0</x>
+	<y>0.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -395,6 +475,22 @@
 <leg>
 
 <name>Hex_Five</name>
+
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<kinematics>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -469,8 +565,8 @@
 </link>
 
 <ZframeToRAS
->	<x>-5.8258309960365295</x>
-	<y>-38.246101550757885</y>
+>	<x>0.0</x>
+	<y>0.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -482,9 +578,9 @@
 	<x>0.0</x>
 	<y>40.0</y>
 	<z>0.0</z>
-	<rotw>0.6813896280216819</rotw>
-	<rotx>0.18896606791821663</rotx>
-	<roty>0.18896606791821663</roty>
+	<rotw>0.6813896280216818</rotw>
+	<rotx>0.18896606791821666</rotx>
+	<roty>0.18896606791821666</roty>
 	<rotz>0.6813896280216849</rotz>
 </baseToZframe>
 
@@ -492,6 +588,22 @@
 <leg>
 
 <name>Hex_Six</name>
+
+<cadEngine>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>ThreeDPrintCad.groovy</file>
+</cadEngine>
+
+<kinematics>
+
+<gist>bcb4760a449190206170</gist>
+
+
+<file>DefaultDhSolver.groovy</file>
+</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -566,8 +678,8 @@
 </link>
 
 <ZframeToRAS
->	<x>-5.8258309960365295</x>
-	<y>-38.246101550757885</y>
+>	<x>0.0</x>
+	<y>0.0</y>
 	<z>0.0</z>
 	<rotw>1.0</rotw>
 	<rotx>0.0</rotx>
@@ -579,10 +691,10 @@
 	<x>-42.0</x>
 	<y>28.0</y>
 	<z>0.0</z>
-	<rotw>0.4313528778239112</rotw>
-	<rotx>0.119624740171417</rotx>
-	<roty>0.23896918459890518</roty>
-	<rotz>0.8616950418472256</rotz>
+	<rotw>0.4313528778239065</rotw>
+	<rotx>0.11962474017141791</rotx>
+	<roty>0.238969184598907</roty>
+	<rotz>0.8616950418472322</rotz>
 </baseToZframe>
 
 </leg>
