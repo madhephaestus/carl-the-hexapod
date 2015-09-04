@@ -2,43 +2,27 @@
 <mobilebase>
 
 <driveType>walking</driveType>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<driveEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>WalkingDriveEngine.groovy</file>
-</driveEngine>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<driveEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>WalkingDriveEngine.groovy</file>
+	</driveEngine>
 
 <name>CarlTheRobot</name>
 <leg>
 
-<name>Hex_One</name>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<kinematics>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>DefaultDhSolver.groovy</file>
-</kinematics>
+<name>Carl_One</name>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<kinematics>
+		<gist>bcb4760a449190206170</gist>
+		<file>DefaultDhSolver.groovy</file>
+	</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -126,32 +110,24 @@
 	<x>-42.0</x>
 	<y>-28.0</y>
 	<z>0.0</z>
-	<rotw>0.43145405354351535</rotw>
-	<rotx>-0.11965279868172869</rotx>
-	<roty>0.23895513682818287</roty>
-	<rotz>-0.8616443872224429</rotz>
+	<rotw>0.43145405354350463</rotw>
+	<rotx>-0.1196527986817307</rotx>
+	<roty>0.23895513682818695</roty>
+	<rotz>-0.8616443872224576</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
 
-<name>Hex_Two</name>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<kinematics>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>DefaultDhSolver.groovy</file>
-</kinematics>
+<name>Carl_Two</name>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<kinematics>
+		<gist>bcb4760a449190206170</gist>
+		<file>DefaultDhSolver.groovy</file>
+	</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -239,32 +215,24 @@
 	<x>0.0</x>
 	<y>-40.0</y>
 	<z>0.0</z>
-	<rotw>0.6813896280216818</rotw>
-	<rotx>-0.18896606791821666</rotx>
-	<roty>0.18896606791821666</roty>
+	<rotw>0.6813896280216817</rotw>
+	<rotx>-0.18896606791821668</rotx>
+	<roty>0.18896606791821668</roty>
 	<rotz>-0.6813896280216849</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
 
-<name>Hex_Three</name>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<kinematics>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>DefaultDhSolver.groovy</file>
-</kinematics>
+<name>Carl_Three</name>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<kinematics>
+		<gist>bcb4760a449190206170</gist>
+		<file>DefaultDhSolver.groovy</file>
+	</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -361,23 +329,15 @@
 </leg>
 <leg>
 
-<name>Hex_Four</name>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<kinematics>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>DefaultDhSolver.groovy</file>
-</kinematics>
+<name>Carl_Four</name>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<kinematics>
+		<gist>bcb4760a449190206170</gist>
+		<file>DefaultDhSolver.groovy</file>
+	</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -474,23 +434,15 @@
 </leg>
 <leg>
 
-<name>Hex_Five</name>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<kinematics>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>DefaultDhSolver.groovy</file>
-</kinematics>
+<name>Carl_Five</name>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<kinematics>
+		<gist>bcb4760a449190206170</gist>
+		<file>DefaultDhSolver.groovy</file>
+	</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -578,32 +530,24 @@
 	<x>0.0</x>
 	<y>40.0</y>
 	<z>0.0</z>
-	<rotw>0.6813896280216818</rotw>
-	<rotx>0.18896606791821666</rotx>
-	<roty>0.18896606791821666</roty>
+	<rotw>0.6813896280216817</rotw>
+	<rotx>0.18896606791821668</rotx>
+	<roty>0.18896606791821668</roty>
 	<rotz>0.6813896280216849</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
 
-<name>Hex_Six</name>
-
-<cadEngine>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>ThreeDPrintCad.groovy</file>
-</cadEngine>
-
-<kinematics>
-
-<gist>bcb4760a449190206170</gist>
-
-
-<file>DefaultDhSolver.groovy</file>
-</kinematics>
+<name>Carl_Six</name>
+	<cadEngine>
+		<gist>bcb4760a449190206170</gist>
+		<file>ThreeDPrintCad.groovy</file>
+	</cadEngine>
+	<kinematics>
+		<gist>bcb4760a449190206170</gist>
+		<file>DefaultDhSolver.groovy</file>
+	</kinematics>
 <link>
 	<name>basePan</name>
 	<deviceName>dyio</deviceName>
@@ -691,10 +635,10 @@
 	<x>-42.0</x>
 	<y>28.0</y>
 	<z>0.0</z>
-	<rotw>0.4313528778239065</rotw>
-	<rotx>0.11962474017141791</rotx>
-	<roty>0.238969184598907</roty>
-	<rotz>0.8616950418472322</rotz>
+	<rotw>0.43135287782389625</rotw>
+	<rotx>0.11962474017141983</rotx>
+	<roty>0.2389691845989109</roty>
+	<rotz>0.8616950418472461</rotz>
 </baseToZframe>
 
 </leg>
