@@ -110,10 +110,10 @@
 	<x>-42.0</x>
 	<y>-28.0</y>
 	<z>0.0</z>
-	<rotw>0.4314540535433181</rotw>
-	<rotx>-0.11965279868176619</rotx>
-	<roty>0.23895513682825795</roty>
-	<rotz>-0.8616443872227132</rotz>
+	<rotw>0.4314540535430734</rotw>
+	<rotx>-0.11965279868181278</rotx>
+	<roty>0.2389551368283509</roty>
+	<rotz>-0.8616443872230485</rotz>
 </baseToZframe>
 
 </leg>
@@ -558,7 +558,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>103.26119402985074</staticOffset>
+	<staticOffset>72.81343283582089</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>135</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -635,10 +635,10 @@
 	<x>-42.0</x>
 	<y>28.0</y>
 	<z>0.0</z>
-	<rotw>0.4313528778237181</rotw>
-	<rotx>0.11962474017145375</rotx>
-	<roty>0.23896918459897865</roty>
-	<rotz>0.8616950418474905</rotz>
+	<rotw>0.431352877823484</rotw>
+	<rotx>0.11962474017149834</rotx>
+	<roty>0.2389691845990677</roty>
+	<rotz>0.8616950418478115</rotz>
 </baseToZframe>
 
 </leg>
