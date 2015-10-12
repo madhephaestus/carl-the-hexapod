@@ -25,6 +25,7 @@ import com.neuronrobotics.bowlerstudio.vitamins.Vitamins;
 import eu.mihosoft.vrl.v3d.CSG;
 import eu.mihosoft.vrl.v3d.Cube;
 import eu.mihosoft.vrl.v3d.FileUtil;
+import eu.mihosoft.vrl.v3d.RoundedCube
 import eu.mihosoft.vrl.v3d.STL;
 import eu.mihosoft.vrl.v3d.Sphere;
 import eu.mihosoft.vrl.v3d.Transform;
@@ -151,10 +152,18 @@ return new ICadGenerator(){
 	}
 	
 	private CSG getAttachment(){
-		CSG attachmentbase = toZMin(new Cube(attachmentBaseWidth,attachmentBaseWidth,4).toCSG());
+		CSG attachmentbase = new RoundedCube(attachmentBaseWidth,attachmentBaseWidth,4)
+							.cornerRadius(attachmentBaseWidth/10)
+							.toCSG()
+							.movex(-attachmentBaseWidth/2)
+							.movey(-attachmentBaseWidth/2)
+							
+							
 		CSG post = toZMin(new Cube(	attachmentRodWidth,
 									attachmentRodWidth,
-									Math.abs(servoReference.getBounds().getMax().x)+5+attachmentRodWidth/2).toCSG());
+									Math.abs(servoReference.getBounds().getMax().x)+5+attachmentRodWidth/2)
+									
+									.toCSG());
 		attachmentbase = toZMax(attachmentbase.union(post))
 		.transformed(new Transform().translateZ( attachmentRodWidth/2));
 		CSG hornAttach =toZMin(toYMin(	toYMax( toZMax(horn).transformed(new Transform().translateZ( 4))) , 
@@ -334,6 +343,7 @@ return new ICadGenerator(){
 	}
 	
 	public ArrayList<CSG> generateCad(ArrayList<DHLink> dhLinks,boolean printBed ){
+		printBed=true;
 		
 		ArrayList<CSG> csg = new ArrayList<CSG>();
 
@@ -344,7 +354,7 @@ return new ICadGenerator(){
 		if(printBed){
 			
 			rootAttachment=rootAttachment 
-			.transformed(new Transform().rotY(90))
+			//.transformed(new Transform().rotY(90))
 			.toZMin()
 		}else{
 			rootAttachment.setManipulator(dh.getRootListener());
@@ -496,7 +506,7 @@ return new ICadGenerator(){
 					.toZMin()
 					
 					nextAttachment=nextAttachment
-					.transformed(new Transform().rotY(90))
+					//.transformed(new Transform().rotY(90))
 					.toZMin()
 					
 				}else{
@@ -515,10 +525,10 @@ return new ICadGenerator(){
 					//csg.add(upperScrews);//view the screws
 				}
 				
-				if(i<dhLinks.size()-1)
-					csg.add(nextAttachment);//This is the root that attaches to the base
-				csg.add(upperLink);//This is the root that attaches to the base
-				csg.add(lowerLink);//White link forming the lower link
+//				if(i<dhLinks.size()-1)
+//					csg.add(nextAttachment);//This is the root that attaches to the base
+				//csg.add(upperLink);//This is the root that attaches to the base
+				//csg.add(lowerLink);//White link forming the lower link
 
 					
 			}
@@ -532,7 +542,7 @@ return new ICadGenerator(){
 				
 			}
 			foot.setColor(Color.GOLD);
-			csg.add(foot);//This is the root that attaches to the base
+			//csg.add(foot);//This is the root that attaches to the base
 
 		}
 		return csg;
