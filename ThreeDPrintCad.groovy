@@ -156,9 +156,16 @@ return new ICadGenerator(){
 							.cornerRadius(attachmentBaseWidth/10)
 							.toCSG()
 							.movex(-attachmentBaseWidth/2)
-							.movey(-attachmentBaseWidth/2)
-							
-							
+							.movey(-(attachmentBaseWidth/2))
+		CSG cutOffBottomOfAttachment 	=new Cube(	(attachmentBaseWidth-attachmentRodWidth)/2,
+									attachmentBaseWidth,
+									10)
+									.toCSG()
+									
+									.movex(-attachmentBaseWidth/2+(attachmentBaseWidth-attachmentRodWidth)/4)
+									.rotz(-90)
+		attachmentbase=attachmentbase.difference(cutOffBottomOfAttachment)
+		
 		CSG post = toZMin(new Cube(	attachmentRodWidth,
 									attachmentRodWidth,
 									Math.abs(servoReference.getBounds().getMax().x)+5+attachmentRodWidth/2)
@@ -171,12 +178,12 @@ return new ICadGenerator(){
 									post
 									);
 		attachmentbase =attachmentbase.difference(hornAttach);
-		double pinMax = attachmentRodWidth/2;
-		double pinMin = 7.5/2;
-		CSG bearingPin =toYMax( new Cylinder(pinMax,pinMin, pinMax -pinMin ,(int)20).toCSG()
-			.transformed(new Transform().rotX(-90)),
+		double pinMax = 4;
+		double pinMin = pinMax-2;
+		CSG bearingPin =toYMax( new Cylinder(pinMax,pinMin, (int)5 ,(int)50).toCSG()
+			.transformed(new Transform().rotX(90)),
 										post);
-		attachmentbase =attachmentbase.union(bearingPin);
+		attachmentbase =attachmentbase.difference(bearingPin);
 		return attachmentbase.transformed(new Transform().rot(-90, -90, 0));
 
 	}
@@ -343,7 +350,7 @@ return new ICadGenerator(){
 	}
 	
 	public ArrayList<CSG> generateCad(ArrayList<DHLink> dhLinks,boolean printBed ){
-		printBed=true;
+		//printBed=true;
 		
 		ArrayList<CSG> csg = new ArrayList<CSG>();
 
@@ -360,7 +367,7 @@ return new ICadGenerator(){
 			rootAttachment.setManipulator(dh.getRootListener());
 
 		}
-		csg.add(rootAttachment);//This is the root that attaches to the base
+		//csg.add(rootAttachment);//This is the root that attaches to the base
 		rootAttachment.setColor(Color.GOLD);
 		CSG foot=getFoot();
 
@@ -460,6 +467,12 @@ return new ICadGenerator(){
 					 (int)20).toCSG()
 
 				)
+				CSG pinBlank = new Cylinder( 4.5,
+											 LowerLinkThickness,
+											 (int)20)
+								.toCSG()
+				lowerLink=lowerLink.union(pinBlank)
+								
 				
 				lowerLink=lowerLink.transformed(new Transform().translateZ(-attachmentRodWidth/2))
 				CSG lowerClip =
@@ -479,7 +492,7 @@ return new ICadGenerator(){
 					lowerClip
 					);
 				//Remove the divit or the bearing
-				lowerLink= lowerLink.difference(makeKeepaway(nextAttachment),upperScrews.transformed(new Transform().translateZ(6)))// allign to the NEXT ATTACHMENT);
+				lowerLink= lowerLink.difference(makeKeepaway(nextAttachment).movez(0.3),upperScrews.transformed(new Transform().translateZ(6)))// allign to the NEXT ATTACHMENT);
 				lowerLink= moveDHValues(lowerLink,dh);
 				//remove the next links connector and the upper link for mating surface
 				lowerLink= lowerLink.difference(upperLink,servo);
@@ -527,8 +540,8 @@ return new ICadGenerator(){
 				
 //				if(i<dhLinks.size()-1)
 //					csg.add(nextAttachment);//This is the root that attaches to the base
-				//csg.add(upperLink);//This is the root that attaches to the base
-				//csg.add(lowerLink);//White link forming the lower link
+				csg.add(upperLink);//This is the root that attaches to the base
+				csg.add(lowerLink);//White link forming the lower link
 
 					
 			}
@@ -542,7 +555,7 @@ return new ICadGenerator(){
 				
 			}
 			foot.setColor(Color.GOLD);
-			//csg.add(foot);//This is the root that attaches to the base
+			csg.add(foot);//This is the root that attaches to the base
 
 		}
 		return csg;
