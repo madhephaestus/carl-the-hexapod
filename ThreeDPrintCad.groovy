@@ -367,7 +367,7 @@ return new ICadGenerator(){
 			rootAttachment.setManipulator(dh.getRootListener());
 
 		}
-		//csg.add(rootAttachment);//This is the root that attaches to the base
+		csg.add(rootAttachment);//This is the root that attaches to the base
 		rootAttachment.setColor(Color.GOLD);
 		CSG foot=getFoot();
 
@@ -538,8 +538,8 @@ return new ICadGenerator(){
 					//csg.add(upperScrews);//view the screws
 				}
 				
-//				if(i<dhLinks.size()-1)
-//					csg.add(nextAttachment);//This is the root that attaches to the base
+				if(i<dhLinks.size()-1)
+					csg.add(nextAttachment);//This is the root that attaches to the base
 				csg.add(upperLink);//This is the root that attaches to the base
 				csg.add(lowerLink);//White link forming the lower link
 
