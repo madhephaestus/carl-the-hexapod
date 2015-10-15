@@ -20,7 +20,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	double stepOverHeight=20;
 	long stepOverTime=100;
 	boolean takingStep = false;
-	private Double zLock=-75
+	private Double zLock=-70;
 	
 	TransformNR previousGLobalState;
 	TransformNR target;
@@ -51,7 +51,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							long tmp= reset;
 							TransformNR [] home = new TransformNR[numlegs];
 							for(int i=0;i<numlegs;i++){
-								home[i] = legs.get(i).forwardOffset(new TransformNR());
+								//home[i] = legs.get(i).forwardOffset(new TransformNR());
+								home[i] =legs.get(i).calcHome();
 								TransformNR up = home[i].copy()
 								up.setZ(stepOverHeight + zLock )
 								TransformNR down = home[i].copy()
@@ -109,8 +110,9 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						println "ZLock level set to "+zLock
 					}
 					// this sets up the location under the legs shoulder as the base
-					home[i] = legs.get(i).forwardOffset(new TransformNR());
-					//feetLocations[i].setZ(home[i].getZ());
+					//home[i] = legs.get(i).forwardOffset(new TransformNR());
+					home[i] =legs.get(i).calcHome();
+					feetLocations[i].setZ(home[i].getZ());
 				}
 				//zLock =zLock+newPose.getZ();
 				previousGLobalState = source.getFiducialToGlobalTransform().copy();
@@ -155,7 +157,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						
 						double xunit;
 						double yunit ;
-						TransformNR lastGood;
+						TransformNR lastGood= feetLocations[i].copy();
 						TransformNR stepup = feetLocations[i].copy();
 						while(legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
 							 legs.get(i).checkTaskSpaceTransform(stepup) &&
