@@ -160,18 +160,13 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						TransformNR lastGood= feetLocations[i].copy();
 						TransformNR stepup = feetLocations[i].copy();
 						while(legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
-							 legs.get(i).checkTaskSpaceTransform(stepup) &&
+							 legs.get(i).checkTaskSpaceTransform(stepup) && 
 							 j<1000){
 							lastGood=feetLocations[i].copy();
-							TransformNR unitvVect = newPose.times(feetLocations[i])
-							xunit = (unitvVect.getX()-feetLocations[i].getX() )/10;
-							yunit = (unitvVect.getY() -feetLocations[i].getY())/10;
-							//increment by the xy unit vectors
-							feetLocations[i].translateX(xunit);
-							feetLocations[i].translateY(yunit);
-							j++;
 							stepup = feetLocations[i].copy();
 							stepup.setZ(stepOverHeight + zLock );
+							feetLocations[i]=feetLocations[i].times(newPose.inverse());
+							j++;
 						}
 						println "furthest availible "+feetLocations[i].getX()
 						//step back one unit vector to get to acheivable location
