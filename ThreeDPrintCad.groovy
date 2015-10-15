@@ -154,6 +154,7 @@ return new ICadGenerator(){
 	private CSG getAttachment(){
 		CSG attachmentbase = new RoundedCube(attachmentBaseWidth,attachmentBaseWidth,4)
 							.cornerRadius(attachmentBaseWidth/10)
+							.noCenter()
 							.toCSG()
 							.movex(-attachmentBaseWidth/2)
 							.movey(-(attachmentBaseWidth/2))
