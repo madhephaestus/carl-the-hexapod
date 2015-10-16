@@ -20,7 +20,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	double stepOverHeight=5;
 	long stepOverTime=75;
 	boolean takingStep = false;
-	private Double zLock=-80;
+	private Double zLock=-70;
 	
 	TransformNR previousGLobalState;
 	TransformNR target;
@@ -178,11 +178,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
-							stepup = feetLocations[i].copy();
-							stepup.setZ(stepOverHeight + zLock );
+//							stepup = feetLocations[i].copy();
+//							stepup.setZ(stepOverHeight + zLock );
 						}
-						stepup = lastGood.copy();
-						stepup.setZ(stepOverHeight + zLock );
+//						stepup = lastGood.copy();
+//						stepup.setZ(stepOverHeight + zLock );
 						feetLocations[i]=lastGood.times(newPose);
 						
 						println i+" furthest availible "+feetLocations[i].getX()
