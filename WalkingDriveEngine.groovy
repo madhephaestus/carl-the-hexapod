@@ -18,7 +18,7 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	boolean resetting=false;
 	double stepOverHeight=5;
-	long stepOverTime=1000;
+	long stepOverTime=75;
 	boolean takingStep = false;
 	private Double zLock=-80;
 	
