@@ -20,7 +20,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	double stepOverHeight=5;
 	long stepOverTime=100;
 	boolean takingStep = false;
-	private Double zLock=-70;
+	private Double zLock=-65;
 	
 	TransformNR previousGLobalState;
 	TransformNR target;
