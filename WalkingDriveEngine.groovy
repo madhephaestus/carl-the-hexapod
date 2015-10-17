@@ -76,6 +76,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									e.printStackTrace();
 								}
 							}
+							resettingindex=numlegs;
 							resetting=false;
 							println "Legs all reset legs"
 							while(source.isAvailable() && tmp==reset){
@@ -132,16 +133,16 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					double footx,footy;
 					newFeetLocations[i]=legs.get(i).getCurrentPoseTarget();
 					// start by storing where the feet are
-				
+					
 					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i]) && (!(resetting && resettingindex==i) ) ){
 						//perform the step over
 						//home[i].setZ(stepOverHeight+zLock+newPose.getZ());
 						//println "Leg "+i+" setep over to x="+feetLocations[i].getX()+" y="+feetLocations[i].getY()
 						if(resetting)
 						System.out.println("\r\nWaiting for "+resettingindex+"  reset to finish...")
-						while(resetting && source.isAvailable()){
+						while(resetting && resettingindex==i && source.isAvailable()){
 							
-							ThreadUtil.wait(100);
+							ThreadUtil.wait(10);
 						}
 						println i+" foot location was "+newFeetLocations[i].getX()+" y:"+newFeetLocations[i].getY()
 						println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
@@ -191,10 +192,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						
 						println i+" new step y:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						DHParameterKinematics leg = legs.get(i);
-						resettingindex=i;
+						
 						resetting=true;
 						new Thread(){
 							public void run(){
+								resettingindex=i;
 								try {
 									// lift leg above home
 									println "lift leg "+resettingindex
@@ -216,12 +218,13 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								ThreadUtil.wait((int)stepOverTime/2);
 								
 								System.out.println(" Reset "+resettingindex+" Done!\r\n")
-								
+								resetting=false;
+								resettingindex=numlegs;
 							}
 						}.start();
 						
 					}
-					resetting=false;
+					
 					resetStepTimer();
 				}
 				
