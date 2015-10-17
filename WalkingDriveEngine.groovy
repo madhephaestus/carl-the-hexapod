@@ -116,7 +116,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				}
 				//zLock =zLock+newPose.getZ();
 				previousGLobalState = source.getFiducialToGlobalTransform().copy();
-				newPose.setY(0);
+				//newPose.setY(0);
 				target= newPose.copy();
 				//Apply transform to each dimention of current pose
 				
