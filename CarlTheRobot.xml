@@ -558,7 +558,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>103.26119402985074</staticOffset>
+	<staticOffset>143.2238805970149</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>135</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
