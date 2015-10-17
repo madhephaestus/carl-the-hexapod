@@ -164,21 +164,18 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							stepUnit=lastGood;
 							lastGood=feetLocations[i].copy();
 							
-//							feetLocations[i]=newPose.times(feetLocations[i]);
-							//println i+" \n\nStep over location \tx:"+home[i].getX()+" y:"+home[i].getY()
-							//println i+" from                   \tx:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
+							//get the orientation of the base and invert it
 							TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
-							///println i+" Simplw newPose        \tx:"+newPose.getX()+" y:"+newPose.getY()
+							//transform the feet by the inverse orentation
 							TransformNR rotPose=inverseRot.times(feetLocations[i]);
-							//println i+" rotPose rotates        \tx:"+rotPose.getX()+" y:"+rotPose.getY()
+							//invert the target pose
 							TransformNR rotPoseinv = newPose.inverse();
-							//println i+" rotPose inverted        \tx:"+rotPoseinv.getX()+" y:"+rotPoseinv.getY()
+							//apply the inverted target, then un-do the orentation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
-							//println i+" Rotated increment      \tx:"+incr.getX()+" y:"+incr.getY()
-							
+							//now calculate a a unit vector increment							
 							double xinc=(feetLocations[i].getX()-incr.getX())/1;
 							double yinc=(feetLocations[i].getY()-incr.getY())/1;
-							//println i+" increment              \tx:"+xinc+" y:"+yinc
+							//apply the increment to the feet
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
@@ -231,7 +228,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 				//all legs have a valid target set, perform coordinated motion
 				for(int i=0;i<numlegs;i++){
-					feetLocations[i].setZ(zLock.doubleValue()+newPose.getZ());
+					feetLocations[i].setZ(zLock.doubleValue());
 					try {
 						if(!(resetting && resettingindex==i) )
 							legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
