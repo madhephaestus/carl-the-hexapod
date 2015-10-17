@@ -166,11 +166,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							
 							//get the orientation of the base and invert it
 							TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
-							//transform the feet by the inverse orentation
+							//transform the feet by the inverse orientation
 							TransformNR rotPose=inverseRot.times(feetLocations[i]);
 							//invert the target pose
 							TransformNR rotPoseinv = newPose.inverse();
-							//apply the inverted target, then un-do the orentation inversion to get final location
+							//apply the inverted target, then un-do the orientation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
 							//now calculate a a unit vector increment							
 							double xinc=(feetLocations[i].getX()-incr.getX())/1;
@@ -193,8 +193,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						DHParameterKinematics leg = legs.get(i);
 						resettingindex=i;
 						resetting=true;
-//						new Thread(){
-//							public void run(){
+						new Thread(){
+							public void run(){
 								try {
 									// lift leg above home
 									println "lift leg "+resettingindex
@@ -217,8 +217,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								
 								System.out.println(" Reset "+resettingindex+" Done!\r\n")
 								
-//							}
-//						}.start();
+							}
+						}.start();
 						
 					}
 					resetting=false;
