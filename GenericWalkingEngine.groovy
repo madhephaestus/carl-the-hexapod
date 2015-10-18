@@ -11,14 +11,15 @@ import com.neuronrobotics.sdk.addons.kinematics.math.RotationNR;
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
 import com.neuronrobotics.sdk.util.ThreadUtil;
 import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
+import com.neuronrobotics.sdk.common.Log;
 
 return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	boolean resetting=false;
 	double stepOverHeight=(double)args.get(0);
 	long stepOverTime=(long)args.get(1);
-	boolean takingStep = false;
 	private Double zLock=(Double)args.get(2);
 	Closure calcHome =(Closure)args.get(3);
+	TransformNR [] home=null;
 	
 	TransformNR previousGLobalState;
 	TransformNR target;
@@ -47,10 +48,14 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							println "FIRING reset from reset thread"
 							resetting=true;
 							long tmp= reset;
-							TransformNR [] home = new TransformNR[numlegs];
+							if(home==null){
+								home = new TransformNR[numlegs];
+								for(int i=0;i<numlegs;i++){
+									//home[i] = legs.get(i).forwardOffset(new TransformNR());
+									home[i] =calcHome(legs.get(i))
+								}
+							}
 							for(int i=0;i<numlegs;i++){
-								//home[i] = legs.get(i).forwardOffset(new TransformNR());
-								home[i] =calcHome(legs.get(i))
 								TransformNR up = home[i].copy()
 								up.setZ(stepOverHeight + zLock )
 								TransformNR down = home[i].copy()
@@ -60,17 +65,18 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									println "lift leg "+i
 									legs.get(i).setDesiredTaskSpaceTransform(up, 0);
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
+									println "Failed to reach "+up
 									e.printStackTrace();
 								}
 									ThreadUtil.wait((int)stepOverTime);
 								try {
 									//step to new target
 									println "step leg "+i
+									
 									legs.get(i).setDesiredTaskSpaceTransform(down, 0);
 									//set new target for the coordinated motion step at the end
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
+									println "Failed to reach "+down
 									e.printStackTrace();
 								}
 							}
@@ -90,15 +96,21 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 		}
 		resetStepTimer();
 	
-		if(takingStep)
-			return;
-		takingStep = true;
 		try{
 				int numlegs = source.getLegs().size();
 				TransformNR [] feetLocations = new TransformNR[numlegs];
 				TransformNR [] newFeetLocations = new TransformNR[numlegs];
-				TransformNR [] home = new TransformNR[numlegs];
 				ArrayList<DHParameterKinematics> legs = source.getLegs();
+				
+				if(home==null){
+					Log.enableSystemPrint(true)
+					home = new TransformNR[numlegs];
+					for(int i=0;i<numlegs;i++){
+						//home[i] = legs.get(i).forwardOffset(new TransformNR());
+						home[i] =calcHome(legs.get(i))
+						println "Home for link "+i+" is "+home[i]
+					}
+				}
 				
 				// Load in the locations of the tips of each of the feet.
 				for(int i=0;i<numlegs;i++){
@@ -108,7 +120,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						zLock=feetLocations[i].getZ();
 						println "ZLock level set to "+zLock
 					}
-					// this sets up the location under the legs shoulder as the base
 					home[i] =calcHome(legs.get(i))
 					feetLocations[i].setZ(home[i].getZ());
 				}
@@ -133,7 +144,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					
 					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i]) && (!(resetting && resettingindex==i) ) ){
 						//perform the step over
-						//home[i].setZ(stepOverHeight+zLock+newPose.getZ());
+						home[i] =calcHome(legs.get(i))
 						//println "Leg "+i+" setep over to x="+feetLocations[i].getX()+" y="+feetLocations[i].getY()
 						if(resetting)
 						System.out.println("\r\nWaiting for "+resettingindex+"  reset to finish...")
@@ -141,7 +152,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							
 							ThreadUtil.wait(10);
 						}
-						println i+" foot location was "+newFeetLocations[i].getX()+" y:"+newFeetLocations[i].getY()
 						println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						feetLocations[i].setZ(zLock+newPose.getZ());
 						feetLocations[i].setX(home[i].getX());
@@ -154,7 +164,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						TransformNR lastGood= feetLocations[i].copy();
 						TransformNR stepup = feetLocations[i].copy();
 						TransformNR stepUnit = feetLocations[i].copy();
-						stepup.setZ(stepOverHeight + zLock );
+						stepup.setZ(stepOverHeight + zLock +newPose.getZ());
 						while(legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
 							 legs.get(i).checkTaskSpaceTransform(stepup) &&
 							 j<1000){
@@ -177,12 +187,9 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
-							stepup = feetLocations[i].copy();
+							stepup = lastGood.copy();
 							stepup.setZ(stepOverHeight + zLock );
 						}
-
-						 stepup = lastGood.copy();
-						 stepup.setZ(stepOverHeight + zLock );
 						println i+" furthest availible x:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						//step back one unit vector to get to acheivable location
 						feetLocations[i]=stepUnit;
@@ -191,15 +198,15 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						DHParameterKinematics leg = legs.get(i);
 						
 						resetting=true;
-						new Thread(){
-							public void run(){
+//						new Thread(){
+//							public void run(){
 								resettingindex=i;
 								try {
 									// lift leg above home
 									println "lift leg "+resettingindex
 									leg.setDesiredTaskSpaceTransform(stepup, 0);
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
+									println "Failed to reach "+stepup
 									e.printStackTrace();
 								}
 									ThreadUtil.wait((int)stepOverTime);
@@ -209,7 +216,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									leg.setDesiredTaskSpaceTransform(lastGood, 0);
 									//set new target for the coordinated motion step at the end
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
+									println "Failed to reach "+lastGood
 									e.printStackTrace();
 								}
 								ThreadUtil.wait((int)stepOverTime/2);
@@ -217,12 +224,24 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								System.out.println(" Reset "+resettingindex+" Done!\r\n")
 								resetting=false;
 								resettingindex=numlegs;
-							}
-						}.start();
+//							}
+//						}.start();
 						
 					}
 					
 					resetStepTimer();
+				}
+				
+				for(int i=0;i<numlegs;i++){
+					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
+						println "This step is not possible, undoing"
+						global= source.getFiducialToGlobalTransform().times(newPose.inverse());
+						// New target calculated appliaed to global offset
+						source.setGlobalToFiducialTransform(global);
+						//Set it back to where it was to use the interpolator for global move at the end
+						return;
+					}
+					
 				}
 				
 				
@@ -246,7 +265,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
-		takingStep = false;
 		
 	}
 
