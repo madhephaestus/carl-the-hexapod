@@ -212,8 +212,8 @@ return new ICadGenerator(){
 		.transformed(new Transform().rotX(Math.toDegrees(dh.getAlpha())));
 		
 	}
-	int minz=0;
-	int maxz=0;
+	int minz= 1000000;
+	int maxz=-1000000;
 	ArrayList<CSG> generateBodyParts(MobileBase base ,boolean printing){
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<Vector3d> points=new ArrayList<>();
