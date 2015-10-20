@@ -188,12 +188,14 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
-							stepup = lastGood.copy();
+							stepup = feetLocations[i].copy();
 							stepup.setZ(stepOverHeight + zLock );
 						}
 						println i+" furthest availible x:"+lastGood.getX()+" y:"+lastGood.getY()
 						//step back one unit vector to get to acheivable location
 						feetLocations[i]=stepUnit;
+						stepup = stepUnit.copy();
+						stepup.setZ(stepOverHeight + zLock );
 						
 						println i+" new step y:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						DHParameterKinematics leg = legs.get(i);
