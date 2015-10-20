@@ -268,11 +268,11 @@ return new ICadGenerator(){
 			points.add(new Vector3d(position.getX(), position.getY()));
 			
 		}
-		int heightOfBody=(maxz-minz);
+		int heightOfBody=(maxz-minz+2);
 		
 		CSG upperBody = Extrude.points(	new Vector3d(0, 0, heightOfBody),
                						points)
-						.movez(minz);
+						.movez(minz-1);
 
 		for(CSG c:cutouts){
 			upperBody= upperBody.difference(c);

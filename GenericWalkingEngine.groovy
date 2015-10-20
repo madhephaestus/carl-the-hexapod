@@ -142,7 +142,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					newFeetLocations[i]=legs.get(i).getCurrentPoseTarget();
 					// start by storing where the feet are
 					
-					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i]) && (!(resetting && resettingindex==i) ) ){
+					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
 						//perform the step over
 						home[i] =calcHome(legs.get(i))
 						//println "Leg "+i+" setep over to x="+feetLocations[i].getX()+" y="+feetLocations[i].getY()
@@ -153,7 +153,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							ThreadUtil.wait(10);
 						}
 						println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
-						feetLocations[i].setZ(zLock+newPose.getZ());
+						feetLocations[i].setZ(zLock);
 						feetLocations[i].setX(home[i].getX());
 						feetLocations[i].setY(home[i].getY());
 						int j=0;
@@ -164,11 +164,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						TransformNR lastGood= feetLocations[i].copy();
 						TransformNR stepup = feetLocations[i].copy();
 						TransformNR stepUnit = feetLocations[i].copy();
-						stepup.setZ(stepOverHeight + zLock +newPose.getZ());
+						stepup.setZ(stepOverHeight + zLock );
 						while(legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
 							 legs.get(i).checkTaskSpaceTransform(stepup) &&
 							 legs.get(i).checkTaskSpaceTransform(stepUnit) &&
-							 j<1000){
+							 j<10000){
 							feetLocations[i].setZ(zLock );
 							stepUnit=lastGood;
 							lastGood=feetLocations[i].copy();
@@ -182,13 +182,13 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							//apply the inverted target, then un-do the orientation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
 							//now calculate a a unit vector increment
-							double xinc=(feetLocations[i].getX()-incr.getX())/1;
-							double yinc=(feetLocations[i].getY()-incr.getY())/1;
+							double xinc=(feetLocations[i].getX()-incr.getX())/10;
+							double yinc=(feetLocations[i].getY()-incr.getY())/10;
 							//apply the increment to the feet
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
-							stepup = lastGood.copy();
+							stepup = stepUnit.copy();
 							stepup.setZ(stepOverHeight + zLock );
 						}
 						println i+" furthest availible x:"+lastGood.getX()+" y:"+lastGood.getY()
@@ -235,7 +235,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 				for(int i=0;i<numlegs;i++){
 					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
-						throw new RuntimeException("This foot locatrion is not acheivable "+newPose);
+						throw new RuntimeException(i + " leg foot locatrion is not acheivable "+newPose);
 					}
 					
 				}
@@ -243,9 +243,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 				//all legs have a valid target set, perform coordinated motion
 				for(int i=0;i<numlegs;i++){
-					feetLocations[i].setZ(zLock.doubleValue());
-					//if(!(resetting && resettingindex==i) )
-						legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
+					legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
 		
 				}
 				
@@ -256,7 +254,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 		}catch (Exception ex){
 			ex.printStackTrace();
-			println "This step is not possible, undoing"
+			println "This step is not possible, undoing "
 			// New target calculated appliaed to global offset
 			source.setGlobalToFiducialTransform(source.getFiducialToGlobalTransform().times(newPose.inverse()));
 			//Set it back to where it was to use the interpolator for global move at the end
