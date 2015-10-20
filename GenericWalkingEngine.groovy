@@ -182,13 +182,13 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							//apply the inverted target, then un-do the orientation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
 							//now calculate a a unit vector increment
-							double xinc=(feetLocations[i].getX()-incr.getX())/10;
-							double yinc=(feetLocations[i].getY()-incr.getY())/10;
+							double xinc=(feetLocations[i].getX()-incr.getX())/1;
+							double yinc=(feetLocations[i].getY()-incr.getY())/1;
 							//apply the increment to the feet
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
-							stepup = stepUnit.copy();
+							stepup = lastGood.copy();
 							stepup.setZ(stepOverHeight + zLock );
 						}
 						println i+" furthest availible x:"+lastGood.getX()+" y:"+lastGood.getY()
