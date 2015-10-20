@@ -167,6 +167,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						stepup.setZ(stepOverHeight + zLock +newPose.getZ());
 						while(legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
 							 legs.get(i).checkTaskSpaceTransform(stepup) &&
+							 legs.get(i).checkTaskSpaceTransform(stepUnit) &&
 							 j<1000){
 							feetLocations[i].setZ(zLock );
 							stepUnit=lastGood;
@@ -190,7 +191,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							stepup = lastGood.copy();
 							stepup.setZ(stepOverHeight + zLock );
 						}
-						println i+" furthest availible x:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
+						println i+" furthest availible x:"+lastGood.getX()+" y:"+lastGood.getY()
 						//step back one unit vector to get to acheivable location
 						feetLocations[i]=stepUnit;
 						
@@ -234,12 +235,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 				for(int i=0;i<numlegs;i++){
 					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
-						println "This step is not possible, undoing"
-						global= source.getFiducialToGlobalTransform().times(newPose.inverse());
-						// New target calculated appliaed to global offset
-						source.setGlobalToFiducialTransform(global);
-						//Set it back to where it was to use the interpolator for global move at the end
-						return;
+						throw new RuntimeException("This foot locatrion is not acheivable "+newPose);
 					}
 					
 				}
@@ -248,13 +244,9 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				//all legs have a valid target set, perform coordinated motion
 				for(int i=0;i<numlegs;i++){
 					feetLocations[i].setZ(zLock.doubleValue());
-					try {
-						if(!(resetting && resettingindex==i) )
-							legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					//if(!(resetting && resettingindex==i) )
+						legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
+		
 				}
 				
 				// while(resetting && source.isAvailable()){
@@ -264,6 +256,12 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 		}catch (Exception ex){
 			ex.printStackTrace();
+			println "This step is not possible, undoing"
+			// New target calculated appliaed to global offset
+			source.setGlobalToFiducialTransform(source.getFiducialToGlobalTransform().times(newPose.inverse()));
+			//Set it back to where it was to use the interpolator for global move at the end
+			return;
+			
 		}
 		
 	}
