@@ -114,15 +114,14 @@ return new ICadGenerator(){
 	
 	private CSG getAppendageMount(){
 		double cylindarKeepawayHeight = 80;
-		CSG attachmentbase =makeKeepaway(getAttachment())
-		.union(new Cylinder(// The first part is the hole to put the screw in
+		CSG attachmentbase =new Cylinder(// The first part is the hole to put the screw in
 					40,
 					cylindarKeepawayHeight,
 					 (int)20).toCSG()
 					 .toXMin()
 			.transformed(new Transform().translateX(-cylandarRadius*1.2))
 			.transformed(new Transform().translateZ(-cylindarKeepawayHeight/2))
-		)
+		
 		return attachmentbase;
 	}
 	
@@ -213,10 +212,13 @@ return new ICadGenerator(){
 		.transformed(new Transform().rotX(Math.toDegrees(dh.getAlpha())));
 		
 	}
+	int minz=0;
+	int maxz=0;
 	ArrayList<CSG> generateBodyParts(MobileBase base ,boolean printing){
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<Vector3d> points=new ArrayList<>();
 		ArrayList<CSG> cutouts=new ArrayList<>();
+		ArrayList<CSG> attach=new ArrayList<>();
 		for(DHParameterKinematics l:base.getAllDHChains()){
 			TransformNR position = l.getRobotToFiducialTransform();
 			RotationNR rot = position.getRotation()
@@ -254,39 +256,42 @@ return new ICadGenerator(){
 					.transformed(new Transform().translateX(xpos))
 					)
 				);
-			
+			CSG attachment = getAttachment()
+				.transformed(new Transform(rotation))
+			int thisMinz = attachment.getBounds().getMin().z;
+			int thisMaxz = attachment.getBounds().getMax().z;
+			if(thisMinz<minz)
+				minz=thisMinz
+			if(thisMaxz>maxz)
+				maxz=thisMaxz
+			attach.add(attachment);
 			points.add(new Vector3d(position.getX(), position.getY()));
 			
 		}
+		int heightOfBody=(maxz-minz);
 		
-		CSG upperBody = Extrude.points(	new Vector3d(0, 0, attachmentBaseWidth/2),
+		CSG upperBody = Extrude.points(	new Vector3d(0, 0, heightOfBody),
                						points)
-						.transformed(new Transform().scale(1.4))
-		CSG lowerBody = Extrude.points(	new Vector3d(0, 0,attachmentBaseWidth/2),
-               						points
-		   						)
-						.transformed(new Transform().translateZ(-attachmentBaseWidth/2))
-						.transformed(new Transform().scale(1.4))
+						.movez(minz);
+
 		for(CSG c:cutouts){
 			upperBody= upperBody.difference(c);
-			lowerBody= lowerBody.difference(c);
 			//allCad.add(c)
 		}
+		for(CSG c:attach){
+			upperBody= upperBody.union(c);
+			//allCad.add(c)
+		}
+		
 		if(!printing){			
 			upperBody.setColor(Color.CYAN);
-			lowerBody.setColor(Color.ALICEBLUE);
 			upperBody.setManipulator(base.getRootListener());
-			lowerBody.setManipulator(base.getRootListener());
 		}else{
 			upperBody=upperBody
 					.transformed(new Transform().rotX(180))
 					.toZMin()
-			lowerBody=	lowerBody
-				.toZMin()
 		}
-		allCad.addAll(upperBody,
-			lowerBody
-		)
+		allCad.add(upperBody)
 		
 		return allCad;
 	}
