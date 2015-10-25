@@ -34,7 +34,7 @@ import eu.mihosoft.vrl.v3d.Vector3d;
 import javafx.scene.paint.Color;
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
-	CSG servoReference=   (CSG)(ScriptingEngineWidget.inlineGistScriptRun("3f9fef17b23acfadf3f7", "servo.groovy" , null))
+	CSG servoReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("3f9fef17b23acfadf3f7", "servo.groovy" , null))
 	.transformed(new Transform().rotZ(-90))
 //	.transformed(new Transform().translateZ(12.0))
 //	.transformed(new Transform().translateX(5.4));
