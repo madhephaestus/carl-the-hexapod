@@ -110,10 +110,10 @@
 	<x>-42.0</x>
 	<y>-28.0</y>
 	<z>0.0</z>
-	<rotw>0.44773808476648624</rotw>
-	<rotx>-5.92853756242902E-13</rotx>
-	<roty>2.9686162885960776E-13</roty>
-	<rotz>-0.8941647540859787</rotz>
+	<rotw>0.4314540535388107</rotw>
+	<rotx>-0.11965279868262388</rotx>
+	<roty>0.23895513682997088</roty>
+	<rotz>-0.8616443872288901</rotz>
 </baseToZframe>
 
 </leg>
@@ -135,7 +135,7 @@
 	<index>3</index>
 	<scale>0.33</scale>
 	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
+	<lowerLimit>133.2089552238806</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
 	<staticOffset>162.25373134328353</staticOffset>
@@ -215,10 +215,10 @@
 	<x>0.0</x>
 	<y>-40.0</y>
 	<z>0.0</z>
-	<rotw>0.7068161249892314</rotw>
-	<rotx>0.020272282930327196</rotx>
-	<roty>-0.02027228293032716</roty>
-	<rotz>-0.7068161249892313</rotz>
+	<rotw>0.6813896280216817</rotw>
+	<rotx>-0.18896606791821668</rotx>
+	<roty>0.18896606791821668</roty>
+	<rotz>-0.6813896280216849</rotz>
 </baseToZframe>
 
 </leg>
@@ -267,7 +267,7 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>103.26119402985074</staticOffset>
+	<staticOffset>128.0</staticOffset>
 	<isLatch>true</isLatch>
 	<indexLatch>91</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
@@ -320,10 +320,10 @@
 	<x>42.0</x>
 	<y>-26.0</y>
 	<z>0.0</z>
-	<rotw>0.9799247046208297</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>-0.19936793441719713</rotz>
+	<rotw>0.9442852872240961</rotw>
+	<rotx>0.261873486741836</rotx>
+	<roty>-0.05327876303572818</roty>
+	<rotz>-0.19211701299771072</rotz>
 </baseToZframe>
 
 </leg>
@@ -425,10 +425,10 @@
 	<x>42.0</x>
 	<y>26.0</y>
 	<z>0.0</z>
-	<rotw>0.9799247046208297</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.19936793441719713</rotz>
+	<rotw>0.9442852872240961</rotw>
+	<rotx>-0.261873486741836</rotx>
+	<roty>-0.05327876303572818</roty>
+	<rotz>0.19211701299771072</rotz>
 </baseToZframe>
 
 </leg>
@@ -449,7 +449,7 @@
 	<type>servo-rotory</type>
 	<index>12</index>
 	<scale>0.33</scale>
-	<upperLimit>255.0</upperLimit>
+	<upperLimit>157.94776119402985</upperLimit>
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
@@ -530,16 +530,16 @@
 	<x>0.0</x>
 	<y>40.0</y>
 	<z>0.0</z>
-	<rotw>0.7071067811865476</rotw>
-	<rotx>8.635508522760763E-16</rotx>
-	<roty>9.028031637431707E-16</roty>
-	<rotz>0.7071067811865475</rotz>
+	<rotw>0.6813896280216817</rotw>
+	<rotx>0.18896606791821668</rotx>
+	<roty>0.18896606791821668</roty>
+	<rotz>0.6813896280216849</rotz>
 </baseToZframe>
 
 </leg>
 <leg>
 
-<name>DefaultLeg</name>
+<name>Carl_Six</name>
 	<cadEngine>
 		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
@@ -558,9 +558,9 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>128.0</staticOffset>
+	<staticOffset>143.2238805970149</staticOffset>
 	<isLatch>true</isLatch>
-	<indexLatch>105</indexLatch>
+	<indexLatch>135</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
 
@@ -582,9 +582,9 @@
 	<lowerLimit>0.0</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>128.0</staticOffset>
+	<staticOffset>108.97014925373135</staticOffset>
 	<isLatch>true</isLatch>
-	<indexLatch>97</indexLatch>
+	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
 
@@ -603,12 +603,12 @@
 	<index>17</index>
 	<scale>0.33</scale>
 	<upperLimit>255.0</upperLimit>
-	<lowerLimit>15.223880597014928</lowerLimit>
+	<lowerLimit>58.992537313432834</lowerLimit>
 	<upperVelocity>1.0E8</upperVelocity>
 	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>128.0</staticOffset>
+	<staticOffset>124.79048785921142</staticOffset>
 	<isLatch>true</isLatch>
-	<indexLatch>145</indexLatch>
+	<indexLatch>141</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
 
@@ -632,169 +632,16 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>0.0</x>
-	<y>0.0</y>
+	<x>-42.0</x>
+	<y>28.0</y>
 	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz>
+	<rotw>0.4313528778194034</rotw>
+	<rotx>0.11962474017227487</rotx>
+	<roty>0.23896918460061908</roty>
+	<rotz>0.8616950418534053</rotz>
 </baseToZframe>
 
 </leg>
-<appendage>
-
-<name>DefaultArm</name>
-	<cadEngine>
-		<gist>bcb4760a449190206170</gist>
-		<file>ThreeDPrintCad.groovy</file>
-	</cadEngine>
-	<kinematics>
-		<gist>bcb4760a449190206170</gist>
-		<file>DefaultDhSolver.groovy</file>
-	</kinematics>
-<link>
-	<name>basePan</name>
-	<deviceName>dyio</deviceName>
-	<type>servo-rotory</type>
-	<index>18</index>
-	<scale>0.33</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
-	<upperVelocity>1.0E8</upperVelocity>
-	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>235.0</staticOffset>
-	<isLatch>true</isLatch>
-	<indexLatch>235</indexLatch>
-	<isStopOnLatch>false</isStopOnLatch>
-	<homingTPS>10000000</homingTPS>
-
-	<DHParameters>
-		<Delta>13.0</Delta>
-		<Theta>0.0</Theta>
-		<Radius>32.0</Radius>
-		<Alpha>-90.0</Alpha>
-	</DHParameters>
-
-</link>
-<link>
-	<name>baseTilt</name>
-	<deviceName>dyio</deviceName>
-	<type>servo-rotory</type>
-	<index>19</index>
-	<scale>0.33</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
-	<upperVelocity>1.0E8</upperVelocity>
-	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>128.0</staticOffset>
-	<isLatch>true</isLatch>
-	<indexLatch>128</indexLatch>
-	<isStopOnLatch>false</isStopOnLatch>
-	<homingTPS>10000000</homingTPS>
-
-	<DHParameters>
-		<Delta>25.0</Delta>
-		<Theta>-90.0</Theta>
-		<Radius>93.0</Radius>
-		<Alpha>180.0</Alpha>
-	</DHParameters>
-
-</link>
-<link>
-	<name>elbow</name>
-	<deviceName>dyio</deviceName>
-	<type>servo-rotory</type>
-	<index>20</index>
-	<scale>0.33</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
-	<upperVelocity>1.0E8</upperVelocity>
-	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>121.0</staticOffset>
-	<isLatch>true</isLatch>
-	<indexLatch>121</indexLatch>
-	<isStopOnLatch>false</isStopOnLatch>
-	<homingTPS>10000000</homingTPS>
-
-	<DHParameters>
-		<Delta>11.0</Delta>
-		<Theta>-90.0</Theta>
-		<Radius>131.0</Radius>
-		<Alpha>0.0</Alpha>
-	</DHParameters>
-
-</link>
-<link>
-	<name>wrist2</name>
-	<deviceName>dyio</deviceName>
-	<type>servo-rotory</type>
-	<index>21</index>
-	<scale>-0.313</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
-	<upperVelocity>1.0E8</upperVelocity>
-	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>200.0</staticOffset>
-	<isLatch>true</isLatch>
-	<indexLatch>175</indexLatch>
-	<isStopOnLatch>false</isStopOnLatch>
-	<homingTPS>10000000</homingTPS>
-
-	<DHParameters>
-		<Delta>0.0</Delta>
-		<Theta>0.0</Theta>
-		<Radius>0.0</Radius>
-		<Alpha>90.0</Alpha>
-	</DHParameters>
-
-</link>
-<link>
-	<name>wrist3</name>
-	<deviceName>dyio</deviceName>
-	<type>servo-rotory</type>
-	<index>22</index>
-	<scale>0.3125</scale>
-	<upperLimit>255.0</upperLimit>
-	<lowerLimit>0.0</lowerLimit>
-	<upperVelocity>1.0E8</upperVelocity>
-	<lowerVelocity>-1.0E8</lowerVelocity>
-	<staticOffset>255.0</staticOffset>
-	<isLatch>true</isLatch>
-	<indexLatch>255</indexLatch>
-	<isStopOnLatch>false</isStopOnLatch>
-	<homingTPS>10000000</homingTPS>
-
-	<DHParameters>
-		<Delta>98.0</Delta>
-		<Theta>0.0</Theta>
-		<Radius>0.0</Radius>
-		<Alpha>-90.0</Alpha>
-	</DHParameters>
-
-</link>
-
-<ZframeToRAS
->	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz>
-</ZframeToRAS>
-
-<baseToZframe>
-	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz>
-</baseToZframe>
-
-</appendage>
 
 <ZframeToRAS>
 	<x>0.0</x>
