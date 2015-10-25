@@ -28,5 +28,5 @@ args.add(zLock)
 args.add(calcHome)
 
 
-return ScriptingEngineWidget.inlineGistScriptRun("bcb4760a449190206170", "GenericWalkingEngine.groovy" , args);
+return ScriptingEngine.inlineGistScriptRun("bcb4760a449190206170", "GenericWalkingEngine.groovy" , args);
 	
