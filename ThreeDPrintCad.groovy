@@ -214,6 +214,10 @@ return new ICadGenerator(){
 	}
 	int minz= 1000000;
 	int maxz=-1000000;
+	int minx= 1000000;
+	int maxx=-1000000;
+	int miny= 1000000;
+	int maxy=-1000000;
 	ArrayList<CSG> generateBodyParts(MobileBase base ,boolean printing){
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<Vector3d> points=new ArrayList<>();
@@ -249,12 +253,10 @@ return new ICadGenerator(){
 			
 			Matrix4d rotation=	new Matrix4d(elemenents);
 			double xpos = position.getX();
-			
+
 			cutouts.add(getAppendageMount()
 				.transformed(new Transform(rotation))
-				.union(getMountScrewKeepaway()
-					.transformed(new Transform().translateX(xpos))
-					)
+
 				);
 			CSG attachment = getAttachment()
 				.transformed(new Transform(rotation))
@@ -264,15 +266,37 @@ return new ICadGenerator(){
 				minz=thisMinz
 			if(thisMaxz>maxz)
 				maxz=thisMaxz
+
+			int thisMiny = attachment.getBounds().getMin().y
+			int thisMaxy = attachment.getBounds().getMax().y
+			if(thisMiny<miny)
+				miny=thisMiny
+			if(thisMaxy>maxy)
+				maxy=thisMaxy	
+
+			int thisMinx = attachment.getBounds().getMin().x;
+			int thisMaxx = attachment.getBounds().getMax().x;
+			if(thisMinx<minx)
+				minx=thisMinx
+			if(thisMaxx>maxx)
+				maxx=thisMaxx	
 			attach.add(attachment);
 			points.add(new Vector3d(position.getX(), position.getY()));
 			
 		}
 		int heightOfBody=(maxz-minz+2);
-		
-		CSG upperBody = Extrude.points(	new Vector3d(0, 0, heightOfBody),
-               						points)
-						.movez(minz-1);
+		int widthOfBody=(maxx-minx+2);
+		int depthOfBody=(maxy-miny+2);
+		println "Height= "+ heightOfBody+ " widthOfBody= "+ widthOfBody+" depthOfBody= "+ depthOfBody
+		CSG upperBody = new Cube(	widthOfBody,// X dimention
+									depthOfBody,// Y dimention
+									heightOfBody//  Z dimention
+									)
+									.noCenter()
+									.toCSG()
+						.movez(minz-1)
+						.movey(miny-1)
+						.movex(minx-1)	
 
 		for(CSG c:cutouts){
 			upperBody= upperBody.difference(c);
