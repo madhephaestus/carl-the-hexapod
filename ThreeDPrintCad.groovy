@@ -40,7 +40,7 @@ return new ICadGenerator(){
 //	.transformed(new Transform().translateX(5.4));
 	
 	//CSG horn=  STL.file(NativeResource.inJarLoad(IVitamin.class,"smallmotorhorn.stl").toPath())
-	CSG horn = new Cube(6,4,18).toCSG();
+	CSG horn = new Cube(6,5,19).toCSG();
 	private double attachmentRodWidth=10;
 	private double attachmentBaseWidth=15;
 	private double printerTollerence =0.5;
@@ -178,8 +178,8 @@ return new ICadGenerator(){
 									post
 									);
 		attachmentbase =attachmentbase.difference(hornAttach);
-		double pinMax = 4;
-		double pinMin = pinMax-2;
+		double pinMax = 3;
+		double pinMin =3;
 		CSG bearingPin =toYMax( new Cylinder(pinMax,pinMin, (int)5 ,(int)50).toCSG()
 			.transformed(new Transform().rotX(90)),
 										post);
@@ -411,8 +411,8 @@ return new ICadGenerator(){
 		)
 		)
 		servoKeepaway = servoKeepaway
-		.transformed(new Transform().translateX(-Math.abs(servoReference.getBounds().getMin().x)))
-		.transformed(new Transform().translateZ(-Math.abs(servoReference.getBounds().getMax().z -Math.abs(servoReference.getBounds().getMin().z) )/2))
+			.movex(-Math.abs(servoReference.getBounds().getMin().x))
+			.movez(-5)
 
 		if(dhLinks!=null){
 			for(int i=0;i<dhLinks.size();i++){
@@ -447,6 +447,10 @@ return new ICadGenerator(){
 				if(linkThickness<attachmentBaseWidth/2)
 					linkThickness=attachmentBaseWidth/2
 				linkThickness +=3;
+
+				servo = servo
+						.movez(-3.30)
+						
 				servo= moveDHValues(servo,dh);
 
 				double yScrewOffset = 2.5
@@ -485,6 +489,7 @@ return new ICadGenerator(){
 				upperLink=upperLink.union(rod,clip,upperScrews);
 				upperLink= upperLink.difference(upperScrews);
 				upperLink=upperLink.transformed(new Transform().translateZ(Math.abs(servoReference.getBounds().getMax().z-3)))
+
 				upperLink= moveDHValues(upperLink,dh).difference(servo);
 				if(i== dhLinks.size()-1)
 					upperLink= upperLink.difference(makeKeepaway(foot));
@@ -522,7 +527,14 @@ return new ICadGenerator(){
 					lowerClip
 					);
 				//Remove the divit or the bearing
-				lowerLink= lowerLink.difference(makeKeepaway(nextAttachment).movez(0.3),upperScrews.transformed(new Transform().translateZ(6)))// allign to the NEXT ATTACHMENT);
+				lowerLink= lowerLink.difference(
+						nextAttachment
+							.makeKeepaway((double)-0.2)
+							.movez(-0.15),
+						upperScrews
+						.movez(6)
+						)// allign to the NEXT ATTACHMENT);
+
 				lowerLink= moveDHValues(lowerLink,dh);
 				//remove the next links connector and the upper link for mating surface
 				lowerLink= lowerLink.difference(upperLink,servo);
@@ -530,15 +542,8 @@ return new ICadGenerator(){
 					lowerLink= lowerLink.difference(makeKeepaway(foot));
 				else
 					lowerLink= lowerLink.difference(makeKeepaway(nextAttachment));
+
 				
-				if(dhLinks.size()>4){
-					if(i== dhLinks.size()-2){
-						nextAttachment=nextAttachment.transformed(new Transform().translateZ(dhLinks.get(dhLinks.size()-1).getD()/3));// allign to the horn
-					}
-					if(i== dhLinks.size()-1){
-						servo=servo.transformed(new Transform().translateY(-dhLinks.get(dhLinks.size()-1).getD()/3));// allign to the horn
-					}
-				}
 				if(printBed){
 					upperLink=reverseDHValues(upperLink,dh)
 					.transformed(new Transform().rotY(180))
