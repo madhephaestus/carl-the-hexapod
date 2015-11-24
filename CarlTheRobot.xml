@@ -11,7 +11,7 @@
 		<file>WalkingDriveEngine.groovy</file>
 	</driveEngine>
 
-<name>BobRobot</name>
+<name>CarlTheWalkingRobot</name>
 <leg>
 
 <name>Carl_One</name>
@@ -110,10 +110,10 @@
 	<x>-42.0</x>
 	<y>-28.0</y>
 	<z>0.0</z>
-	<rotw>0.3826834323650895</rotw>
+	<rotw>0.3826834323650885</rotw>
 	<rotx>0.0</rotx>
 	<roty>0.0</roty>
-	<rotz>-0.9238795325112876</rotz>
+	<rotz>-0.9238795325112894</rotz>
 </baseToZframe>
 
 </leg>
@@ -635,10 +635,10 @@
 	<x>-42.0</x>
 	<y>28.0</y>
 	<z>0.0</z>
-	<rotw>0.3826834323650895</rotw>
+	<rotw>0.3826834323650885</rotw>
 	<rotx>0.0</rotx>
 	<roty>0.0</roty>
-	<rotz>0.9238795325112876</rotz>
+	<rotz>0.9238795325112894</rotz>
 </baseToZframe>
 
 </leg>
