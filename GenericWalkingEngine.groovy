@@ -76,7 +76,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									legs.get(i).setDesiredTaskSpaceTransform(down, 0);
 									//set new target for the coordinated motion step at the end
 								} catch (Exception e) {
-									println "Failed to reach "+down
+									//println "Failed to reach "+down
 									e.printStackTrace();
 								}
 							}
@@ -209,7 +209,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									//println "lift leg "+resettingindex
 									leg.setDesiredTaskSpaceTransform(stepup, 0);
 								} catch (Exception e) {
-									println "Failed to reach "+stepup
+									//println "Failed to reach "+stepup
 									e.printStackTrace();
 								}
 									ThreadUtil.wait((int)stepOverTime);
@@ -219,7 +219,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									leg.setDesiredTaskSpaceTransform(lastGood, 0);
 									//set new target for the coordinated motion step at the end
 								} catch (Exception e) {
-									println "Failed to reach "+lastGood
+									//println "Failed to reach "+lastGood
 									e.printStackTrace();
 								}
 								ThreadUtil.wait((int)stepOverTime/2);
