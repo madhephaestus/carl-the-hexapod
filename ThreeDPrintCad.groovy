@@ -323,11 +323,13 @@ return new ICadGenerator(){
 		
 		ArrayList<CSG> allCad=new ArrayList<>();
 		//Start by generating the legs using the DH link based generator
+		/*
 		for(DHParameterKinematics l:base.getAllDHChains()){
 			for(CSG csg:generateCad(l.getChain().getLinks())){
 				allCad.add(csg);
 			}
 		}
+		*/
 		try{
 			//now we genrate the base pieces
 			for(CSG csg:generateBodyParts( base ,false)){
