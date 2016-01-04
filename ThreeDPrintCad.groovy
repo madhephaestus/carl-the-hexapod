@@ -212,17 +212,18 @@ return new ICadGenerator(){
 		.transformed(new Transform().rotX(Math.toDegrees(dh.getAlpha())));
 		
 	}
-	int minz= 1000000;
-	int maxz=-1000000;
-	int minx= 1000000;
-	int maxx=-1000000;
-	int miny= 1000000;
-	int maxy=-1000000;
+
 	ArrayList<CSG> generateBodyParts(MobileBase base ,boolean printing){
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<Vector3d> points=new ArrayList<>();
 		ArrayList<CSG> cutouts=new ArrayList<>();
 		ArrayList<CSG> attach=new ArrayList<>();
+		int minz= 1000000;
+		int maxz=-1000000;
+		int minx= 1000000;
+		int maxx=-1000000;
+		int miny= 1000000;
+		int maxy=-1000000;
 		for(DHParameterKinematics l:base.getAllDHChains()){
 			TransformNR position = l.getRobotToFiducialTransform();
 			RotationNR rot = position.getRotation()
