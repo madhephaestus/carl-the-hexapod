@@ -319,7 +319,7 @@ return new ICadGenerator(){
 		
 		return allCad;
 	}
-	ArrayList<CSG> generateBody(MobileBase base ){
+	ArrayList<CSG> generateBody(MobileBase base ,boolean toManufacture){
 		
 		ArrayList<CSG> allCad=new ArrayList<>();
 		//Start by generating the legs using the DH link based generator
@@ -332,7 +332,7 @@ return new ICadGenerator(){
 		*/
 		try{
 			//now we genrate the base pieces
-			for(CSG csg:generateBodyParts( base ,false)){
+			for(CSG csg:generateBodyParts( base ,toManufacture)){
 				allCad.add(csg);
 			}
 		}catch (Exception ex){
@@ -340,50 +340,10 @@ return new ICadGenerator(){
 		}
 		return allCad;
 	}
-	ArrayList<File> generateStls(MobileBase base , File baseDirForFiles ){
-		ArrayList<File> allCadStl = new ArrayList<>();
-		int leg=0;
-		//Start by generating the legs using the DH link based generator
-		for(DHParameterKinematics l:base.getAllDHChains()){
-			int link=0;
-			for(CSG csg:generateCad(l.getChain().getLinks(),true)){
-				File dir = new File(baseDirForFiles.getAbsolutePath()+"/"+base.getScriptingName()+"/"+l.getScriptingName())
-				if(!dir.exists())
-					dir.mkdirs();
-				File stl = new File(dir.getAbsolutePath()+"/Leg_"+leg+"_part_"+link+".stl");
-				FileUtil.write(
-						Paths.get(stl.getAbsolutePath()),
-						csg.toStlString()
-				);
-				allCadStl.add(stl);
-				link++;
-			}
-			leg++;
-		}
-		int link=0;
-		//now we genrate the base pieces
-		for(CSG csg:generateBodyParts( base,true )){
-			File dir = new File(baseDirForFiles.getAbsolutePath()+"/"+base.getScriptingName()+"/")
-			if(!dir.exists())
-				dir.mkdirs();
-			File stl = new File(dir.getAbsolutePath()+"/Body_part_"+link+".stl");
-			FileUtil.write(
-					Paths.get(stl.getAbsolutePath()),
-					csg.toStlString()
-			);
-			allCadStl.add(stl);
-			link++;
-		}
-		 
-		return allCadStl;
-	}
-	public ArrayList<CSG> generateCad(ArrayList<DHLink> dhLinks ){
-		return generateCad(dhLinks ,false);
-	}
 	
-	public ArrayList<CSG> generateCad(ArrayList<DHLink> dhLinks,boolean printBed ){
+	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb,boolean printBed ){
 		//printBed=true;
-		
+		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
 
 		DHLink dh = dhLinks.get(0);
