@@ -287,9 +287,9 @@ return new ICadGenerator(){
 			points.add(new Vector3d(position.getX(), position.getY()));
 			
 		}
-		int heightOfBody=(maxz-minz+2);
-		int widthOfBody=(maxx-minx+2);
-		int depthOfBody=(maxy-miny+2);
+		int heightOfBody=(maxz-minz);
+		int widthOfBody=(maxx-minx);
+		int depthOfBody=(maxy-miny);
 		println "Height= "+ heightOfBody+ " widthOfBody= "+ widthOfBody+" depthOfBody= "+ depthOfBody
 		CSG upperBody = new Cube(	widthOfBody,// X dimention
 									depthOfBody,// Y dimention
@@ -297,9 +297,9 @@ return new ICadGenerator(){
 									)
 									.noCenter()
 									.toCSG()
-						.movez(minz-1)
-						.movey(miny-1)
-						.movex(minx-1)	
+						.movez(minz)
+						.movey(miny)
+						.movex(minx)	
 
 		for(CSG c:cutouts){
 			upperBody= upperBody.difference(c);
