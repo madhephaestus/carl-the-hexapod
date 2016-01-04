@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javax.vecmath.Matrix4d;
 import Jama.Matrix;
+import com.neuronrobotics.bowlerstudio.BowlerStudioController;
 import com.neuronrobotics.bowlerstudio.creature.CreatureLab;
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator;
 import com.neuronrobotics.imageprovider.NativeResource;
@@ -361,8 +362,10 @@ return new ICadGenerator(){
 			rootAttachment.setManipulator(dh.getRootListener());
 
 		}
+		
 		csg.add(rootAttachment);//This is the root that attaches to the base
 		rootAttachment.setColor(Color.GOLD);
+		BowlerStudioController.addCsg(rootAttachment);
 		CSG foot=getFoot();
 
 		
@@ -459,6 +462,7 @@ return new ICadGenerator(){
 					upperLink= upperLink.difference(makeKeepaway(foot));
 				else
 					upperLink= upperLink.difference(makeKeepaway(nextAttachment));
+				
 				double LowerLinkThickness = attachmentRodWidth/2-2
 				CSG lowerLink = toZMax(new Cylinder(
 					cylandarRadius,
@@ -541,7 +545,8 @@ return new ICadGenerator(){
 					csg.add(nextAttachment);//This is the root that attaches to the base
 				csg.add(upperLink);//This is the root that attaches to the base
 				csg.add(lowerLink);//White link forming the lower link
-
+				BowlerStudioController.addCsg(upperLink);
+				BowlerStudioController.addCsg(lowerLink);
 					
 			}
 			if(printBed){
@@ -555,6 +560,7 @@ return new ICadGenerator(){
 			}
 			foot.setColor(Color.GOLD);
 			csg.add(foot);//This is the root that attaches to the base
+			BowlerStudioController.addCsg(foot);
 
 		}
 		return csg;
