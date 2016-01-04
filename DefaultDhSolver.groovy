@@ -20,10 +20,9 @@ return new DhInverseSolver() {
 		int linkNum = jointSpaceVector.length;
 		double [] inv = new double[linkNum];
 		// this is an ad-hock kinematic model for d-h parameters and only works for specific configurations
-
+		
 		double d = links.get(1).getD()- links.get(2).getD();
 		double r = links.get(0).getR();
-		
 
 		double lengthXYPlaneVect = Math.sqrt(Math.pow(target.getX(),2)+Math.pow(target.getY(),2));
 		double angleXYPlaneVect = Math.asin(target.getY()/lengthXYPlaneVect);

@@ -108,7 +108,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					for(int i=0;i<numlegs;i++){
 						//home[i] = legs.get(i).forwardOffset(new TransformNR());
 						home[i] =calcHome(legs.get(i))
-						println "Home for link "+i+" is "+home[i]
+						//println "Home for link "+i+" is "+home[i]
 					}
 				}
 				
