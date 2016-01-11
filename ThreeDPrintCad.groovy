@@ -118,7 +118,7 @@ return new ICadGenerator(){
 	
 	
 	private CSG getAppendageMount(){
-		double cylindarKeepawayHeight = 50;
+		double cylindarKeepawayHeight = 80;
 		CSG attachmentbase =new Cylinder(// The first part is the hole to put the screw in
 					40,
 					cylindarKeepawayHeight,
