@@ -118,7 +118,7 @@ return new ICadGenerator(){
 	
 	
 	private CSG getAppendageMount(){
-		double cylindarKeepawayHeight = 80;
+		double cylindarKeepawayHeight = 50;
 		CSG attachmentbase =new Cylinder(// The first part is the hole to put the screw in
 					40,
 					cylindarKeepawayHeight,
@@ -232,6 +232,7 @@ return new ICadGenerator(){
 		int maxx=-1000000;
 		int miny= 1000000;
 		int maxy=-1000000;
+		CSG attachUnion=null;
 		for(DHParameterKinematics l:base.getAllDHChains()){
 			TransformNR position = l.getRobotToFiducialTransform();
 			RotationNR rot = position.getRotation()
@@ -290,6 +291,11 @@ return new ICadGenerator(){
 			if(thisMaxx>maxx)
 				maxx=thisMaxx	
 			attach.add(attachment);
+			if(attachUnion==null){
+				attachUnion=attachment;
+			}else{
+				attachUnion = 	attachUnion.union(attachment)
+			}
 			points.add(new Vector3d(position.getX(), position.getY()));
 			
 		}
@@ -297,16 +303,15 @@ return new ICadGenerator(){
 		int widthOfBody=(maxx-minx);
 		int depthOfBody=(maxy-miny);
 		println "Height= "+ heightOfBody+ " widthOfBody= "+ widthOfBody+" depthOfBody= "+ depthOfBody
-		CSG upperBody = new Cube(	widthOfBody,// X dimention
-									depthOfBody,// Y dimention
-									heightOfBody//  Z dimention
-									)
-									.noCenter()
-									.toCSG()
-						.movez(minz)
-						.movey(miny)
-						.movex(minx)	
-
+		CSG upperBody = attachUnion.hull()
+		
+		CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("fb4cf429372deeb36f52", "dyioCad.groovy" , null))
+						
+		CSG myDyIO=dyioReference.movez(upperBody.getMaxZ()+22.0)
+		upperBody=upperBody
+		.union(myDyIO)
+		.hull()
+		.difference(myDyIO)
 		for(CSG c:cutouts){
 			upperBody= upperBody.difference(c);
 			//allCad.add(c)
@@ -319,12 +324,16 @@ return new ICadGenerator(){
 		if(!printing){			
 			upperBody.setColor(Color.CYAN);
 			upperBody.setManipulator(base.getRootListener());
+			//myDyIO.setManipulator(base.getRootListener());
+			//allCad.add(myDyIO)
+			
 		}else{
 			upperBody=upperBody
 					.transformed(new Transform().rotX(180))
 					.toZMin()
 		}
 		allCad.add(upperBody)
+		
 		
 		return allCad;
 	}
