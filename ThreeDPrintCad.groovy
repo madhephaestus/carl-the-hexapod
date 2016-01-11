@@ -49,7 +49,7 @@ return new ICadGenerator(){
 	private double mountScrewKeepawaySize= 7.5;
 	private double mountScrewHoleKeepawaySize= 4.1;
 	private double mountScrewSeperationDistance=attachmentRodWidth/2+mountScrewHoleKeepawaySize/2+0.5;
-	double cylandarRadius = 13;
+	double cylandarRadius = 12;
 	private double bearingPinRadius=3;
 	
 	private CSG toZMin(CSG incoming,CSG target){
@@ -176,7 +176,8 @@ return new ICadGenerator(){
 		
 		CSG post = toZMin(new Cube(	attachmentRodWidth,
 									attachmentRodWidth,
-									Math.abs(servoReference.getBounds().getMax().x)+3+attachmentRodWidth/2)
+									Math.abs(servoReference.getBounds().getMax().x)+4
+									+attachmentRodWidth/2)
 									
 									.toCSG());
 		attachmentbase = toZMax(attachmentbase.union(post))
