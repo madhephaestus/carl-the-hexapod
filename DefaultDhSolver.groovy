@@ -99,7 +99,7 @@ return new DhInverseSolver() {
 			inv[3] =(inv[1] -inv[2]);// keep it parallell
 			// We know the wrist twist will always be 0 for this model
 		if(links.size()>4)
-			inv[4] = inv[0];//keep the camera orentation paralell from the base
+			inv[4] = inv[0];//keep the tool orentation paralell from the base
 		
 		for(int i=0;i<inv.length;i++){
 			if(Math.abs(inv[i]) < 0.01){
