@@ -330,7 +330,7 @@ return new ICadGenerator(){
 			
 		}else{
 			upperBody=upperBody
-					.transformed(new Transform().rotX(180))
+					//.transformed(new Transform().rotX(180))
 					.toZMin()
 		}
 		allCad.add(upperBody)
