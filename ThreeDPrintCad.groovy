@@ -643,6 +643,7 @@ return new ICadGenerator(){
 				public CSG prep(CSG arg0) {
 					return 	arg0.transformed(new Transform().rotY(90))
 							.toZMin()
+							.toXMin()
 				}
 			});
 
