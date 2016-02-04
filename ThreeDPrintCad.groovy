@@ -208,9 +208,10 @@ return new ICadGenerator(){
 	}
 	
 	private CSG reverseDHValues(CSG incoming,DHLink dh ){
+		println "Reversing "+dh
 		return incoming
-		.transformed(new Transform().rotX(-Math.toDegrees(dh.getAlpha())))
-		//.transformed(new Transform().rotZ(Math.toDegrees(dh.getTheta())))
+			.rotx(Math.toDegrees(-dh.getAlpha()))
+			.movex(dh.getR()/2)		
 	}
 	
 	private CSG moveDHValues(CSG incoming,DHLink dh ){
@@ -322,17 +323,16 @@ return new ICadGenerator(){
 			//allCad.add(c)
 		}
 		
-		if(!printing){			
-			upperBody.setColor(Color.CYAN);
-			upperBody.setManipulator(base.getRootListener());
-			//myDyIO.setManipulator(base.getRootListener());
-			//allCad.add(myDyIO)
-			
-		}else{
-			upperBody=upperBody
-					//.transformed(new Transform().rotX(180))
-					.toZMin()
-		}
+					
+		upperBody.setColor(Color.CYAN);
+		upperBody.setManipulator(base.getRootListener());
+		//myDyIO.setManipulator(base.getRootListener());
+		//allCad.add(myDyIO)
+		upperBody.setManufactuing(new PrepForManufacturing() {
+					public CSG prep(CSG arg0) {
+						return arg0.toZMin();
+					}
+				});
 		allCad.add(upperBody)
 		
 		
@@ -369,15 +369,14 @@ return new ICadGenerator(){
 		
 		CSG rootAttachment=getAttachment();
 		//CSG rootAttachment=getAppendageMount();
-		if(printBed){
-			
-			rootAttachment=rootAttachment 
-			//.transformed(new Transform().rotY(90))
-			.toZMin()
-		}else{
-			rootAttachment.setManipulator(dh.getRootListener());
 
-		}
+		rootAttachment.setManipulator(dh.getRootListener());
+
+		rootAttachment.setManufactuing(new PrepForManufacturing() {
+					public CSG prep(CSG arg0) {
+						return arg0.toZMin().toXMin();
+					}
+				});
 		
 		csg.add(rootAttachment);//This is the root that attaches to the base
 		rootAttachment.setColor(Color.GOLD);
@@ -399,7 +398,8 @@ return new ICadGenerator(){
 
 		if(dhLinks!=null){
 			for(int i=0;i<dhLinks.size();i++){
-				dh = dhLinks.get(i);
+				int linkIndex=i;
+				dh = dhLinks.get(linkIndex);
 				CSG nextAttachment=getAttachment();
 				
 
@@ -580,37 +580,52 @@ return new ICadGenerator(){
 					lowerLink= lowerLink.difference(makeKeepaway(nextAttachment));
 
 				
-				if(printBed){
-					upperLink=reverseDHValues(upperLink,dh)
-					.transformed(new Transform().rotY(180))
-					.toZMin()
-					
-					lowerLink=reverseDHValues(lowerLink,dh)
-					.transformed(new Transform().rotY(0))
-					.toZMin()
-					
-					nextAttachment=nextAttachment
-					//.transformed(new Transform().rotY(90))
-					.toZMin()
-					
-				}else{
+	
+				upperLink.setManufactuing(new PrepForManufacturing() {
+					public CSG prep(CSG arg0) {
+						return reverseDHValues(arg0,dhLinks.get(linkIndex))
+								.roty(180)
+								.toZMin()
+								.toXMin()
+					}
+				});
+
 				
-					nextAttachment.setManipulator(dh.getListener());
-					nextAttachment.setColor(Color.CHOCOLATE);
-					servo.setManipulator(dh.getListener());
-					upperLink.setColor(Color.GREEN);
-					upperLink.setManipulator(dh.getListener());
+				lowerLink.setManufactuing(new PrepForManufacturing() {
+					public CSG prep(CSG arg0) {
+						return 	reverseDHValues(arg0,dhLinks.get(linkIndex))
+								.toZMin()
+								.toXMin()
+					}
+				});
+			
+				nextAttachment.setManufactuing(new PrepForManufacturing() {
+					public CSG prep(CSG arg0) {
+						return 	arg0
+								//.transformed(new Transform().rotY(90))
+								.toZMin()
+								.toXMin()
+					}
+				});
 					
-					
-					lowerLink.setColor(Color.WHITE);
-					lowerLink.setManipulator(dh.getListener());
-					
-					//csg.add(servo);// view the servo
-					upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
-								
-					upperScrews.setManipulator(dh.getListener());
-					//csg.add(upperScrews);//view the screws
-				}
+		
+				
+				nextAttachment.setManipulator(dh.getListener());
+				nextAttachment.setColor(Color.CHOCOLATE);
+				servo.setManipulator(dh.getListener());
+				upperLink.setColor(Color.GREEN);
+				upperLink.setManipulator(dh.getListener());
+				
+				
+				lowerLink.setColor(Color.WHITE);
+				lowerLink.setManipulator(dh.getListener());
+				
+				//csg.add(servo);// view the servo
+				upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
+							
+				upperScrews.setManipulator(dh.getListener());
+				//csg.add(upperScrews);//view the screws
+				
 				
 				if(i<dhLinks.size()-1){
 					csg.add(nextAttachment);//This is the root that attaches to the base
@@ -624,15 +639,17 @@ return new ICadGenerator(){
 				
 					
 			}
-			if(printBed){
+			foot.setManufactuing(new PrepForManufacturing() {
+				public CSG prep(CSG arg0) {
+					return 	arg0.transformed(new Transform().rotY(90))
+							.toZMin()
+				}
+			});
+
+		
+			foot.setManipulator(dhLinks.get(dhLinks.size()-1).getListener());
 				
-				foot=foot
-				.transformed(new Transform().rotY(90))
-				.toZMin()
-			}else{
-				foot.setManipulator(dhLinks.get(dhLinks.size()-1).getListener());
-				
-			}
+			
 			foot.setColor(Color.GOLD);
 			csg.add(foot);//This is the root that attaches to the base
 			BowlerStudioController.addCsg(foot);
