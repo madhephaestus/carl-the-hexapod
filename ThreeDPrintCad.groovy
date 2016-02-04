@@ -49,7 +49,7 @@ return new ICadGenerator(){
 	private double mountScrewKeepawaySize= 7.5;
 	private double mountScrewHoleKeepawaySize= 4.1;
 	private double mountScrewSeperationDistance=attachmentRodWidth/2+mountScrewHoleKeepawaySize/2+0.5;
-	double cylandarRadius = 12;
+	double cylandarRadius = 13.5;
 	private double bearingPinRadius=3;
 	
 	private CSG toZMin(CSG incoming,CSG target){
