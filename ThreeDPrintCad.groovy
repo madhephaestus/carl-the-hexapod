@@ -223,7 +223,7 @@ return new ICadGenerator(){
 		
 	}
 
-	ArrayList<CSG> generateBodyParts(MobileBase base ,boolean printing){
+	ArrayList<CSG> generateBody(MobileBase base){
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<Vector3d> points=new ArrayList<>();
 		ArrayList<CSG> cutouts=new ArrayList<>();
@@ -338,50 +338,30 @@ return new ICadGenerator(){
 		
 		return allCad;
 	}
-	ArrayList<CSG> generateBody(MobileBase base ,boolean toManufacture){
-		
-		ArrayList<CSG> allCad=new ArrayList<>();
-		//Start by generating the legs using the DH link based generator
-		/*
-		for(DHParameterKinematics l:base.getAllDHChains()){
-			for(CSG csg:generateCad(l.getChain().getLinks())){
-				allCad.add(csg);
-			}
-		}
-		*/
-		try{
-			//now we genrate the base pieces
-			for(CSG csg:generateBodyParts( base ,toManufacture)){
-				allCad.add(csg);
-			}
-		}catch (Exception ex){
-			
-		}
-		return allCad;
-	}
+
 	
-	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb,boolean printBed ){
+	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb, int linkIndex){
 		//printBed=true;
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
-
-		DHLink dh = dhLinks.get(0);
-		
-		CSG rootAttachment=getAttachment();
-		//CSG rootAttachment=getAppendageMount();
-
-		rootAttachment.setManipulator(dh.getRootListener());
-
-		rootAttachment.setManufactuing(new PrepForManufacturing() {
-					public CSG prep(CSG arg0) {
-						return arg0.toZMin().toXMin();
-					}
-				});
-		
-		csg.add(rootAttachment);//This is the root that attaches to the base
-		rootAttachment.setColor(Color.GOLD);
-		BowlerStudioController.addCsg(rootAttachment);
-		CSG foot=getFoot();
+		if(linkIndex==0){
+			DHLink dh = dhLinks.get(0);
+			
+			CSG rootAttachment=getAttachment();
+			//CSG rootAttachment=getAppendageMount();
+	
+			rootAttachment.setManipulator(dh.getRootListener());
+	
+			rootAttachment.setManufactuing(new PrepForManufacturing() {
+						public CSG prep(CSG arg0) {
+							return arg0.toZMin().toXMin();
+						}
+					});
+			
+			csg.add(rootAttachment);//This is the root that attaches to the base
+			rootAttachment.setColor(Color.GOLD);
+			BowlerStudioController.addCsg(rootAttachment);
+		}
 
 		
 		CSG servoKeepaway = toXMin(toZMax(	new Cube(Math.abs(servoReference.getBounds().getMin().x) +
@@ -395,267 +375,265 @@ return new ICadGenerator(){
 		servoKeepaway = servoKeepaway
 			.movex(-Math.abs(servoReference.getBounds().getMin().x))
 			.movez(-5)
-
-		if(dhLinks!=null){
-			for(int i=0;i<dhLinks.size();i++){
-				int linkIndex=i;
-				dh = dhLinks.get(linkIndex);
-				CSG nextAttachment=getAttachment();
-				
-
-				CSG servo=servoReference.transformed(new Transform().translateZ(-12.5))// allign to the horn
-				.union(servoKeepaway)
-				.transformed(new Transform().rotX(180))// allign to the horn
-				.transformed(new Transform().rotZ(-90))// allign to the horn
-				
-				;
-				servo= makeKeepaway(servo)
-				double totalServoExtention =  Math.abs(servo.getMinY())
-				
-				boolean addNub=false;
-
-				println "Servo Keepaway Radius = "+cylandarRadius
-				
-				double rOffsetForNextLinkStart=dh.getR()+mountScrewKeepawaySize+0.75;
-				double rOffsetForNextLink=rOffsetForNextLinkStart;
-				
-				if(i==dhLinks.size()-1){
-						 rOffsetForNextLink = rOffsetForNextLink-
-						Math.abs(foot.toXMax().getBounds().getMin().x) 
-					
-				}else{
-					rOffsetForNextLink = rOffsetForNextLink-
-						Math.abs(nextAttachment.toXMax().getBounds().getMin().x)
-					
-				}
-				println "Link # "+i+" offset = "+(rOffsetForNextLink)+" rad "+dh.getR() +" offset = "
-
-				double linkThickness = dh.getD();
-				if(linkThickness<attachmentBaseWidth/2)
-					linkThickness=attachmentBaseWidth/2
-				linkThickness +=3;
-
-				servo = servo
-						.movez(-3.30)
-						
-				servo= moveDHValues(servo,dh);
-
-				double yScrewOffset = 2.5
-				CSG upperLink = toZMin(new Cylinder(cylandarRadius,linkThickness,(int)20).toCSG())
-				/*
-				if(addNub){
-					totalServoExtention
-					upperLink=upperLink.union(new Cylinder(cylandarRadius,linkThickness,(int)20)
-					.toCSG()
-					.toZMin()
-					.movey(-totalServoExtention+cylandarRadius)
-					)
-				}
-				*/
-				
-				double screwsCloseY = 20;
-				double screwsFarY=rOffsetForNextLink+mountScrewKeepawaySize/2
-				double screwsZ=upperLink.getBounds().getMax().z - linkThickness
-				
-				CSG mountHoleAttachment = new Cylinder((mountScrewKeepawaySize+1)/2, // Radius at the top
-                      				(mountScrewKeepawaySize+1)/2, // Radius at the bottom
-                      				linkThickness, // Height
-                      			         (int)10 //resolution
-                      			         ).toCSG()
-                      			         .toZMin()
-												
-				mountHoleAttachment = mountHoleAttachment.movex(mountScrewSeperationDistance)
-				mountHoleAttachment =mountHoleAttachment.union(mountHoleAttachment.movex(-2*mountScrewSeperationDistance))
-				CSG mountHoleAttachmentGroup = mountHoleAttachment
-											.movey(screwsFarY)
-											
-				CSG upperScrews = getMountScrewKeepaway()
-					.movey(screwsFarY)
-					.movez(screwsZ)
-				if(dh.getR()>80){
-					upperScrews =upperScrews.union( getMountScrewKeepaway()
-						
-						.movey(screwsCloseY)
-						)
-						mountHoleAttachmentGroup=mountHoleAttachmentGroup
-						.union(
-							mountHoleAttachment
-											.movey(screwsCloseY)
-							)
-				}
-				// adding the radius rod
-				CSG rod = toYMin(
-									toZMin(
-										new Cube( 
-											attachmentBaseWidth+3,
-											rOffsetForNextLink,
-											upperLink.getBounds().getMax().z
-											).toCSG()
-										)
-									)
-				CSG clip = toYMin(
-					toZMax(
-						new Cube(
-							attachmentBaseWidth+3,
-							9,
-							attachmentBaseWidth+3
-							).toCSG()
-						)
-					)
-					.transformed(new Transform().translateY(rOffsetForNextLink))// allign to the NEXT ATTACHMENT
-					.transformed(new Transform().translateZ(linkThickness))// allign to the NEXT ATTACHMENT
-				
-				double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-3)
-				upperLink=upperLink.union(rod,clip,mountHoleAttachmentGroup).hull();
-				upperLink= upperLink.difference(upperScrews);
-				upperLink=upperLink.movez(upperLinkZOffset)
-
-				upperLink= moveDHValues(upperLink,dh).difference(servo);
-				if(i== dhLinks.size()-1)
-					upperLink= upperLink.difference(makeKeepaway(foot));
-				else
-					upperLink= upperLink.difference(makeKeepaway(nextAttachment));
-				
-				double LowerLinkThickness = attachmentRodWidth/2-2
-				CSG lowerLink = new Cylinder(
-					cylandarRadius,
-					 LowerLinkThickness +linkThickness+6,
-					 (int)20)
-					 .toCSG()
-					 .toZMin()
-					 .movez(-LowerLinkThickness)
-				CSG linkSweepCutout= new Cylinder(
-					cylandarRadius+1,
-					 LowerLinkThickness +linkThickness+6,
-					 (int)20)
-					 .toCSG()
-					 .toZMin()
-					 .movez(-attachmentRodWidth/2)
-				CSG pinBlank = new Cylinder( bearingPinRadius+printerTollerence,
-											 LowerLinkThickness,
-											 (int)20)
-								.toCSG()
-								.toZMin()
-								.movez(-attachmentRodWidth/2)
-				linkSweepCutout=	linkSweepCutout.difference(	pinBlank)	
-								
-				//lowerLink=lowerLink.union(pinBlank)
-								
-				
-				lowerLink=lowerLink.transformed(new Transform().translateZ(-attachmentRodWidth/2))
-				CSG lowerClip =
-						
-						new Cube(
-							attachmentBaseWidth+3,
-							rOffsetForNextLink,
-							LowerLinkThickness +linkThickness+6
-							).toCSG().toZMin().toYMin()
-					
-					
-					.transformed(new Transform().translateY(9))// allign to the NEXT ATTACHMENT
-					
-					.transformed(new Transform().translateZ(-attachmentRodWidth/2 -LowerLinkThickness ))
-
-				lowerLink=lowerLink.union(
-					lowerClip,
-					mountHoleAttachmentGroup.movez(lowerLink.getMinZ())
-					
-					).hull();
-				//Remove the divit or the bearing
-				lowerLink= lowerLink.difference(
-						nextAttachment
-							.makeKeepaway((double)-0.2)
-							.movez(-0.15),
-						upperScrews
-						.movez(6),
-						linkSweepCutout
-						)// allign to the NEXT ATTACHMENT);
-
-				lowerLink= moveDHValues(lowerLink,dh);
-				//remove the next links connector and the upper link for mating surface
-				lowerLink= lowerLink.difference(upperLink,servo);
-				if(i== dhLinks.size()-1)
-					lowerLink= lowerLink.difference(makeKeepaway(foot));
-				else
-					lowerLink= lowerLink.difference(makeKeepaway(nextAttachment));
-
-				
-	
-				upperLink.setManufactuing(new PrepForManufacturing() {
-					public CSG prep(CSG arg0) {
-						return reverseDHValues(arg0,dhLinks.get(linkIndex))
-								.roty(180)
-								.toZMin()
-								.toXMin()
-					}
-				});
-
-				
-				lowerLink.setManufactuing(new PrepForManufacturing() {
-					public CSG prep(CSG arg0) {
-						return 	reverseDHValues(arg0,dhLinks.get(linkIndex))
-								.toZMin()
-								.toXMin()
-					}
-				});
 			
-				nextAttachment.setManufactuing(new PrepForManufacturing() {
-					public CSG prep(CSG arg0) {
-						return 	arg0
-								//.transformed(new Transform().rotY(90))
-								.toZMin()
-								.toXMin()
-					}
-				});
-					
-		
+			dh = dhLinks.get(linkIndex);
+			CSG nextAttachment=getAttachment();
+			
+			
+			CSG servo=servoReference.transformed(new Transform().translateZ(-12.5))// allign to the horn
+			.union(servoKeepaway)
+			.transformed(new Transform().rotX(180))// allign to the horn
+			.transformed(new Transform().rotZ(-90))// allign to the horn
+			
+			;
+			servo= makeKeepaway(servo)
+			double totalServoExtention =  Math.abs(servo.getMinY())
+			
+			boolean addNub=false;
+			
+			println "Servo Keepaway Radius = "+cylandarRadius
+			
+			double rOffsetForNextLinkStart=dh.getR()+mountScrewKeepawaySize+0.75;
+			double rOffsetForNextLink=rOffsetForNextLinkStart;
+			
+			if(i==dhLinks.size()-1){
+					 rOffsetForNextLink = rOffsetForNextLink-
+					Math.abs(foot.toXMax().getBounds().getMin().x) 
 				
-				nextAttachment.setManipulator(dh.getListener());
-				nextAttachment.setColor(Color.CHOCOLATE);
-				servo.setManipulator(dh.getListener());
-				upperLink.setColor(Color.GREEN);
-				upperLink.setManipulator(dh.getListener());
+			}else{
+				rOffsetForNextLink = rOffsetForNextLink-
+					Math.abs(nextAttachment.toXMax().getBounds().getMin().x)
 				
-				
-				lowerLink.setColor(Color.WHITE);
-				lowerLink.setManipulator(dh.getListener());
-				
-				//csg.add(servo);// view the servo
-				upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
-							
-				upperScrews.setManipulator(dh.getListener());
-				//csg.add(upperScrews);//view the screws
-				
-				
-				if(i<dhLinks.size()-1){
-					csg.add(nextAttachment);//This is the root that attaches to the base
-					BowlerStudioController.addCsg(nextAttachment);
-				}
-				
-				csg.add(upperLink);//This is the root that attaches to the base
-				csg.add(lowerLink);//White link forming the lower link
-				BowlerStudioController.addCsg(upperLink);
-				BowlerStudioController.addCsg(lowerLink);
-				
-					
 			}
-			foot.setManufactuing(new PrepForManufacturing() {
+			println "Link # "+i+" offset = "+(rOffsetForNextLink)+" rad "+dh.getR() +" offset = "
+			
+			double linkThickness = dh.getD();
+			if(linkThickness<attachmentBaseWidth/2)
+				linkThickness=attachmentBaseWidth/2
+			linkThickness +=3;
+			
+			servo = servo
+					.movez(-3.30)
+					
+			servo= moveDHValues(servo,dh);
+			
+			double yScrewOffset = 2.5
+			CSG upperLink = toZMin(new Cylinder(cylandarRadius,linkThickness,(int)20).toCSG())
+			/*
+			if(addNub){
+				totalServoExtention
+				upperLink=upperLink.union(new Cylinder(cylandarRadius,linkThickness,(int)20)
+				.toCSG()
+				.toZMin()
+				.movey(-totalServoExtention+cylandarRadius)
+				)
+			}
+			*/
+			
+			double screwsCloseY = 20;
+			double screwsFarY=rOffsetForNextLink+mountScrewKeepawaySize/2
+			double screwsZ=upperLink.getBounds().getMax().z - linkThickness
+			
+			CSG mountHoleAttachment = new Cylinder((mountScrewKeepawaySize+1)/2, // Radius at the top
+			  				(mountScrewKeepawaySize+1)/2, // Radius at the bottom
+			  				linkThickness, // Height
+			  			         (int)10 //resolution
+			  			         ).toCSG()
+			  			         .toZMin()
+											
+			mountHoleAttachment = mountHoleAttachment.movex(mountScrewSeperationDistance)
+			mountHoleAttachment =mountHoleAttachment.union(mountHoleAttachment.movex(-2*mountScrewSeperationDistance))
+			CSG mountHoleAttachmentGroup = mountHoleAttachment
+										.movey(screwsFarY)
+										
+			CSG upperScrews = getMountScrewKeepaway()
+				.movey(screwsFarY)
+				.movez(screwsZ)
+			if(dh.getR()>80){
+				upperScrews =upperScrews.union( getMountScrewKeepaway()
+					
+					.movey(screwsCloseY)
+					)
+					mountHoleAttachmentGroup=mountHoleAttachmentGroup
+					.union(
+						mountHoleAttachment
+										.movey(screwsCloseY)
+						)
+			}
+			// adding the radius rod
+			CSG rod = toYMin(
+								toZMin(
+									new Cube( 
+										attachmentBaseWidth+3,
+										rOffsetForNextLink,
+										upperLink.getBounds().getMax().z
+										).toCSG()
+									)
+								)
+			CSG clip = toYMin(
+				toZMax(
+					new Cube(
+						attachmentBaseWidth+3,
+						9,
+						attachmentBaseWidth+3
+						).toCSG()
+					)
+				)
+				.transformed(new Transform().translateY(rOffsetForNextLink))// allign to the NEXT ATTACHMENT
+				.transformed(new Transform().translateZ(linkThickness))// allign to the NEXT ATTACHMENT
+			
+			double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-3)
+			upperLink=upperLink.union(rod,clip,mountHoleAttachmentGroup).hull();
+			upperLink= upperLink.difference(upperScrews);
+			upperLink=upperLink.movez(upperLinkZOffset)
+			
+			upperLink= moveDHValues(upperLink,dh).difference(servo);
+			if(i== dhLinks.size()-1)
+				upperLink= upperLink.difference(makeKeepaway(foot));
+			else
+				upperLink= upperLink.difference(makeKeepaway(nextAttachment));
+			
+			double LowerLinkThickness = attachmentRodWidth/2-2
+			CSG lowerLink = new Cylinder(
+				cylandarRadius,
+				 LowerLinkThickness +linkThickness+6,
+				 (int)20)
+				 .toCSG()
+				 .toZMin()
+				 .movez(-LowerLinkThickness)
+			CSG linkSweepCutout= new Cylinder(
+				cylandarRadius+1,
+				 LowerLinkThickness +linkThickness+6,
+				 (int)20)
+				 .toCSG()
+				 .toZMin()
+				 .movez(-attachmentRodWidth/2)
+			CSG pinBlank = new Cylinder( bearingPinRadius+printerTollerence,
+										 LowerLinkThickness,
+										 (int)20)
+							.toCSG()
+							.toZMin()
+							.movez(-attachmentRodWidth/2)
+			linkSweepCutout=	linkSweepCutout.difference(	pinBlank)	
+							
+			//lowerLink=lowerLink.union(pinBlank)
+							
+			
+			lowerLink=lowerLink.transformed(new Transform().translateZ(-attachmentRodWidth/2))
+			CSG lowerClip =
+					
+					new Cube(
+						attachmentBaseWidth+3,
+						rOffsetForNextLink,
+						LowerLinkThickness +linkThickness+6
+						).toCSG().toZMin().toYMin()
+				
+				
+				.transformed(new Transform().translateY(9))// allign to the NEXT ATTACHMENT
+				
+				.transformed(new Transform().translateZ(-attachmentRodWidth/2 -LowerLinkThickness ))
+			
+			lowerLink=lowerLink.union(
+				lowerClip,
+				mountHoleAttachmentGroup.movez(lowerLink.getMinZ())
+				
+				).hull();
+			//Remove the divit or the bearing
+			lowerLink= lowerLink.difference(
+					nextAttachment
+						.makeKeepaway((double)-0.2)
+						.movez(-0.15),
+					upperScrews
+					.movez(6),
+					linkSweepCutout
+					)// allign to the NEXT ATTACHMENT);
+			
+			lowerLink= moveDHValues(lowerLink,dh);
+			//remove the next links connector and the upper link for mating surface
+			lowerLink= lowerLink.difference(upperLink,servo);
+			if(i== dhLinks.size()-1)
+				lowerLink= lowerLink.difference(makeKeepaway(foot));
+			else
+				lowerLink= lowerLink.difference(makeKeepaway(nextAttachment));
+			
+			
+			
+			upperLink.setManufactuing(new PrepForManufacturing() {
 				public CSG prep(CSG arg0) {
-					return 	arg0.transformed(new Transform().rotY(90))
+					return reverseDHValues(arg0,dhLinks.get(linkIndex))
+							.roty(180)
 							.toZMin()
 							.toXMin()
 				}
 			});
-
-		
-			foot.setManipulator(dhLinks.get(dhLinks.size()-1).getListener());
+			
+			
+			lowerLink.setManufactuing(new PrepForManufacturing() {
+				public CSG prep(CSG arg0) {
+					return 	reverseDHValues(arg0,dhLinks.get(linkIndex))
+							.toZMin()
+							.toXMin()
+				}
+			});
+			
+			nextAttachment.setManufactuing(new PrepForManufacturing() {
+				public CSG prep(CSG arg0) {
+					return 	arg0
+							//.transformed(new Transform().rotY(90))
+							.toZMin()
+							.toXMin()
+				}
+			});
 				
 			
-			foot.setColor(Color.GOLD);
-			csg.add(foot);//This is the root that attaches to the base
-			BowlerStudioController.addCsg(foot);
-
-		}
+			
+			nextAttachment.setManipulator(dh.getListener());
+			nextAttachment.setColor(Color.CHOCOLATE);
+			servo.setManipulator(dh.getListener());
+			upperLink.setColor(Color.GREEN);
+			upperLink.setManipulator(dh.getListener());
+			
+			
+			lowerLink.setColor(Color.WHITE);
+			lowerLink.setManipulator(dh.getListener());
+			
+			//csg.add(servo);// view the servo
+			upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
+						
+			upperScrews.setManipulator(dh.getListener());
+			//csg.add(upperScrews);//view the screws
+			
+			
+			if(linkIndex<dhLinks.size()-1){
+				csg.add(nextAttachment);//This is the root that attaches to the base
+				BowlerStudioController.addCsg(nextAttachment);
+			}
+			
+			csg.add(upperLink);//This is the root that attaches to the base
+			csg.add(lowerLink);//White link forming the lower link
+			BowlerStudioController.addCsg(upperLink);
+			BowlerStudioController.addCsg(lowerLink);
+				
+			if(linkIndex==	dhLinks.size()-1){
+				CSG foot=getFoot();	
+				//test for last link
+				foot.setManufactuing(new PrepForManufacturing() {
+					public CSG prep(CSG arg0) {
+						return 	arg0.transformed(new Transform().rotY(90))
+								.toZMin()
+								.toXMin()
+					}
+				});
+	
+			
+				foot.setManipulator(dhLinks.get(dhLinks.size()-1).getListener());
+					
+				
+				foot.setColor(Color.GOLD);
+				csg.add(foot);//This is the root that attaches to the base
+				BowlerStudioController.addCsg(foot);
+			}
+		
 		return csg;
 	}
 };
