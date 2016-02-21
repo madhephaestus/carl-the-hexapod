@@ -396,7 +396,7 @@ return new ICadGenerator(){
 			double rOffsetForNextLinkStart=dh.getR()+mountScrewKeepawaySize+0.75;
 			double rOffsetForNextLink=rOffsetForNextLinkStart;
 			
-			if(i==dhLinks.size()-1){
+			if(linkIndex==dhLinks.size()-1){
 					 rOffsetForNextLink = rOffsetForNextLink-
 					Math.abs(foot.toXMax().getBounds().getMin().x) 
 				
@@ -405,7 +405,7 @@ return new ICadGenerator(){
 					Math.abs(nextAttachment.toXMax().getBounds().getMin().x)
 				
 			}
-			println "Link # "+i+" offset = "+(rOffsetForNextLink)+" rad "+dh.getR() +" offset = "
+			//println "Link # "+linkIndex+" offset = "+(rOffsetForNextLink)+" rad "+dh.getR() +" offset = "
 			
 			double linkThickness = dh.getD();
 			if(linkThickness<attachmentBaseWidth/2)
@@ -488,7 +488,7 @@ return new ICadGenerator(){
 			upperLink=upperLink.movez(upperLinkZOffset)
 			
 			upperLink= moveDHValues(upperLink,dh).difference(servo);
-			if(i== dhLinks.size()-1)
+			if(linkIndex== dhLinks.size()-1)
 				upperLink= upperLink.difference(makeKeepaway(foot));
 			else
 				upperLink= upperLink.difference(makeKeepaway(nextAttachment));
@@ -551,7 +551,7 @@ return new ICadGenerator(){
 			lowerLink= moveDHValues(lowerLink,dh);
 			//remove the next links connector and the upper link for mating surface
 			lowerLink= lowerLink.difference(upperLink,servo);
-			if(i== dhLinks.size()-1)
+			if(linkIndex== dhLinks.size()-1)
 				lowerLink= lowerLink.difference(makeKeepaway(foot));
 			else
 				lowerLink= lowerLink.difference(makeKeepaway(nextAttachment));
