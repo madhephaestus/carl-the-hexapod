@@ -19,6 +19,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	long stepOverTime=(long)args.get(1);
 	private Double zLock=(Double)args.get(2);
 	Closure calcHome =(Closure)args.get(3);
+	boolean usePhysics=(args.size()>4?((boolean)args.get(4)):false);
+
 	TransformNR [] home=null;
 	
 	TransformNR previousGLobalState;
@@ -114,7 +116,18 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 				// Load in the locations of the tips of each of the feet.
 				for(int i=0;i<numlegs;i++){
-					feetLocations[i]=legs.get(i).getCurrentPoseTarget();
+					//get the orientation of the base and invert it
+					TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
+					//transform the feet by the inverse orientation
+					TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
+					//invert the target pose
+					TransformNR rotPoseinv = newPose.inverse();
+					//apply the inverted target
+					TransformNR newTar = rotPoseinv.times(rotPose);
+					//un-do the orientation inversion to get final location
+					TransformNR incr =inverseRot.inverse().times(newTar);
+					feetLocations[i]=incr;
+					
 					if(zLock==null){
 						//sets a standard plane at the z location of the first leg.
 						zLock=feetLocations[i].getZ();
@@ -122,6 +135,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					}
 					home[i] =calcHome(legs.get(i))
 					feetLocations[i].setZ(home[i].getZ());
+					if(i==0){
+						println "\n\n\nLeg 0 Current X "+legs.get(i).getCurrentPoseTarget().getX()+" y="+legs.get(i).getCurrentPoseTarget().getY()+" z="+legs.get(i).getCurrentPoseTarget().getZ()+
+						"\r\nNew  X="+feetLocations[i].getX()+" y= "+feetLocations[i].getY()+" z= "+feetLocations[i].getZ()+
+						"\r\nTarget  X="+newPose.getX()+" y= "+newPose.getY()+" z= "+newPose.getZ()
+					}
 				}
 				//zLock =zLock+newPose.getZ();
 				previousGLobalState = source.getFiducialToGlobalTransform().copy();
@@ -133,7 +151,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				double ti = newPose.getRotation().getRotationTilt() ;
 				TransformNR global= source.getFiducialToGlobalTransform().times(newPose);
 				// New target calculated appliaed to global offset
-				source.setGlobalToFiducialTransform(global);
+				
+				//
 				//Set it back to where it was to use the interpolator for global move at the end
 
 
@@ -248,6 +267,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
 		
 				}
+				if(!usePhysics)
+					source.setGlobalToFiducialTransform(global);
 				
 				// while(resetting && source.isAvailable()){
 				// 	//System.out.println("Waiting...")
@@ -258,7 +279,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 			ex.printStackTrace();
 			println "This step is not possible, undoing "
 			// New target calculated appliaed to global offset
-			source.setGlobalToFiducialTransform(source.getFiducialToGlobalTransform().times(newPose.inverse()));
+			source.setGlobalToFiducialTransform(previousGLobalState);
 			//Set it back to where it was to use the interpolator for global move at the end
 			return;
 			

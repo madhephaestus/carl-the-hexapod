@@ -27,14 +27,11 @@ Closure calcHome = { DHParameterKinematics leg ->
 		return h;
 
 }
-
-ArrayList<Object> args = new ArrayList<Object>();
-
-args.add(stepOverHeight)
-args.add(stepOverTime)
-args.add(zLock)
-args.add(calcHome)
+boolean usePhysicsToMove = true;
 
 
-return ScriptingEngine.inlineGistScriptRun("bcb4760a449190206170", "GenericWalkingEngine.groovy" , args);
+return ScriptingEngine.inlineGistScriptRun("bcb4760a449190206170", 
+"GenericWalkingEngine.groovy" , 
+[stepOverHeight,stepOverTime,zLock,calcHome,usePhysicsToMove]
+);
 	
