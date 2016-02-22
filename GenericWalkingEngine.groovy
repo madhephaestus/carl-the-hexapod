@@ -135,11 +135,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					}
 					home[i] =calcHome(legs.get(i))
 					feetLocations[i].setZ(home[i].getZ());
-					if(i==0){
-						println "\n\n\nLeg 0 Current X "+legs.get(i).getCurrentPoseTarget().getX()+" y="+legs.get(i).getCurrentPoseTarget().getY()+" z="+legs.get(i).getCurrentPoseTarget().getZ()+
-						"\r\nNew  X="+feetLocations[i].getX()+" y= "+feetLocations[i].getY()+" z= "+feetLocations[i].getZ()+
-						"\r\nTarget  X="+newPose.getX()+" y= "+newPose.getY()+" z= "+newPose.getZ()
-					}
+
 				}
 				//zLock =zLock+newPose.getZ();
 				previousGLobalState = source.getFiducialToGlobalTransform().copy();
