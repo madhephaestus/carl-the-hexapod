@@ -3,11 +3,11 @@
 
 <driveType>walking</driveType>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<driveEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>WalkingDriveEngine.groovy</file>
 	</driveEngine>
 
@@ -16,11 +16,11 @@
 
 <name>Carl_One</name>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -38,14 +38,6 @@
 	<indexLatch>105</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
@@ -70,20 +62,12 @@
 	<indexLatch>97</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
-		<Alpha>0.0</Alpha>
+		<Radius>50.0</Radius>
+		<Alpha>180.0</Alpha>
 	</DHParameters>
 
 </link>
@@ -102,18 +86,10 @@
 	<indexLatch>145</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
-		<Theta>90.0</Theta>
+		<Theta>-90.0</Theta>
 		<Radius>70.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
@@ -134,10 +110,10 @@
 	<x>-55.0</x>
 	<y>-50.0</y>
 	<z>1.9984014443252818E-15</z>
-	<rotw>0.3826834323650933</rotw>
-	<rotx>2.3820429953758186E-17</rotx>
-	<roty>1.813220358410302E-16</roty>
-	<rotz>-0.9238795325112843</rotz>
+	<rotw>0.3826834323650927</rotw>
+	<rotx>2.382042995375822E-17</rotx>
+	<roty>1.8132203584103033E-16</roty>
+	<rotz>-0.923879532511285</rotz>
 </baseToZframe>
 
 </leg>
@@ -145,11 +121,11 @@
 
 <name>Carl_Two</name>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -167,14 +143,6 @@
 	<indexLatch>171</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
@@ -199,20 +167,12 @@
 	<indexLatch>148</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
-		<Alpha>0.0</Alpha>
+		<Radius>50.0</Radius>
+		<Alpha>180.0</Alpha>
 	</DHParameters>
 
 </link>
@@ -231,18 +191,10 @@
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
-		<Theta>90.0</Theta>
+		<Theta>-90.0</Theta>
 		<Radius>70.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
@@ -263,10 +215,10 @@
 	<x>0.0</x>
 	<y>-60.0</y>
 	<z>4.440892098500626E-15</z>
-	<rotw>0.7072238818849061</rotw>
-	<rotx>8.997248564922612E-6</rotx>
-	<roty>-2.3805711206739314E-4</roty>
-	<rotz>-0.7069896209559978</rotz>
+	<rotw>0.7072238818849064</rotw>
+	<rotx>8.997248564922609E-6</rotx>
+	<roty>-2.3805711206739306E-4</roty>
+	<rotz>-0.7069896209559976</rotz>
 </baseToZframe>
 
 </leg>
@@ -274,11 +226,11 @@
 
 <name>Carl_Three</name>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -296,14 +248,6 @@
 	<indexLatch>124</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
@@ -328,20 +272,12 @@
 	<indexLatch>91</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
-		<Alpha>0.0</Alpha>
+		<Radius>50.0</Radius>
+		<Alpha>180.0</Alpha>
 	</DHParameters>
 
 </link>
@@ -360,18 +296,10 @@
 	<indexLatch>139</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
-		<Theta>90.0</Theta>
+		<Theta>-90.0</Theta>
 		<Radius>70.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
@@ -403,11 +331,11 @@
 
 <name>Carl_Four</name>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -425,14 +353,6 @@
 	<indexLatch>133</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
@@ -457,20 +377,12 @@
 	<indexLatch>137</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
-		<Alpha>0.0</Alpha>
+		<Radius>50.0</Radius>
+		<Alpha>180.0</Alpha>
 	</DHParameters>
 
 </link>
@@ -489,18 +401,10 @@
 	<indexLatch>131</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
-		<Theta>90.0</Theta>
+		<Theta>-90.0</Theta>
 		<Radius>70.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
@@ -532,11 +436,11 @@
 
 <name>Carl_Five</name>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -554,14 +458,6 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
@@ -586,20 +482,12 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
-		<Alpha>0.0</Alpha>
+		<Radius>50.0</Radius>
+		<Alpha>180.0</Alpha>
 	</DHParameters>
 
 </link>
@@ -618,18 +506,10 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
-		<Theta>90.0</Theta>
+		<Theta>-90.0</Theta>
 		<Radius>70.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
@@ -661,11 +541,11 @@
 
 <name>Carl_Six</name>
 	<cadEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>ThreeDPrintCad.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<gist>bcb4760a449190206170</gist>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -683,14 +563,6 @@
 	<indexLatch>135</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
@@ -715,20 +587,12 @@
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
 		<Theta>0.0</Theta>
-		<Radius>60.0</Radius>
-		<Alpha>0.0</Alpha>
+		<Radius>50.0</Radius>
+		<Alpha>180.0</Alpha>
 	</DHParameters>
 
 </link>
@@ -747,18 +611,10 @@
 	<indexLatch>141</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<mass>0.01</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 	<DHParameters>
 		<Delta>0.0</Delta>
-		<Theta>90.0</Theta>
+		<Theta>-90.0</Theta>
 		<Radius>70.0</Radius>
 		<Alpha>0.0</Alpha>
 	</DHParameters>
@@ -779,10 +635,10 @@
 	<x>-55.0</x>
 	<y>50.0</y>
 	<z>-7.771561172376096E-15</z>
-	<rotw>0.38268343236507907</rotw>
-	<rotx>-1.813220358410335E-16</rotx>
-	<roty>-2.3003042022369397E-16</roty>
-	<rotz>0.9238795325112925</rotz>
+	<rotw>0.3826834323650797</rotw>
+	<rotx>-1.8132203584103327E-16</rotx>
+	<roty>-2.300304202236936E-16</roty>
+	<rotz>0.9238795325112913</rotz>
 </baseToZframe>
 
 </leg>
@@ -806,14 +662,6 @@
 	<roty>0.0</roty>
 	<rotz>0.0</rotz>
 </baseToZframe>
-	<mass>0.5</mass>
-	<centerOfMassFromCentroid>	<x>0.0</x>
-	<y>0.0</y>
-	<z>0.0</z>
-	<rotw>1.0</rotw>
-	<rotx>0.0</rotx>
-	<roty>0.0</roty>
-	<rotz>0.0</rotz></centerOfMassFromCentroid>
 
 </mobilebase>
 
