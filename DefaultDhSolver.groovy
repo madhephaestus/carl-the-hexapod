@@ -56,21 +56,22 @@ return new DhInverseSolver() {
 		double l2 = links.get(2).getR();
 
 		double vect = Math.sqrt(xSet*xSet+ySet*ySet+zSet*zSet);
-//		println ( "TO: "+target);
-//		println ( "Trangular TO: "+overGripper);
-//		println ( "lengthXYPlaneVect: "+lengthXYPlaneVect);
-//		println( "angleXYPlaneVect: "+Math.toDegrees(angleXYPlaneVect));
-//		println( "angleRectangleAdjustedXY: "+Math.toDegrees(angleRectangleAdjustedXY));
-//		println( "lengthRectangleAdjustedXY: "+lengthRectangleAdjustedXY);
-//		println( "r: "+r);
-//		println( "d: "+d);
-//		
-//		println( "x Correction: "+xSet);
-//		println( "y Correction: "+ySet);
-//		
-//		println( "Orentation: "+Math.toDegrees(orentation));
-//		println( "z: "+zSet);
-
+		/*
+		println ( "TO: "+target);
+		println ( "Trangular TO: "+overGripper);
+		println ( "lengthXYPlaneVect: "+lengthXYPlaneVect);
+		println( "angleXYPlaneVect: "+Math.toDegrees(angleXYPlaneVect));
+		println( "angleRectangleAdjustedXY: "+Math.toDegrees(angleRectangleAdjustedXY));
+		println( "lengthRectangleAdjustedXY: "+lengthRectangleAdjustedXY);
+		println( "r: "+r);
+		println( "d: "+d);
+		
+		println( "x Correction: "+xSet);
+		println( "y Correction: "+ySet);
+		
+		println( "Orentation: "+Math.toDegrees(orentation));
+		println( "z: "+zSet);
+	*/
 		
 
 		if (vect > l1+l2 ||  vect<0 ||lengthRectangleAdjustedXY<0 ) {
@@ -85,12 +86,13 @@ return new DhInverseSolver() {
 		double C =Math.PI-A-B;//Rule of triangles
 		double elevation = Math.asin(zSet/vect);
 
-
-//		println( "vect: "+vect);
-//		println( "A: "+Math.toDegrees(A));
-//		println( "elevation: "+Math.toDegrees(elevation));
-//		println( "l1 from x/y plane: "+Math.toDegrees(A+elevation));
-//		println( "l2 from l1: "+Math.toDegrees(C));
+/*
+		println( "vect: "+vect);
+		println( "A: "+Math.toDegrees(A));
+		println( "elevation: "+Math.toDegrees(elevation));
+		println( "l1 from x/y plane: "+Math.toDegrees(A+elevation));
+		println( "l2 from l1: "+Math.toDegrees(C));
+		*/
 		inv[0] = Math.toDegrees(orentation);
 		inv[1] = -Math.toDegrees((A+elevation+links.get(1).getTheta()));
 		inv[2] = (Math.toDegrees(C))-180-//interior angle of the triangle, map to external angle
