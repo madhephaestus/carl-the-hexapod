@@ -16,8 +16,8 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 
 
 double stepOverHeight=2;
-long stepOverTime=50;
-Double zLock=-70;
+long stepOverTime=100;
+Double zLock=-67;
 Closure calcHome = { DHParameterKinematics leg -> 
 		TransformNR h=leg.calcHome() 
 
