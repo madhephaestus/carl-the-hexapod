@@ -95,8 +95,13 @@ return new DhInverseSolver() {
 		*/
 		inv[0] = Math.toDegrees(orentation);
 		inv[1] = -Math.toDegrees((A+elevation+links.get(1).getTheta()));
-		inv[2] = (Math.toDegrees(C))-180-//interior angle of the triangle, map to external angle
-				Math.toDegrees(links.get(2).getTheta());// offset for kinematics
+		if((int)links.get(1).getAlpha() ==180){
+			inv[2] = (Math.toDegrees(C))-180-//interior angle of the triangle, map to external angle
+					Math.toDegrees(links.get(2).getTheta());// offset for kinematics
+		}
+		if((int)links.get(1).getAlpha() ==0){
+			inv[2] = -(Math.toDegrees(C))+Math.toDegrees(links.get(2).getTheta());// offset for kinematics
+		}
 		if(links.size()>3)
 			inv[3] =(inv[1] -inv[2]);// keep it parallell
 			// We know the wrist twist will always be 0 for this model
