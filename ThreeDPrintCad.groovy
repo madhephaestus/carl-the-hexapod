@@ -42,7 +42,7 @@ return new ICadGenerator(){
 //	.transformed(new Transform().translateX(5.4));
 	
 	//CSG horn=  STL.file(NativeResource.inJarLoad(IVitamin.class,"smallmotorhorn.stl").toPath())
-	CSG horn = new Cube(6,5,19).toCSG();
+	CSG horn = new Cube(6,5,12).toCSG();
 	private double attachmentRodWidth=10;
 	private double attachmentBaseWidth=15;
 	private double printerTollerence =0.5;
@@ -182,11 +182,14 @@ return new ICadGenerator(){
 									.toCSG());
 		attachmentbase = toZMax(attachmentbase.union(post))
 		.transformed(new Transform().translateZ( attachmentRodWidth/2));
+		
 		CSG hornAttach =toZMin(toYMin(	toYMax( toZMax(horn).transformed(new Transform().translateZ( 4))) , 
 										post),
 									post
 									);
 		attachmentbase =attachmentbase.difference(hornAttach);
+		
+		
 		double pinMax = bearingPinRadius;
 		double pinMin =bearingPinRadius;
 		CSG bearingPin =toYMax( new Cylinder(pinMax,pinMin, (int)5 ,(int)50).toCSG()
@@ -344,6 +347,7 @@ return new ICadGenerator(){
 		//printBed=true;
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
+		/*
 		if(linkIndex==0){
 			DHLink dh = dhLinks.get(0);
 			
@@ -362,7 +366,7 @@ return new ICadGenerator(){
 			rootAttachment.setColor(Color.GOLD);
 			BowlerStudioController.addCsg(rootAttachment);
 		}
-
+		*/
 		
 		CSG servoKeepaway = toXMin(toZMax(	new Cube(Math.abs(servoReference.getBounds().getMin().x) +
 			Math.abs(servoReference.getBounds().getMax().x),
