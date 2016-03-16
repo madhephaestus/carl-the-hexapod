@@ -576,7 +576,7 @@ return new ICadGenerator(){
 			upperLink.setManipulator(dh.getListener());
 			
 			
-			lowerLink.setColor(Color.WHITE);
+			lowerLink.setColor(Color.PURPLE);
 			lowerLink.setManipulator(dh.getListener());
 			
 			//csg.add(servo);// view the servo
@@ -591,9 +591,9 @@ return new ICadGenerator(){
 				BowlerStudioController.addCsg(nextAttachment);
 			}
 			
-			//csg.add(upperLink);//This is the root that attaches to the base
+			csg.add(upperLink);//This is the root that attaches to the base
 			csg.add(lowerLink);//White link forming the lower link
-			//BowlerStudioController.addCsg(upperLink);
+			BowlerStudioController.addCsg(upperLink);
 			BowlerStudioController.addCsg(lowerLink);
 				
 			if(linkIndex==	dhLinks.size()-1){
