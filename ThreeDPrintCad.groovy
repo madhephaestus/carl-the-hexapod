@@ -452,17 +452,20 @@ return new ICadGenerator(){
 			CSG clip = toYMin(
 				toZMax(
 					new Cube(
-						attachmentBaseWidth+3,
-						9,
+						attachmentBaseWidth+4.5,
+						9+4,
 						attachmentBaseWidth+3
 						).toCSG()
 					)
 				)
-				.transformed(new Transform().translateY(rOffsetForNextLink))// allign to the NEXT ATTACHMENT
-				.transformed(new Transform().translateZ(linkThickness))// allign to the NEXT ATTACHMENT
+				.movey(rOffsetForNextLink-3.5)// allign to the NEXT ATTACHMENT
+				.movez(linkThickness)// allign to the NEXT ATTACHMENT
 			
 			double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-3)
-			upperLink=upperLink.union(mountHoleAttachmentGroup,rod).hull().union(clip);
+			//Build the upper link
+			upperLink=upperLink.union(mountHoleAttachmentGroup,rod)
+			.hull()//smooth out the shape
+			.union(clip);// add the clip in
 			upperLink= upperLink.difference(upperScrews);
 			upperLink=upperLink.movez(upperLinkZOffset)
 			
