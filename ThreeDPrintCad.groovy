@@ -89,32 +89,7 @@ return new ICadGenerator(){
 	private CSG toYMax(CSG incoming){
 		return toYMax(incoming,incoming);
 	}
-	
-	private CSG makeKeepaway(CSG incoming){
-		
-		double x = Math.abs(incoming.getBounds().getMax().x )+ Math.abs(incoming.getBounds().getMin().x)
-		double y = Math.abs(incoming.getBounds().getMax().y) + Math.abs(incoming.getBounds().getMin().y)
-		
-		double z = Math.abs(incoming.getBounds().getMax().z )+ Math.abs(incoming.getBounds().getMin().z)
-		
-		double xtol=(x+printerTollerence)/x
-		double ytol= (y+printerTollerence)/y
-		double ztol=(z+printerTollerence)/z
-		
-		double xPer=-(Math.abs(incoming.getBounds().getMax().x)-Math.abs(incoming.getBounds().getMin().x))/x
-		double yPer=-(Math.abs(incoming.getBounds().getMax().y)-Math.abs(incoming.getBounds().getMin().y))/y
-		double zPer=-(Math.abs(incoming.getBounds().getMax().z)-Math.abs(incoming.getBounds().getMin().z))/z
-		
-		//println " Keep away x = "+y+" new = "+ytol
-		return 	incoming
-				.transformed(new Transform().scale(xtol,
-													ytol,
-													 ztol ))
-				.transformed(new Transform().translateX(printerTollerence * xPer))
-				.transformed(new Transform().translateY(printerTollerence*yPer))
-				.transformed(new Transform().translateZ(printerTollerence*zPer))
-				
-	}
+
 	
 	
 	private CSG getAppendageMount(){
@@ -390,7 +365,7 @@ return new ICadGenerator(){
 			.transformed(new Transform().rotZ(-90))// allign to the horn
 			
 			;
-			servo= makeKeepaway(servo)
+			servo= servo.makeKeepaway(printerTollerence)
 			double totalServoExtention =  Math.abs(servo.getMinY())
 			
 			boolean addNub=false;
@@ -487,15 +462,15 @@ return new ICadGenerator(){
 				.transformed(new Transform().translateZ(linkThickness))// allign to the NEXT ATTACHMENT
 			
 			double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-3)
-			upperLink=upperLink.union(rod,clip,mountHoleAttachmentGroup).hull();
+			upperLink=upperLink.union(mountHoleAttachmentGroup,rod).hull().union(clip);
 			upperLink= upperLink.difference(upperScrews);
 			upperLink=upperLink.movez(upperLinkZOffset)
 			
 			upperLink= moveDHValues(upperLink,dh).difference(servo);
 			if(linkIndex== dhLinks.size()-1)
-				upperLink= upperLink.difference(makeKeepaway(foot));
+				upperLink= upperLink.difference(foot.makeKeepaway(printerTollerence*2));
 			else
-				upperLink= upperLink.difference(makeKeepaway(nextAttachment));
+				upperLink= upperLink.difference(nextAttachment.makeKeepaway(printerTollerence*2));
 			
 			double LowerLinkThickness = attachmentRodWidth/2-2
 			CSG lowerLink = new Cylinder(
@@ -512,7 +487,7 @@ return new ICadGenerator(){
 				 .toCSG()
 				 .toZMin()
 				 .movez(-attachmentRodWidth/2)
-			CSG pinBlank = new Cylinder( bearingPinRadius+printerTollerence,
+			CSG pinBlank = new Cylinder( bearingPinRadius-printerTollerence,
 										 LowerLinkThickness,
 										 (int)20)
 							.toCSG()
@@ -556,9 +531,9 @@ return new ICadGenerator(){
 			//remove the next links connector and the upper link for mating surface
 			lowerLink= lowerLink.difference(upperLink,servo);
 			if(linkIndex== dhLinks.size()-1)
-				lowerLink= lowerLink.difference(makeKeepaway(foot));
+				lowerLink= lowerLink.difference(foot.makeKeepaway(printerTollerence*2));
 			else
-				lowerLink= lowerLink.difference(makeKeepaway(nextAttachment));
+				lowerLink= lowerLink.difference(nextAttachment.makeKeepaway(printerTollerence*2));
 			
 			
 			
@@ -613,9 +588,9 @@ return new ICadGenerator(){
 				BowlerStudioController.addCsg(nextAttachment);
 			}
 			
-			csg.add(upperLink);//This is the root that attaches to the base
+			//csg.add(upperLink);//This is the root that attaches to the base
 			csg.add(lowerLink);//White link forming the lower link
-			BowlerStudioController.addCsg(upperLink);
+			//BowlerStudioController.addCsg(upperLink);
 			BowlerStudioController.addCsg(lowerLink);
 				
 			if(linkIndex==	dhLinks.size()-1){
