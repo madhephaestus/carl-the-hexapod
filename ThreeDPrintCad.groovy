@@ -72,7 +72,6 @@ return new ICadGenerator(){
 	private CSG toYMax(CSG incoming,CSG target){
 		return incoming.transformed(new Transform().translateY(-target.getBounds().getMax().y));
 	}
-	
 	private CSG toZMin(CSG incoming){
 		return toZMin(incoming,incoming);
 	}
@@ -91,9 +90,6 @@ return new ICadGenerator(){
 	private CSG toYMax(CSG incoming){
 		return toYMax(incoming,incoming);
 	}
-
-	
-	
 	private CSG getAppendageMount(){
 		double cylindarKeepawayHeight = 80;
 		CSG attachmentbase =new Cylinder(// The first part is the hole to put the screw in
@@ -243,7 +239,14 @@ return new ICadGenerator(){
 						
 		CSG myDyIO=dyioReference
 				.movez(upperBody.getMaxZ()+22.0)
-				.movex(upperBody.getMaxX()-upperBody.getMinX())
+				.movex(	upperBody.getMaxX()-
+						Math.abs(upperBody.getMinX())+
+						dyioReference.getMaxX()-
+						dyioReference.getMinX())
+				.movey(	upperBody.getMaxY()-
+						Math.abs(upperBody.getMinY())+
+						dyioReference.getMaxY()-
+						Math.abs(dyioReference.getMinY()))
 		upperBody=upperBody
 		.union(myDyIO)
 		.hull()
