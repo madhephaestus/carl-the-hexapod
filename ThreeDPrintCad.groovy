@@ -452,24 +452,36 @@ return new ICadGenerator(){
 			CSG clip = toYMin(
 				toZMax(
 					new Cube(
-						attachmentBaseWidth+4.5,
-						9+4,
+						attachmentBaseWidth+12,
+						9+12,
 						attachmentBaseWidth+3
 						).toCSG()
 					)
 				)
-				.movey(rOffsetForNextLink-3.5)// allign to the NEXT ATTACHMENT
+				.toYMax()
+				.movey(rOffsetForNextLink+8)// allign to the NEXT ATTACHMENT
 				.movez(linkThickness)// allign to the NEXT ATTACHMENT
 			
 			double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-3)
 			//Build the upper link
 			upperLink=upperLink.union(mountHoleAttachmentGroup,rod)
 			.hull()//smooth out the shape
-			.union(clip);// add the clip in
+			CSG projection = upperLink
+							.scalez(10)
+							.intersect(clip)
+			
+			upperLink=upperLink	.union(projection.toZMax())// add the clip in
+			
 			upperLink= upperLink.difference(upperScrews);
 			upperLink=upperLink.movez(upperLinkZOffset)
 			
 			upperLink= moveDHValues(upperLink,dh).difference(servo);
+
+
+				// debugging	
+			projection=moveDHValues(	projection,dh)		
+			projection.setManipulator(dh.getListener());
+			//csg.add(projection);// view the clip
 			if(linkIndex== dhLinks.size()-1)
 				upperLink= upperLink.difference(foot.makeKeepaway(printerTollerence*2));
 			else
@@ -506,7 +518,7 @@ return new ICadGenerator(){
 					
 					new Cube(
 						attachmentBaseWidth+3,
-						rOffsetForNextLink,
+						rOffsetForNextLink-2,
 						LowerLinkThickness +linkThickness+6
 						).toCSG().toZMin().toYMin()
 				
