@@ -39,6 +39,7 @@ return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
 	CSG servoReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("3f9fef17b23acfadf3f7", "servo.groovy" , null))
 	.transformed(new Transform().rotZ(-90))
+	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("fb4cf429372deeb36f52", "dyioCad.groovy" , null))
 //	.transformed(new Transform().translateZ(12.0))
 //	.transformed(new Transform().translateX(5.4));
 	
@@ -181,11 +182,7 @@ return new ICadGenerator(){
 		CSG foot = new Sphere(attachmentRodWidth).toCSG();
 		return  toXMax(attach.union(foot));
 	}
-	
-	Transform convertTransform(TransformNR incoming){
-		
-	}
-	
+
 	private CSG reverseDHValues(CSG incoming,DHLink dh ){
 		println "Reversing "+dh
 		return incoming
@@ -222,12 +219,6 @@ return new ICadGenerator(){
 		ArrayList<CSG> allCad=new ArrayList<>();
 		ArrayList<CSG> cutouts=new ArrayList<>();
 		ArrayList<CSG> attach=new ArrayList<>();
-		int minz= 1000000;
-		int maxz=-1000000;
-		int minx= 1000000;
-		int maxx=-1000000;
-		int miny= 1000000;
-		int maxy=-1000000;
 		CSG attachUnion=null;
 		for(DHParameterKinematics l:getLimbDHChains(base)){
 			TransformNR position = l.getRobotToFiducialTransform();
@@ -245,33 +236,27 @@ return new ICadGenerator(){
 			}
 			
 		}
-		int heightOfBody=(maxz-minz);
-		int widthOfBody=(maxx-minx);
-		int depthOfBody=(maxy-miny);
-		println "Height= "+ heightOfBody+ " widthOfBody= "+ widthOfBody+" depthOfBody= "+ depthOfBody
+
 		CSG upperBody = attachUnion.hull()
 		
-		CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("fb4cf429372deeb36f52", "dyioCad.groovy" , null))
+		
 						
-		CSG myDyIO=dyioReference.movez(upperBody.getMaxZ()+22.0)
+		CSG myDyIO=dyioReference
+				.movez(upperBody.getMaxZ()+22.0)
+				.movex(upperBody.getMaxX()-upperBody.getMinX())
 		upperBody=upperBody
 		.union(myDyIO)
 		.hull()
 		.difference(myDyIO)
-		for(CSG c:cutouts){
-			upperBody= upperBody.difference(c);
-			//allCad.add(c)
-		}
-		for(CSG c:attach){
-			upperBody= upperBody.union(c);
-			//allCad.add(c)
-		}
 		
+		upperBody= upperBody.difference(cutouts);
+		
+		upperBody= upperBody.union(attach);
+		
+	
 					
 		upperBody.setColor(Color.CYAN);
 		upperBody.setManipulator(base.getRootListener());
-		//myDyIO.setManipulator(base.getRootListener());
-		//allCad.add(myDyIO)
 		upperBody.setManufactuing(new PrepForManufacturing() {
 					public CSG prep(CSG arg0) {
 						return arg0.toZMin();
@@ -288,26 +273,7 @@ return new ICadGenerator(){
 		//printBed=true;
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
-		/*
-		if(linkIndex==0){
-			DHLink dh = dhLinks.get(0);
-			
-			CSG rootAttachment=getAttachment();
-			//CSG rootAttachment=getAppendageMount();
-	
-			rootAttachment.setManipulator(dh.getRootListener());
-	
-			rootAttachment.setManufactuing(new PrepForManufacturing() {
-						public CSG prep(CSG arg0) {
-							return arg0.toZMin().toXMin();
-						}
-					});
-			
-			csg.add(rootAttachment);//This is the root that attaches to the base
-			rootAttachment.setColor(Color.GOLD);
-			BowlerStudioController.addCsg(rootAttachment);
-		}
-		*/
+
 		
 		CSG servoKeepaway = toXMin(toZMax(	new Cube(Math.abs(servoReference.getBounds().getMin().x) +
 			Math.abs(servoReference.getBounds().getMax().x),
