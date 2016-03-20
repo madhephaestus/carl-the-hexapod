@@ -33,6 +33,7 @@ import eu.mihosoft.vrl.v3d.Transform;
 import eu.mihosoft.vrl.v3d.Cylinder;
 import eu.mihosoft.vrl.v3d.Vector3d;
 import javafx.scene.paint.Color;
+import com.neuronrobotics.bowlerstudio.physics.*;
 
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
@@ -201,9 +202,24 @@ return new ICadGenerator(){
 		
 	}
 
+		/**
+	 * Gets the all dh chains.
+	 *
+	 * @return the all dh chains
+	 */
+	public ArrayList<DHParameterKinematics> getLimbDHChains(MobileBase base) {
+		ArrayList<DHParameterKinematics> copy = new ArrayList<DHParameterKinematics>();
+		for(DHParameterKinematics l:base.getLegs()){
+			copy.add(l);	
+		}
+		for(DHParameterKinematics l:base.getAppendages() ){
+			copy.add(l);	
+		}
+		return copy;
+	}
+
 	ArrayList<CSG> generateBody(MobileBase base){
 		ArrayList<CSG> allCad=new ArrayList<>();
-		ArrayList<Vector3d> points=new ArrayList<>();
 		ArrayList<CSG> cutouts=new ArrayList<>();
 		ArrayList<CSG> attach=new ArrayList<>();
 		int minz= 1000000;
@@ -213,70 +229,20 @@ return new ICadGenerator(){
 		int miny= 1000000;
 		int maxy=-1000000;
 		CSG attachUnion=null;
-		for(DHParameterKinematics l:base.getAllDHChains()){
+		for(DHParameterKinematics l:getLimbDHChains(base)){
 			TransformNR position = l.getRobotToFiducialTransform();
-			RotationNR rot = position.getRotation()
-			Matrix vals =position.getMatrixTransform();
-			double [] elemenents = [ 
-				vals.get(0, 0),
-				vals.get(0, 1),
-				vals.get(0, 2),
-				vals.get(0, 3),
-				
-				vals.get(1, 0),
-				vals.get(1, 1),
-				vals.get(1, 2),
-				vals.get(1, 3),
-				
-				vals.get(2, 0),
-				vals.get(2, 1),
-				vals.get(2, 2),
-				vals.get(2, 3),
-				
-				vals.get(3, 0),
-				vals.get(3, 1),
-				vals.get(3, 2),
-				vals.get(3, 3),
-				
-				 ] as double[];
-			
-			
-			Matrix4d rotation=	new Matrix4d(elemenents);
-			double xpos = position.getX();
-
+			Transform csgTrans = TransformFactory.nrToCSG(position)
 			cutouts.add(getAppendageMount()
-				.transformed(new Transform(rotation))
-
+				.transformed(csgTrans)
 				);
 			CSG attachment = getAttachment()
-				.transformed(new Transform(rotation))
-			int thisMinz = attachment.getBounds().getMin().z;
-			int thisMaxz = attachment.getBounds().getMax().z;
-			if(thisMinz<minz)
-				minz=thisMinz
-			if(thisMaxz>maxz)
-				maxz=thisMaxz
-
-			int thisMiny = attachment.getBounds().getMin().y
-			int thisMaxy = attachment.getBounds().getMax().y
-			if(thisMiny<miny)
-				miny=thisMiny
-			if(thisMaxy>maxy)
-				maxy=thisMaxy	
-
-			int thisMinx = attachment.getBounds().getMin().x;
-			int thisMaxx = attachment.getBounds().getMax().x;
-			if(thisMinx<minx)
-				minx=thisMinx
-			if(thisMaxx>maxx)
-				maxx=thisMaxx	
+				.transformed(csgTrans)
 			attach.add(attachment);
 			if(attachUnion==null){
 				attachUnion=attachment;
 			}else{
 				attachUnion = 	attachUnion.union(attachment)
 			}
-			points.add(new Vector3d(position.getX(), position.getY()));
 			
 		}
 		int heightOfBody=(maxz-minz);
