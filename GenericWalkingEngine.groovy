@@ -203,7 +203,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							feetLocations[i].translateX(xinc);
 							feetLocations[i].translateY(yinc);
 							j++;
-							stepup = feetLocations[i].copy();
+							stepup = lastGood.copy();
 							stepup.setZ(stepOverHeight + zLock );
 						}
 						//println i+" furthest availible x:"+lastGood.getX()+" y:"+lastGood.getY()

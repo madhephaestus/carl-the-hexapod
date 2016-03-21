@@ -37,14 +37,29 @@ import com.neuronrobotics.bowlerstudio.physics.*;
 
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
-	CSG servoReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("3f9fef17b23acfadf3f7", "servo.groovy" , null))
+	CSG servoReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
+		"3f9fef17b23acfadf3f7", 
+		"servo.groovy" ,
+		null))
 	.transformed(new Transform().rotZ(-90))
-	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun("fb4cf429372deeb36f52", "dyioCad.groovy" , null))
+	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
+		"fb4cf429372deeb36f52", 
+		"dyioCad.groovy" ,
+		null))
+	
 //	.transformed(new Transform().translateZ(12.0))
 //	.transformed(new Transform().translateX(5.4));
 	
 	//CSG horn=  STL.file(NativeResource.inJarLoad(IVitamin.class,"smallmotorhorn.stl").toPath())
 	CSG horn = new Cube(6,5,12).toCSG();
+	CSG hornBlank = new Cube(6,5,12).toCSG()
+			.toZMax()
+			.toYMin()
+			.movez(4)
+	CSG mountReference = (CSG)(ScriptingEngine.inlineGistScriptRun(
+		"ce4e7c95d516e265b91e",
+		"servoAttachment.groovy" ,
+		[hornBlank]))
 	private double attachmentRodWidth=10;
 	private double attachmentBaseWidth=15;
 	private double printerTollerence =0.5;
@@ -132,45 +147,7 @@ return new ICadGenerator(){
 	}
 	
 	private CSG getAttachment(){
-		CSG attachmentbase = new RoundedCube(attachmentBaseWidth,attachmentBaseWidth,4)
-							.cornerRadius(attachmentBaseWidth/10)
-							.noCenter()
-							.toCSG()
-							.movex(-attachmentBaseWidth/2)
-							.movey(-(attachmentBaseWidth/2))
-		CSG cutOffBottomOfAttachment 	=new Cube(	(attachmentBaseWidth-attachmentRodWidth)/2,
-									attachmentBaseWidth,
-									10)
-									.toCSG()
-									
-									.movex(-attachmentBaseWidth/2+(attachmentBaseWidth-attachmentRodWidth)/4)
-									.rotz(-90)
-		attachmentbase=attachmentbase.difference(cutOffBottomOfAttachment)
-		
-		CSG post = toZMin(new Cube(	attachmentRodWidth,
-									attachmentRodWidth,
-									Math.abs(servoReference.getBounds().getMax().x)+4
-									+attachmentRodWidth/2)
-									
-									.toCSG());
-		attachmentbase = toZMax(attachmentbase.union(post))
-		.transformed(new Transform().translateZ( attachmentRodWidth/2));
-		
-		CSG hornAttach =toZMin(toYMin(	toYMax( toZMax(horn).transformed(new Transform().translateZ( 4))) , 
-										post),
-									post
-									);
-		attachmentbase =attachmentbase.difference(hornAttach);
-		
-		
-		double pinMax = bearingPinRadius;
-		double pinMin =bearingPinRadius;
-		CSG bearingPin =toYMax( new Cylinder(pinMax,pinMin, (int)5 ,(int)50).toCSG()
-			.transformed(new Transform().rotX(90)),
-										post);
-		attachmentbase =attachmentbase.difference(bearingPin);
-		return attachmentbase.transformed(new Transform().rot(-90, -90, 0));
-
+		return mountReference.clone()
 	}
 	
 	private CSG getFoot(){
