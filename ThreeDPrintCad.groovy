@@ -60,6 +60,10 @@ return new ICadGenerator(){
 		"ce4e7c95d516e265b91e",
 		"servoAttachment.groovy" ,
 		[hornBlank]))
+	CSG mountScrewKeepaway = (CSG)(ScriptingEngine.inlineGistScriptRun(
+		"488e0ee249a5c16ae4d8",
+		"moutScrewKeepaway.groovy" ,
+		null))
 	private double attachmentRodWidth=10;
 	private double attachmentBaseWidth=15;
 	private double printerTollerence =0.5;
@@ -120,30 +124,7 @@ return new ICadGenerator(){
 	
 	
 	private CSG getMountScrewKeepaway(){
-		CSG screw = new Cylinder(// The first part is the hole to put the screw in
-					mountScrewKeepawaySize/2,
-					200,
-					 (int)20).toCSG()
-					 screw =screw.union(new Cylinder(// This the the tapper section in the fasening part
-						 mountScrewHoleKeepawaySize/2,
-						 mountScrewKeepawaySize/2,
-						  3,
-						  (int)10).toCSG().toZMax()
-						  ).toZMin()
-		screw =screw.union(new Cylinder(// This the the hole in the fasening part
-					mountScrewHoleKeepawaySize/2,
-					 attachmentBaseWidth/2+1,
-					 (int)10).toCSG().toZMax()
-					 ).toZMin()
-		screw =screw.union(new Cylinder(// This the the hole in the threaded part
-			2.6/2,
-			 30,
-			 (int)10).toCSG().toZMax()
-			 )
-			 .movex(mountScrewSeperationDistance)
-		screw =screw.union(screw	 .movex(-mountScrewSeperationDistance*2))
-		
-		return screw;
+		return mountScrewKeepaway.clone();
 	}
 	
 	private CSG getAttachment(){
