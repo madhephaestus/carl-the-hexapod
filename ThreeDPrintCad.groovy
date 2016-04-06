@@ -36,12 +36,8 @@ import javafx.scene.paint.Color;
 import com.neuronrobotics.bowlerstudio.physics.*;
 
 return new ICadGenerator(){
-	//CSG servoReference= new MicroServo().toCSG();
-	CSG servoReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
-		"3f9fef17b23acfadf3f7", 
-		"servo.groovy" ,
-		null))
-	.transformed(new Transform().rotZ(-90))
+	CSG servoReference= new MicroServo().toCSG();
+
 	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
 		"fb4cf429372deeb36f52", 
 		"dyioCad.groovy" ,
@@ -234,7 +230,9 @@ return new ICadGenerator(){
 		//printBed=true;
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
-
+		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
+		//CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+		//.transformed(new Transform().rotZ(-90))
 		
 		CSG servoKeepaway = toXMin(toZMax(	new Cube(Math.abs(servoReference.getBounds().getMin().x) +
 			Math.abs(servoReference.getBounds().getMax().x),
