@@ -36,7 +36,7 @@ import javafx.scene.paint.Color;
 import com.neuronrobotics.bowlerstudio.physics.*;
 
 return new ICadGenerator(){
-	CSG servoReference= new MicroServo().toCSG();
+	//CSG servoReference= new MicroServo().toCSG();
 
 	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
 		"fb4cf429372deeb36f52", 
@@ -231,8 +231,8 @@ return new ICadGenerator(){
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
 		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
-		//CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
-		//.transformed(new Transform().rotZ(-90))
+		CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+		.transformed(new Transform().rotZ(-90))
 		
 		CSG servoKeepaway = toXMin(toZMax(	new Cube(Math.abs(servoReference.getBounds().getMin().x) +
 			Math.abs(servoReference.getBounds().getMax().x),
@@ -250,7 +250,8 @@ return new ICadGenerator(){
 			CSG nextAttachment=getAttachment();
 			
 			
-			CSG servo=servoReference.transformed(new Transform().translateZ(-12.5))// allign to the horn
+			CSG servo=servoReference
+			.movez(-servoReference.getMaxZ()-6)
 			.union(servoKeepaway)
 			.transformed(new Transform().rotX(180))// allign to the horn
 			.transformed(new Transform().rotZ(-90))// allign to the horn
@@ -288,7 +289,9 @@ return new ICadGenerator(){
 			servo= moveDHValues(servo,dh);
 			
 			double yScrewOffset = 2.5
-			CSG upperLink = toZMin(new Cylinder(cylandarRadius,linkThickness,(int)20).toCSG())
+			double ServoKeepawayRad = Math.sqrt((servoReference.getMinX()*servoReference.getMinX())+
+								(servoReference.getMaxY()*servoReference.getMaxY()))	+1
+			CSG upperLink = toZMin(new Cylinder(ServoKeepawayRad,linkThickness,(int)20).toCSG())
 			/*
 			if(addNub){
 				totalServoExtention
@@ -304,8 +307,9 @@ return new ICadGenerator(){
 			double screwsFarY=rOffsetForNextLink+mountScrewKeepawaySize/2
 			double screwsZ=upperLink.getBounds().getMax().z - linkThickness
 			
-			CSG mountHoleAttachment = new Cylinder((mountScrewKeepawaySize+1)/2, // Radius at the top
-			  				(mountScrewKeepawaySize+1)/2, // Radius at the bottom
+			double mountCylindarRad = (mountScrewKeepawaySize+1)/2
+			CSG mountHoleAttachment = new Cylinder(mountCylindarRad, // Radius at the top
+			  				mountCylindarRad, // Radius at the bottom
 			  				linkThickness, // Height
 			  			         (int)10 //resolution
 			  			         ).toCSG()
@@ -495,6 +499,7 @@ return new ICadGenerator(){
 			}
 			
 			csg.add(upperLink);//This is the root that attaches to the base
+			
 			csg.add(lowerLink);//White link forming the lower link
 			BowlerStudioController.addCsg(upperLink);
 			BowlerStudioController.addCsg(lowerLink);
