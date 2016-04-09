@@ -47,15 +47,7 @@ return new ICadGenerator(){
 //	.transformed(new Transform().translateX(5.4));
 	
 	//CSG horn=  STL.file(NativeResource.inJarLoad(IVitamin.class,"smallmotorhorn.stl").toPath())
-	CSG horn = new Cube(6,5,12).toCSG();
-	CSG hornBlank = new Cube(6,5,12).toCSG()
-			.toZMax()
-			.toYMin()
-			.movez(4)
-	CSG mountReference = (CSG)(ScriptingEngine.inlineGistScriptRun(
-		"ce4e7c95d516e265b91e",
-		"servoAttachment.groovy" ,
-		[hornBlank]))
+
 	CSG mountScrewKeepaway = (CSG)(ScriptingEngine.inlineGistScriptRun(
 		"488e0ee249a5c16ae4d8",
 		"moutScrewKeepaway.groovy" ,
@@ -123,8 +115,15 @@ return new ICadGenerator(){
 		return mountScrewKeepaway.clone();
 	}
 	
-	private CSG getAttachment(){
-		return mountReference.clone()
+	private CSG getAttachment(LinkConfiguration conf){
+		CSG h  =new Cube(1,1,1).toCSG()
+		if(conf !=null){
+			h  =Vitamins.get(conf.getShaftType(),conf.getShaftSize())		
+		}
+		return (CSG)(ScriptingEngine.inlineGistScriptRun(
+		"ce4e7c95d516e265b91e",
+		"servoAttachment.groovy" ,
+		[h]))
 	}
 	
 	private CSG getFoot(){
@@ -176,7 +175,7 @@ return new ICadGenerator(){
 			cutouts.add(getAppendageMount()
 				.transformed(csgTrans)
 				);
-			CSG attachment = getAttachment()
+			CSG attachment = getAttachment(l.getLinkConfiguration(0))// get attachment for root
 				.transformed(csgTrans)
 			attach.add(attachment);
 			if(attachUnion==null){
@@ -227,10 +226,13 @@ return new ICadGenerator(){
 
 	
 	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb, int linkIndex){
+	
+		
 		//printBed=true;
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
 		ArrayList<CSG> csg = new ArrayList<CSG>();
 		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
+		
 		CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
 		.transformed(new Transform().rotZ(-90))
 		
@@ -247,7 +249,7 @@ return new ICadGenerator(){
 			.movez(-5)
 			
 			dh = dhLinks.get(linkIndex);
-			CSG nextAttachment=getAttachment();
+			CSG nextAttachment=getAttachment(conf);
 			
 			
 			CSG servo=servoReference
@@ -380,7 +382,7 @@ return new ICadGenerator(){
 			if(linkIndex== dhLinks.size()-1)
 				upperLink= upperLink.difference(foot.makeKeepaway(printerTollerence*2));
 			else
-				upperLink= upperLink.difference(nextAttachment.makeKeepaway(printerTollerence*2));
+				upperLink= upperLink.difference(getAttachment(null).makeKeepaway(printerTollerence*2));
 			
 			double LowerLinkThickness = attachmentRodWidth/2-2
 			CSG lowerLink = new Cylinder(
@@ -429,7 +431,7 @@ return new ICadGenerator(){
 				).hull();
 			//Remove the divit or the bearing
 			lowerLink= lowerLink.difference(
-					nextAttachment
+					getAttachment(null)
 						.makeKeepaway((double)-0.2)
 						.movez(-0.15),
 					upperScrews
@@ -443,7 +445,7 @@ return new ICadGenerator(){
 			if(linkIndex== dhLinks.size()-1)
 				lowerLink= lowerLink.difference(foot.makeKeepaway(printerTollerence*2));
 			else
-				lowerLink= lowerLink.difference(nextAttachment.makeKeepaway(printerTollerence*2));
+				lowerLink= lowerLink.difference(getAttachment(null).makeKeepaway(printerTollerence*2));
 			
 			
 			
