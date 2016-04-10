@@ -12,6 +12,23 @@ import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
 import com.neuronrobotics.sdk.util.ThreadUtil;
 import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 import com.neuronrobotics.sdk.common.Log;
+if(args==null){
+	double stepOverHeight=5;
+	long stepOverTime=200;
+	Double zLock=-70;
+	Closure calcHome = { DHParameterKinematics leg -> 
+			TransformNR h=leg.calcHome() 
+	
+			TransformNR tr = leg.forwardOffset(new TransformNR())
+			tr.setZ(zLock)
+			
+			return h;
+	
+	}
+	boolean usePhysicsToMove = true;
+
+	args= [stepOverHeight,stepOverTime,zLock,calcHome,usePhysicsToMove]
+}
 
 return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	boolean resetting=false;
@@ -117,7 +134,10 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				// Load in the locations of the tips of each of the feet.
 				for(int i=0;i<numlegs;i++){
 					//get the orientation of the base and invert it
-					TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
+					TransformNR inverseRot =legs.get(i).inverseOffset(
+						new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
+					)//TransformNR inverseRot =new TransformNR()
+														
 					//transform the feet by the inverse orientation
 					TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
 					//invert the target pose
@@ -126,7 +146,10 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					TransformNR newTar = rotPoseinv.times(rotPose);
 					//un-do the orientation inversion to get final location
 					TransformNR incr =inverseRot.inverse().times(newTar);
-					feetLocations[i]=incr;
+					TransformNR current=legs.get(i).getCurrentPoseTarget()
+					current.translateX(newPose.getX());
+					current.translateY(newPose.getY());
+					feetLocations[i]=current
 					
 					if(zLock==null){
 						//sets a standard plane at the z location of the first leg.
@@ -196,12 +219,16 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							TransformNR rotPoseinv = newPose.inverse();
 							//apply the inverted target, then un-do the orientation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
+							
+							//incr=legs.get(i).inverseOffset(newPose).inverse();
 							//now calculate a a unit vector increment
 							double xinc=(feetLocations[i].getX()-incr.getX())/1;
 							double yinc=(feetLocations[i].getY()-incr.getY())/1;
 							//apply the increment to the feet
-							feetLocations[i].translateX(xinc);
-							feetLocations[i].translateY(yinc);
+							//feetLocations[i].translateX(xinc);
+							//feetLocations[i].translateY(yinc);
+							feetLocations[i].translateX(-newPose.getX());
+							feetLocations[i].translateY(-newPose.getX());
 							j++;
 							stepup = lastGood.copy();
 							stepup.setZ(stepOverHeight + zLock );
