@@ -165,7 +165,7 @@ return new ICadGenerator(){
 	}
 
 	ArrayList<CSG> generateBody(MobileBase base){
-		ArrayList<CSG> allCad=new ArrayList<>();
+
 		ArrayList<CSG> cutouts=new ArrayList<>();
 		ArrayList<CSG> attach=new ArrayList<>();
 		CSG attachUnion=null;
@@ -189,22 +189,35 @@ return new ICadGenerator(){
 		CSG upperBody = attachUnion.hull()
 		
 		
-						
+		CSG dyioBottomPlate =dyioReference
+						.rotx(180)
+						.movez(dyioReference.getMaxZ())
+						.movez(upperBody.getMinZ())	
+	
 		CSG myDyIO=dyioReference
-				.movez(upperBody.getMaxZ()+22.0)
-				.movex(	upperBody.getMaxX()-
-						Math.abs(upperBody.getMinX())+
-						dyioReference.getMaxX()-
-						dyioReference.getMinX())
-				.movey(	upperBody.getMaxY()-
-						Math.abs(upperBody.getMinY())+
-						dyioReference.getMaxY()-
-						Math.abs(dyioReference.getMinY()))
+				.movez(upperBody.getMaxZ()+22.0)				
+				
 		upperBody=upperBody
-		.union(myDyIO)
-		.hull()
-		.difference(myDyIO)
-		
+		.union(myDyIO.union(dyioBottomPlate)
+					.movex(	upperBody.getMaxX()-
+						Math.abs(upperBody.getMinX()))
+					.movey(	upperBody.getMaxY()-
+						Math.abs(upperBody.getMinY()))
+						
+		).hull()
+		.difference(myDyIO.movex(	upperBody.getMaxX()-
+						Math.abs(upperBody.getMinX()))
+					.movey(	upperBody.getMaxY()-
+						Math.abs(upperBody.getMinY())))
+		CSG batteryBox = new Cube(71,66,23)
+					.toCSG()
+					.movex(	upperBody.getMaxX()-
+						Math.abs(upperBody.getMinX()))
+					.movey(	upperBody.getMaxY()-
+						Math.abs(upperBody.getMinY()))
+						
+					.movez(upperBody.getMaxZ())	
+		cutouts.add(batteryBox)				
 		upperBody= upperBody.difference(cutouts);
 		
 		upperBody= upperBody.union(attach);
@@ -218,10 +231,10 @@ return new ICadGenerator(){
 						return arg0.toZMin();
 					}
 				});
-		allCad.add(upperBody)
 		
 		
-		return allCad;
+		
+		return [upperBody];
 	}
 
 	
