@@ -14,7 +14,7 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 import com.neuronrobotics.sdk.common.Log;
 if(args==null){
 	double stepOverHeight=5;
-	long stepOverTime=200;
+	long stepOverTime=80;
 	Double zLock=-70;
 	Closure calcHome = { DHParameterKinematics leg -> 
 			TransformNR h=leg.calcHome() 
@@ -134,22 +134,22 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				// Load in the locations of the tips of each of the feet.
 				for(int i=0;i<numlegs;i++){
 					//get the orientation of the base and invert it
-					TransformNR inverseRot =legs.get(i).inverseOffset(
-						new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
-					)//TransformNR inverseRot =new TransformNR()
+					TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
+					//TransformNR inverseRot =new TransformNR()
 														
 					//transform the feet by the inverse orientation
 					TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
 					//invert the target pose
-					TransformNR rotPoseinv = newPose.inverse();
+					//TransformNR rotPoseinv = newPose.inverse();
 					//apply the inverted target
-					TransformNR newTar = rotPoseinv.times(rotPose);
+					//TransformNR newTar = rotPoseinv.times(rotPose);
+					TransformNR newTar=rotPose
+					rotPose.translateX(-newPose.getX());
+					rotPose.translateY(-newPose.getY());
+					
 					//un-do the orientation inversion to get final location
 					TransformNR incr =inverseRot.inverse().times(newTar);
-					TransformNR current=legs.get(i).getCurrentPoseTarget()
-					current.translateX(newPose.getX());
-					current.translateY(newPose.getY());
-					feetLocations[i]=current
+					feetLocations[i]=incr
 					
 					if(zLock==null){
 						//sets a standard plane at the z location of the first leg.
@@ -210,25 +210,37 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							feetLocations[i].setZ(zLock );
 							stepUnit=lastGood;
 							lastGood=feetLocations[i].copy();
-							
 							//get the orientation of the base and invert it
 							TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
+							/*
+							
 							//transform the feet by the inverse orientation
 							TransformNR rotPose=inverseRot.times(feetLocations[i]);
 							//invert the target pose
 							TransformNR rotPoseinv = newPose.inverse();
 							//apply the inverted target, then un-do the orientation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
+							*/
+							//transform the feet by the inverse orientation
+							TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
+							//invert the target pose
+							//TransformNR rotPoseinv = newPose.inverse();
+							//apply the inverted target
+							//TransformNR newTar = rotPoseinv.times(rotPose);
+							TransformNR newTar=rotPose
+							rotPose.translateX(newPose.getX());
+							rotPose.translateY(newPose.getY());
 							
 							//incr=legs.get(i).inverseOffset(newPose).inverse();
+							TransformNR incr =inverseRot.inverse().times(newTar);
 							//now calculate a a unit vector increment
 							double xinc=(feetLocations[i].getX()-incr.getX())/1;
 							double yinc=(feetLocations[i].getY()-incr.getY())/1;
 							//apply the increment to the feet
-							//feetLocations[i].translateX(xinc);
-							//feetLocations[i].translateY(yinc);
-							feetLocations[i].translateX(-newPose.getX());
-							feetLocations[i].translateY(-newPose.getX());
+							feetLocations[i].translateX(xinc);
+							feetLocations[i].translateY(yinc);
+							//feetLocations[i].translateX(-newPose.getX());
+							//feetLocations[i].translateY(-newPose.getX());
 							j++;
 							stepup = lastGood.copy();
 							stepup.setZ(stepOverHeight + zLock );
