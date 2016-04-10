@@ -215,7 +215,7 @@ return new ICadGenerator(){
 						Math.abs(upperBody.getMinX()))
 					.movey(	upperBody.getMaxY()-
 						Math.abs(upperBody.getMinY()))
-						
+					.toZMax()
 					.movez(upperBody.getMaxZ())	
 		cutouts.add(batteryBox)				
 		upperBody= upperBody.difference(cutouts);
