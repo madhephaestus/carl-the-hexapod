@@ -1,5 +1,6 @@
 import eu.mihosoft.vrl.v3d.Extrude;
 
+import eu.mihosoft.vrl.v3d.parametrics.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -54,12 +55,13 @@ return new ICadGenerator(){
 		null))
 	private double attachmentRodWidth=10;
 	private double attachmentBaseWidth=15;
-	private double printerTollerence =0.5;
+	//private double printerTollerence =0.5;
 	private double mountScrewKeepawaySize= 7.5;
 	private double mountScrewHoleKeepawaySize= 4.1;
 	private double mountScrewSeperationDistance=attachmentRodWidth/2+mountScrewHoleKeepawaySize/2+0.5;
 	double cylandarRadius = 13.5;
 	private double bearingPinRadius=3;
+	LengthParameter printerOffset = new LengthParameter("printerOffset",0.5,[2,0.001])
 	
 	private CSG toZMin(CSG incoming,CSG target){
 		return incoming.transformed(new Transform().translateZ(-target.getBounds().getMin().z));
@@ -272,7 +274,7 @@ return new ICadGenerator(){
 			.transformed(new Transform().rotZ(-90))// allign to the horn
 			
 			;
-			servo= servo.makeKeepaway(printerTollerence)
+			servo= servo.makeKeepaway(printerOffset.getMM())
 			double totalServoExtention =  Math.abs(servo.getMinY())
 			
 			boolean addNub=false;
@@ -393,9 +395,9 @@ return new ICadGenerator(){
 			projection.setManipulator(dh.getListener());
 			//csg.add(projection);// view the clip
 			if(linkIndex== dhLinks.size()-1)
-				upperLink= upperLink.difference(foot.makeKeepaway(printerTollerence*2));
+				upperLink= upperLink.difference(foot.makeKeepaway(printerOffset.getMM()*2));
 			else
-				upperLink= upperLink.difference(getAttachment(null).makeKeepaway(printerTollerence*2));
+				upperLink= upperLink.difference(getAttachment(null).makeKeepaway(printerOffset.getMM()*2));
 			
 			double LowerLinkThickness = attachmentRodWidth/2-2
 			CSG lowerLink = new Cylinder(
@@ -412,7 +414,7 @@ return new ICadGenerator(){
 				 .toCSG()
 				 .toZMin()
 				 .movez(-attachmentRodWidth/2)
-			CSG pinBlank = new Cylinder( bearingPinRadius-printerTollerence,
+			CSG pinBlank = new Cylinder( bearingPinRadius-printerOffset.getMM(),
 										 LowerLinkThickness,
 										 (int)20)
 							.toCSG()
@@ -456,9 +458,9 @@ return new ICadGenerator(){
 			//remove the next links connector and the upper link for mating surface
 			lowerLink= lowerLink.difference(upperLink,servo);
 			if(linkIndex== dhLinks.size()-1)
-				lowerLink= lowerLink.difference(foot.makeKeepaway(printerTollerence*2));
+				lowerLink= lowerLink.difference(foot.makeKeepaway(printerOffset.getMM()*2));
 			else
-				lowerLink= lowerLink.difference(getAttachment(null).makeKeepaway(printerTollerence*2));
+				lowerLink= lowerLink.difference(getAttachment(null).makeKeepaway(printerOffset.getMM()*2));
 			
 			
 			

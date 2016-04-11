@@ -140,12 +140,9 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					//transform the feet by the inverse orientation
 					TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
 					//invert the target pose
-					//TransformNR rotPoseinv = newPose.inverse();
+					TransformNR rotPoseinv = newPose.inverse();
 					//apply the inverted target
-					//TransformNR newTar = rotPoseinv.times(rotPose);
-					TransformNR newTar=rotPose
-					rotPose.translateX(-newPose.getX());
-					rotPose.translateY(-newPose.getY());
+					TransformNR newTar = rotPoseinv.times(rotPose);
 					
 					//un-do the orientation inversion to get final location
 					TransformNR incr =inverseRot.inverse().times(newTar);
@@ -212,7 +209,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							lastGood=feetLocations[i].copy();
 							//get the orientation of the base and invert it
 							TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
-							/*
+							
 							
 							//transform the feet by the inverse orientation
 							TransformNR rotPose=inverseRot.times(feetLocations[i]);
@@ -220,19 +217,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							TransformNR rotPoseinv = newPose.inverse();
 							//apply the inverted target, then un-do the orientation inversion to get final location
 							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
-							*/
-							//transform the feet by the inverse orientation
-							TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
-							//invert the target pose
-							//TransformNR rotPoseinv = newPose.inverse();
-							//apply the inverted target
-							//TransformNR newTar = rotPoseinv.times(rotPose);
-							TransformNR newTar=rotPose
-							rotPose.translateX(newPose.getX());
-							rotPose.translateY(newPose.getY());
-							
-							//incr=legs.get(i).inverseOffset(newPose).inverse();
-							TransformNR incr =inverseRot.inverse().times(newTar);
 							//now calculate a a unit vector increment
 							double xinc=(feetLocations[i].getX()-incr.getX())/1;
 							double yinc=(feetLocations[i].getY()-incr.getY())/1;
