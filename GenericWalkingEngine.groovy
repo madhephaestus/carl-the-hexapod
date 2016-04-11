@@ -249,6 +249,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						//step back one unit vector to get to acheivable location
 						feetLocations[i]=stepUnit;
 						stepup = stepUnit.copy();
+						lastGood= stepUnit.copy();
+						lastGood.setZ(zLock );
 						stepup.setZ(stepOverHeight + zLock );
 						
 						//println i+" new step y:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
