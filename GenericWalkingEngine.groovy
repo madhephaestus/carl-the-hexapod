@@ -59,7 +59,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 		if(stepResetter==null){
 			stepResetter = new Thread(){
 				public void run(){
-					println "Starting step reset thread"
+					//println "Starting step reset thread"
 					int numlegs = source.getLegs().size();
 					ArrayList<DHParameterKinematics> legs = source.getLegs();
 					while(source.isAvailable()){
@@ -132,19 +132,17 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					}
 				}
 
-				println "Loading feet target locations for "+legs.size()
+				//println "Loading feet target locations for "+legs.size()
 				// Load in the locations of the tips of each of the feet.
 				for(int i=0;i<legs.size();i++){
-					println "Loading Leg "+legs.get(i).getScriptingName()
+					//println "Loading Leg "+legs.get(i).getScriptingName()
 					TransformNR global= source.getFiducialToGlobalTransform();
 					if(global==null){
 						global=new TransformNR()
 						source.setGlobalToFiducialTransform(global)
 					}
 					TransformNR footStarting = legs.get(i).getCurrentTaskSpaceTransform();
-					if(i==0){
-						println "Starting :"+footStarting
-					}
+
 					if(global==null)
 						global=new TransformNR()
 					double[] joints = legs.get(i).getCurrentJointSpaceVector()	
@@ -160,14 +158,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					if(zLock==null){
 						//sets a standard plane at the z location of the first leg.
 						zLock=feetLocations[i].getZ();
-						println "ZLock level set to "+zLock
+						//println "ZLock level set to "+zLock
 					}
 					home[i] =calcHome(legs.get(i))
 					feetLocations[i].setZ(home[i].getZ());
-					if(i==0){
-						println "Starting :"+footStarting
-						println "Foot Target: "+feetLocations[i]
-					}
+
 
 				}
 
