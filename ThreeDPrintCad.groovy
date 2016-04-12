@@ -411,7 +411,7 @@ return new ICadGenerator(){
 				 .toCSG()
 				 .toZMin()
 				 .movez(-attachmentRodWidth/2)
-			CSG pinBlank = new Cylinder( bearingPinRadius-printerOffset.getMM(),
+			CSG pinBlank = new Cylinder( bearingPinRadius-(printerOffset.getMM()/2),
 										 LowerLinkThickness,
 										 (int)20)
 							.toCSG()
