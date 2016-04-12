@@ -12,6 +12,8 @@ import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
 import com.neuronrobotics.sdk.util.ThreadUtil;
 import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 import com.neuronrobotics.sdk.common.Log;
+import Jama.Matrix;
+
 if(args==null){
 	double stepOverHeight=5;
 	long stepOverTime=80;
@@ -45,7 +47,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	RotationNR rot;
 	int resettingindex=0;
 	private long reset = System.currentTimeMillis();
-	MobileBase source;
 	
 	Thread stepResetter=null;
 	
@@ -130,23 +131,31 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						//println "Home for link "+i+" is "+home[i]
 					}
 				}
-				
+
+				println "Loading feet target locations for "+legs.size()
 				// Load in the locations of the tips of each of the feet.
-				for(int i=0;i<numlegs;i++){
-					//get the orientation of the base and invert it
-					TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
-					//TransformNR inverseRot =new TransformNR()
-														
-					//transform the feet by the inverse orientation
-					TransformNR rotPose=inverseRot.times(legs.get(i).getCurrentPoseTarget());
-					//invert the target pose
-					TransformNR rotPoseinv = newPose.inverse();
-					//apply the inverted target
-					TransformNR newTar = rotPoseinv.times(rotPose);
-					
-					//un-do the orientation inversion to get final location
-					TransformNR incr =inverseRot.inverse().times(newTar);
-					feetLocations[i]=incr
+				for(int i=0;i<legs.size();i++){
+					println "Loading Leg "+legs.get(i).getScriptingName()
+					TransformNR global= source.getFiducialToGlobalTransform();
+					if(global==null){
+						global=new TransformNR()
+						source.setGlobalToFiducialTransform(global)
+					}
+					TransformNR footStarting = legs.get(i).getCurrentTaskSpaceTransform();
+					if(i==0){
+						println "Starting :"+footStarting
+					}
+					if(global==null)
+						global=new TransformNR()
+					double[] joints = legs.get(i).getCurrentJointSpaceVector()	
+					TransformNR armOffset = legs.get(i).forwardKinematics(joints)	
+					global=global.times(newPose);// new global pose
+					Matrix btt =  legs.get(i).getRobotToFiducialTransform().getMatrixTransform();
+					Matrix ftb = global.getMatrixTransform();// our new target
+					Matrix current = armOffset.getMatrixTransform();
+					Matrix mForward = ftb.times(btt).times(current);
+					TransformNR inc =new TransformNR( mForward);
+					feetLocations[i]=inc
 					
 					if(zLock==null){
 						//sets a standard plane at the z location of the first leg.
@@ -155,22 +164,12 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					}
 					home[i] =calcHome(legs.get(i))
 					feetLocations[i].setZ(home[i].getZ());
+					if(i==0){
+						println "Starting :"+footStarting
+						println "Foot Target: "+feetLocations[i]
+					}
 
 				}
-				//zLock =zLock+newPose.getZ();
-				previousGLobalState = source.getFiducialToGlobalTransform().copy();
-				//newPose.setY(0);
-				target= newPose.copy();
-				//Apply transform to each dimention of current pose
-				
-				double el = newPose.getRotation().getRotationElevation() ;
-				double ti = newPose.getRotation().getRotationTilt() ;
-				TransformNR global= source.getFiducialToGlobalTransform().times(newPose);
-				// New target calculated appliaed to global offset
-				
-				//
-				//Set it back to where it was to use the interpolator for global move at the end
-
 
 				for(int i=0;i<numlegs;i++){
 					double footx,footy;
@@ -189,6 +188,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						}
 						//println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						feetLocations[i].setZ(zLock);
+						//Force the search for a new foothold to start at the home point
 						feetLocations[i].setX(home[i].getX());
 						feetLocations[i].setY(home[i].getY());
 						int j=0;
@@ -207,16 +207,17 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							feetLocations[i].setZ(zLock );
 							stepUnit=lastGood;
 							lastGood=feetLocations[i].copy();
-							//get the orientation of the base and invert it
-							TransformNR inverseRot =new TransformNR(0,0,0,source.getFiducialToGlobalTransform().getRotation()).inverse()
-							
-							
-							//transform the feet by the inverse orientation
-							TransformNR rotPose=inverseRot.times(feetLocations[i]);
-							//invert the target pose
-							TransformNR rotPoseinv = newPose.inverse();
-							//apply the inverted target, then un-do the orientation inversion to get final location
-							TransformNR incr =inverseRot.inverse().times(rotPoseinv.times(rotPose));
+							TransformNR g= source.getFiducialToGlobalTransform();
+							if(g==null)
+								g=new TransformNR()
+							g=g.times(newPose);// new global pose
+							double[] joints = legs.get(i).inverseKinematics(legs.get(i).inverseOffset(feetLocations[i]))	
+							TransformNR armOffset = legs.get(i).forwardKinematics(joints)
+							Matrix btt = legs.get(i).getRobotToFiducialTransform().getMatrixTransform();
+							Matrix ftb = g.getMatrixTransform();// our new target
+							Matrix current = armOffset.getMatrixTransform();
+							Matrix mForward = ftb.times(btt).times(current);
+							TransformNR incr =new TransformNR( mForward);
 							//now calculate a a unit vector increment
 							double xinc=(feetLocations[i].getX()-incr.getX())/1;
 							double yinc=(feetLocations[i].getY()-incr.getY())/1;
@@ -297,12 +298,13 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				// }
 				
 		}catch (Exception ex){
-			ex.printStackTrace();
-			println "This step is not possible, undoing "
+			ex.printStackTrace(System.out);
+			println "This step is not possible, undoing "+newPose
+			
 			// New target calculated appliaed to global offset
 			source.setGlobalToFiducialTransform(previousGLobalState);
 			//Set it back to where it was to use the interpolator for global move at the end
-			return;
+			throw ex
 			
 		}
 		
