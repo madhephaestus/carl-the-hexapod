@@ -261,14 +261,13 @@ return new ICadGenerator(){
 		)
 		servoKeepaway = servoKeepaway
 			.movex(-Math.abs(servoReference.getBounds().getMin().x))
-			.movez(-5)
 			
 			dh = dhLinks.get(linkIndex);
 			CSG nextAttachment=getAttachment(conf);
 			
 			
 			CSG servo=servoReference
-			.movez(-servoReference.getMaxZ()-6)
+			.movez(-servoReference.getMaxZ())
 			.union(servoKeepaway)
 			.transformed(new Transform().rotX(180))// allign to the horn
 			.transformed(new Transform().rotZ(-90))// allign to the horn
@@ -300,9 +299,7 @@ return new ICadGenerator(){
 				linkThickness=attachmentBaseWidth/2
 			linkThickness +=3;
 			
-			servo = servo
-					.movez(-3.30)
-					
+
 			servo= moveDHValues(servo,dh);
 			
 			double yScrewOffset = 2.5
