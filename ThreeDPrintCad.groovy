@@ -267,8 +267,9 @@ return new ICadGenerator(){
 			
 			
 			CSG servo=servoReference
-			.movez(-servoReference.getMaxZ())
+			.movez(-servoReference.getMaxZ() )
 			.union(servoKeepaway)
+			.movez(attachmentRodWidth/4)
 			.transformed(new Transform().rotX(180))// allign to the horn
 			.transformed(new Transform().rotZ(-90))// allign to the horn
 			
@@ -305,7 +306,7 @@ return new ICadGenerator(){
 			double yScrewOffset = 2.5
 			double ServoKeepawayRad = Math.sqrt((servoReference.getMinX()*servoReference.getMinX())+
 								(servoReference.getMaxY()*servoReference.getMaxY()))	+1
-			CSG upperLink = toZMin(new Cylinder(ServoKeepawayRad,linkThickness,(int)20).toCSG())
+			CSG upperLink = toZMin(new Cylinder(ServoKeepawayRad,linkThickness,(int)8).toCSG())
 			/*
 			if(addNub){
 				totalServoExtention
@@ -325,7 +326,7 @@ return new ICadGenerator(){
 			CSG mountHoleAttachment = new Cylinder(mountCylindarRad, // Radius at the top
 			  				mountCylindarRad, // Radius at the bottom
 			  				linkThickness, // Height
-			  			         (int)10 //resolution
+			  			         (int)8//resolution
 			  			         ).toCSG()
 			  			         .toZMin()
 											
@@ -348,11 +349,12 @@ return new ICadGenerator(){
 										.movey(screwsCloseY)
 						)
 			}
+			double magicNumOffset = 5;
 			// adding the radius rod
 			CSG rod = toYMin(
 								toZMin(
 									new Cube( 
-										attachmentBaseWidth+3,
+										attachmentBaseWidth+magicNumOffset,
 										rOffsetForNextLink,
 										upperLink.getBounds().getMax().z
 										).toCSG()
@@ -363,7 +365,7 @@ return new ICadGenerator(){
 					new Cube(
 						attachmentBaseWidth+12,
 						9+12,
-						attachmentBaseWidth+3
+						attachmentBaseWidth+magicNumOffset
 						).toCSG()
 					)
 				)
@@ -371,7 +373,7 @@ return new ICadGenerator(){
 				.movey(rOffsetForNextLink+8)// allign to the NEXT ATTACHMENT
 				.movez(linkThickness)// allign to the NEXT ATTACHMENT
 			
-			double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-3)
+			double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-magicNumOffset)
 			//Build the upper link
 			upperLink=upperLink.union(mountHoleAttachmentGroup,rod)
 			.hull()//smooth out the shape
