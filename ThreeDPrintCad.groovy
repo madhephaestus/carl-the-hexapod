@@ -401,14 +401,14 @@ return new ICadGenerator(){
 			double LowerLinkThickness = attachmentRodWidth/2-2
 			CSG lowerLink = new Cylinder(
 				ServoKeepawayRad,
-				 LowerLinkThickness +linkThickness+6,
+				 LowerLinkThickness +linkThickness+(magicNumOffset*2),
 				 (int)8)
 				 .toCSG()
 				 .toZMin()
 				 .movez(-LowerLinkThickness)
 			CSG linkSweepCutout= new Cylinder(
 				ServoKeepawayRad+1,
-				 LowerLinkThickness +linkThickness+6,
+				 LowerLinkThickness +linkThickness+(magicNumOffset*2),
 				 (int)8)
 				 .toCSG()
 				 .toZMin()
@@ -428,13 +428,13 @@ return new ICadGenerator(){
 			CSG lowerClip =
 					
 					new Cube(
-						attachmentBaseWidth+3,
+						attachmentBaseWidth+(magicNumOffset*1),
 						rOffsetForNextLink-2,
-						LowerLinkThickness +linkThickness+6
+						LowerLinkThickness +linkThickness+(magicNumOffset*2)
 						).toCSG().toZMin().toYMin()
 				
 				
-				.transformed(new Transform().translateY(9))// allign to the NEXT ATTACHMENT
+				.transformed(new Transform().translateY(8))// allign to the NEXT ATTACHMENT
 				
 				.transformed(new Transform().translateZ(-attachmentRodWidth/2 -LowerLinkThickness ))
 			
