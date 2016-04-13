@@ -495,7 +495,7 @@ return new ICadGenerator(){
 			nextAttachment.setManipulator(dh.getListener());
 			nextAttachment.setColor(Color.CHOCOLATE);
 			servo.setManipulator(dh.getListener());
-			upperLink.setColor(Color.GREEN);
+			upperLink.setColor(Color.BLUE);
 			upperLink.setManipulator(dh.getListener());
 			
 			
