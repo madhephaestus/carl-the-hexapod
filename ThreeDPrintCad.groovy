@@ -279,7 +279,7 @@ return new ICadGenerator(){
 			
 			boolean addNub=false;
 			
-			println "Servo Keepaway Radius = "+cylandarRadius
+			//println "Servo Keepaway Radius = "+cylandarRadius
 			
 			double rOffsetForNextLinkStart=dh.getR()+mountScrewKeepawaySize+0.75;
 			double rOffsetForNextLink=rOffsetForNextLinkStart;
