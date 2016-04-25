@@ -297,8 +297,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 			ex.printStackTrace(System.out);
 			println "This step is not possible, undoing "+newPose
 			
-			// New target calculated appliaed to global offset
-			source.setGlobalToFiducialTransform(previousGLobalState);
 			//Set it back to where it was to use the interpolator for global move at the end
 			throw ex
 			
