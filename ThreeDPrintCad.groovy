@@ -248,6 +248,9 @@ return new ICadGenerator(){
 		ArrayList<CSG> csg = new ArrayList<CSG>();
 		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
 		
+		HashMap<String, Object> shaftmap = Vitamins.getConfiguration(conf.getShaftType(),conf.getShaftSize())
+		double hornOffset = 	shaftmap.get("hornThickness")	
+		
 		CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
 		.transformed(new Transform().rotZ(-90))
 		
@@ -269,7 +272,7 @@ return new ICadGenerator(){
 			CSG servo=servoReference
 			.movez(-servoReference.getMaxZ() )
 			.union(servoKeepaway)
-			.movez(attachmentRodWidth/4)
+			.movez(attachmentRodWidth/4-hornOffset/2)
 			.transformed(new Transform().rotX(180))// allign to the horn
 			.transformed(new Transform().rotZ(-90))// allign to the horn
 			
@@ -503,6 +506,8 @@ return new ICadGenerator(){
 			lowerLink.setManipulator(dh.getListener());
 			
 			//csg.add(servo);// view the servo
+			//BowlerStudioController.addCsg(servo);
+			
 			upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
 						
 			upperScrews.setManipulator(dh.getListener());
@@ -515,9 +520,9 @@ return new ICadGenerator(){
 			}
 			
 			csg.add(upperLink);//This is the root that attaches to the base
+			BowlerStudioController.addCsg(upperLink);
 			
 			csg.add(lowerLink);//White link forming the lower link
-			BowlerStudioController.addCsg(upperLink);
 			BowlerStudioController.addCsg(lowerLink);
 				
 			if(linkIndex==	dhLinks.size()-1){
