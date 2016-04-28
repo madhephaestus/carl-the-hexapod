@@ -284,7 +284,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				
 				//all legs have a valid target set, perform coordinated motion
 				for(int i=0;i<numlegs;i++){
-					legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds);
+					legs.get(i).setDesiredTaskSpaceTransform(feetLocations[i], seconds*1.5);
 		
 				}
 				if(!usePhysics)
