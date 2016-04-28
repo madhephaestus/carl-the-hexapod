@@ -244,10 +244,9 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								resettingindex=i;
 								try {
 									// lift leg above home
-									//println "lift leg "+resettingindex
-									stepup = home[i].copy()
-									up.setZ(stepOverHeight + zLock )
-									leg.setDesiredTaskSpaceTransform(stepup, 0);
+									stepup = calcHome(leg)
+									stepup.setZ(stepOverHeight + zLock )
+									leg.setDesiredTaskSpaceTransform(stepup, stepOverTime/1000.0);
 								} catch (Exception e) {
 									//println "Failed to reach "+stepup
 									e.printStackTrace();
@@ -256,7 +255,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								try {
 									//step to new target
 									//println "step leg "+resettingindex
-									leg.setDesiredTaskSpaceTransform(lastGood, 0);
+									leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/1000.0);
 									//set new target for the coordinated motion step at the end
 								} catch (Exception e) {
 									//println "Failed to reach "+lastGood
