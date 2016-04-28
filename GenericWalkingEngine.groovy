@@ -89,7 +89,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									//println "Failed to reach "+up
 									e.printStackTrace();
 								}
-									ThreadUtil.wait((int)stepOverTime);
+								ThreadUtil.wait((int)stepOverTime);
 								try {
 									//step to new target
 									//println "step leg "+i
@@ -100,6 +100,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									//println "Failed to reach "+down
 									e.printStackTrace();
 								}
+								ThreadUtil.wait((int)stepOverTime);
 							}
 							resettingindex=numlegs;
 							resetting=false;
@@ -244,6 +245,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								try {
 									// lift leg above home
 									//println "lift leg "+resettingindex
+									stepup = home[i].copy()
+									up.setZ(stepOverHeight + zLock )
 									leg.setDesiredTaskSpaceTransform(stepup, 0);
 								} catch (Exception e) {
 									//println "Failed to reach "+stepup
