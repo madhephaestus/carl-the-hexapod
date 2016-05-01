@@ -1,7 +1,5 @@
 <root>
 <mobilebase>
-
-<driveType>walking</driveType>
 	<cadEngine>
 		<git>https://gist.github.com/bcb4760a449190206170.git</git>
 		<file>ThreeDPrintCad.groovy</file>
@@ -38,6 +36,10 @@
 	<indexLatch>105</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -70,6 +72,10 @@
 	<indexLatch>97</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -102,6 +108,10 @@
 	<indexLatch>145</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -131,13 +141,13 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>-55.0</x>
-	<y>-50.0</y>
-	<z>1.9984014443252818E-15</z>
-	<rotw>0.3826834323650933</rotw>
-	<rotx>2.3820429953758186E-17</rotx>
-	<roty>1.813220358410302E-16</roty>
-	<rotz>-0.9238795325112843</rotz>
+	<x>-55.000000000000014</x>
+	<y>-49.999999999999986</y>
+	<z>70.0</z>
+	<rotw>0.38268343236509234</rotw>
+	<rotx>-1.2443977214448087E-17</rotx>
+	<roty>2.1758644300923683E-16</roty>
+	<rotz>-0.9238795325112857</rotz>
 </baseToZframe>
 
 </leg>
@@ -167,6 +177,10 @@
 	<indexLatch>171</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -199,6 +213,10 @@
 	<indexLatch>148</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -231,6 +249,10 @@
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -260,13 +282,13 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>0.0</x>
-	<y>-60.0</y>
-	<z>4.440892098500626E-15</z>
-	<rotw>0.7372773350054747</rotw>
-	<rotx>1.9333260774502692E-5</rotx>
-	<roty>-2.3744128324749153E-4</roty>
-	<rotz>-0.6755901675831932</rotz>
+	<x>-1.5543122344752195E-14</x>
+	<y>-59.999999999999986</y>
+	<z>70.00000000000001</z>
+	<rotw>0.7372773350054744</rotw>
+	<rotx>1.9333260774629754E-5</rotx>
+	<roty>-2.374412832471669E-4</roty>
+	<rotz>-0.6755901675831936</rotz>
 </baseToZframe>
 
 </leg>
@@ -296,6 +318,10 @@
 	<indexLatch>124</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -328,6 +354,10 @@
 	<indexLatch>91</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -360,6 +390,10 @@
 	<indexLatch>139</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -389,9 +423,9 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>55.0</x>
-	<y>-50.0</y>
-	<z>8.215650382226158E-15</z>
+	<x>54.999999999999986</x>
+	<y>-49.999999999999986</y>
+	<z>70.00000000000003</z>
 	<rotw>0.9762960071199334</rotw>
 	<rotx>-2.5493781137848553E-16</rotx>
 	<roty>-4.713185234563371E-17</roty>
@@ -425,6 +459,10 @@
 	<indexLatch>133</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -457,6 +495,10 @@
 	<indexLatch>137</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -489,6 +531,10 @@
 	<indexLatch>131</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -518,13 +564,13 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>55.0</x>
-	<y>50.0</y>
-	<z>-2.4424906541753444E-15</z>
-	<rotw>0.9762960071199334</rotw>
-	<rotx>-1.1820552112337377E-16</rotx>
-	<roty>-4.17168050452654E-17</roty>
-	<rotz>0.21643961393810285</rotz>
+	<x>54.999999999999986</x>
+	<y>50.000000000000014</y>
+	<z>70.0</z>
+	<rotw>0.9762960071199335</rotw>
+	<rotx>-6.134658610118171E-17</rotx>
+	<roty>-7.014627255636142E-17</roty>
+	<rotz>0.2164396139381027</rotz>
 </baseToZframe>
 
 </leg>
@@ -554,6 +600,10 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -586,6 +636,10 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -618,6 +672,10 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -647,12 +705,12 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>0.0</x>
-	<y>60.0</y>
-	<z>-4.440892098500626E-15</z>
+	<x>-1.5543122344752188E-14</x>
+	<y>60.000000000000014</y>
+	<z>69.99999999999999</z>
 	<rotw>0.7372773368101241</rotw>
-	<rotx>8.313372743244326E-17</rotx>
-	<roty>6.84434423870078E-17</roty>
+	<rotx>-4.1568795806038953E-17</rotx>
+	<roty>-4.2141814069759455E-17</roty>
 	<rotz>0.6755902076156602</rotz>
 </baseToZframe>
 
@@ -683,6 +741,10 @@
 	<indexLatch>135</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -715,6 +777,10 @@
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -747,6 +813,10 @@
 	<indexLatch>141</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
+	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalType>hobbyServo</electroMechanicalType>
+	<shaftSize>standardMicro1</shaftSize>
+	<shaftType>hobbyServoHorn</shaftType>
 	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
@@ -776,13 +846,13 @@
 </ZframeToRAS>
 
 <baseToZframe>
-	<x>-55.0</x>
-	<y>50.0</y>
-	<z>-7.771561172376096E-15</z>
-	<rotw>0.38268343236507907</rotw>
-	<rotx>-1.813220358410335E-16</rotx>
-	<roty>-2.3003042022369397E-16</roty>
-	<rotz>0.9238795325112925</rotz>
+	<x>-55.000000000000014</x>
+	<y>50.000000000000014</y>
+	<z>69.99999999999997</z>
+	<rotw>0.38268343236507774</rotw>
+	<rotx>-7.252881433641008E-17</rotx>
+	<roty>-1.5750160588727942E-16</roty>
+	<rotz>0.9238795325112916</rotz>
 </baseToZframe>
 
 </leg>
@@ -806,7 +876,7 @@
 	<roty>0.0</roty>
 	<rotz>0.0</rotz>
 </baseToZframe>
-	<mass>0.5</mass>
+	<mass>0.01</mass>
 	<centerOfMassFromCentroid>	<x>0.0</x>
 	<y>0.0</y>
 	<z>0.0</z>
