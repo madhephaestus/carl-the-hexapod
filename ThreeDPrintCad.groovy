@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.scene.paint.Color;
 import javax.vecmath.Matrix4d;
 import Jama.Matrix;
@@ -38,7 +39,7 @@ import com.neuronrobotics.bowlerstudio.physics.*;
 
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
-
+	HashMap<String , HashMap<String,ArrayList<CSG>>> map =  new HashMap<>();
 	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
 		"fb4cf429372deeb36f52", 
 		"dyioCad.groovy" ,
@@ -241,12 +242,30 @@ return new ICadGenerator(){
 
 	
 	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb, int linkIndex){
-	
+		String legStr = sourceLimb.getXml()
+		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
+		String linkStr =conf.getXml()
+		ArrayList<CSG> csg = null;
+		HashMap<String,ArrayList<CSG>> legmap=null;
+		if(map.get(legStr)==null){
+			map.put(legStr, new HashMap<String,ArrayList<CSG>>())	
+			// now load the cad and return it. 
+		}
+		legmap=map.get(legStr)
+		if(legmap.get(linkStr) == null ){
+			legmap.put(linkStr,new ArrayList<CSG>())
+		}
+		csg = legmap.get(linkStr)
+		if(csg.size()>linkIndex){
+			// this link is cached
+			println "This link is cached"
+			return csg;
+		}
 		
 		//printBed=true;
 		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
-		ArrayList<CSG> csg = new ArrayList<CSG>();
-		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
+		
+		
 		
 		HashMap<String, Object> shaftmap = Vitamins.getConfiguration(conf.getShaftType(),conf.getShaftSize())
 		double hornOffset = 	shaftmap.get("hornThickness")	
