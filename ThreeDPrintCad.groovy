@@ -177,9 +177,11 @@ return new ICadGenerator(){
 			legStr+=l.getRobotToFiducialTransform(). getXml();
 		}
 		if(bodyMap.get(legStr)!=null){
+			println "Body cached"
+			
 			return bodyMap.get(legStr)
 		}
-		
+		println "Generating body"
 		CSG attachUnion=null;
 		for(DHParameterKinematics l:getLimbDHChains(base)){
 			TransformNR position = l.getRobotToFiducialTransform();
