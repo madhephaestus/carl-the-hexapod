@@ -178,7 +178,8 @@ return new ICadGenerator(){
 		}
 		if(bodyMap.get(legStr)!=null){
 			println "Body cached"
-			
+			for(CSG csg:bodyMap.get(legStr))
+				csg.setManipulator(base.getRootListener());
 			return bodyMap.get(legStr)
 		}
 		println "Generating body"
@@ -410,11 +411,10 @@ return new ICadGenerator(){
 			//Build the upper link
 			upperLink=upperLink.union(mountHoleAttachmentGroup,rod)
 			.hull()//smooth out the shape
-			CSG projection = upperLink
-							.scalez(10)
+			CSG projection = upperLink.scalez(10)
 							.intersect(clip)
 			
-			upperLink=upperLink	.union(projection.toZMax())// add the clip in
+			upperLink=upperLink.union(projection.toZMax())// add the clip in
 			
 			upperLink= upperLink.difference(upperScrews);
 			upperLink=upperLink.movez(upperLinkZOffset)
