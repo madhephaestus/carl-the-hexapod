@@ -40,6 +40,7 @@ import com.neuronrobotics.bowlerstudio.physics.*;
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
 	HashMap<String , HashMap<String,ArrayList<CSG>>> map =  new HashMap<>();
+	HashMap<String,ArrayList<CSG>> bodyMap =  new HashMap<>();
 	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
 		"fb4cf429372deeb36f52", 
 		"dyioCad.groovy" ,
@@ -171,6 +172,14 @@ return new ICadGenerator(){
 
 		ArrayList<CSG> cutouts=new ArrayList<>();
 		ArrayList<CSG> attach=new ArrayList<>();
+		String legStr =""
+		for(DHParameterKinematics l:getLimbDHChains(base)){
+			legStr+=l.getRobotToFiducialTransform(). getXml();
+		}
+		if(bodyMap.get(legStr)!=null){
+			return bodyMap.get(legStr)
+		}
+		
 		CSG attachUnion=null;
 		for(DHParameterKinematics l:getLimbDHChains(base)){
 			TransformNR position = l.getRobotToFiducialTransform();
@@ -235,9 +244,9 @@ return new ICadGenerator(){
 					}
 				});
 		
-		
-		
-		return [upperBody];
+		def bodyParts = [upperBody]as ArrayList<CSG>
+		bodyMap.put(legStr,bodyParts)
+		return bodyParts;
 	}
 
 	
