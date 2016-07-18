@@ -131,9 +131,9 @@ return new ICadGenerator(){
 	}
 	
 	private CSG getFoot(){
-		CSG attach = getAttachment();
+		CSG attach = getAttachment().toXMax();
 		CSG foot = new Sphere(attachmentRodWidth).toCSG();
-		return  toXMax(attach.union(foot));
+		return attach.union(foot);
 	}
 
 	private CSG reverseDHValues(CSG incoming,DHLink dh ){
@@ -320,7 +320,7 @@ return new ICadGenerator(){
 			
 			if(linkIndex==dhLinks.size()-1){
 					 rOffsetForNextLink = rOffsetForNextLink-
-					Math.abs(foot.toXMax().getBounds().getMin().x) 
+					Math.abs(foot.toXMax().getBounds().getMin().x) +attachmentRodWidth
 				
 			}else{
 				rOffsetForNextLink = rOffsetForNextLink-
