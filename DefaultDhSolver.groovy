@@ -103,7 +103,7 @@ return new DhInverseSolver() {
 			inv[2] = -(Math.toDegrees(C))+Math.toDegrees(links.get(2).getTheta());// offset for kinematics
 		}
 		if(links.size()>3)
-			inv[3] =(inv[1] -inv[2]);// keep it parallell
+			inv[3] =-(inv[1] + inv[2]);// keep it parallell
 			// We know the wrist twist will always be 0 for this model
 		if(links.size()>4)
 			inv[4] = inv[0];//keep the tool orentation paralell from the base
