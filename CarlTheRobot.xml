@@ -36,7 +36,7 @@
 	<indexLatch>105</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -72,7 +72,7 @@
 	<indexLatch>97</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -108,7 +108,7 @@
 	<indexLatch>145</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -177,7 +177,7 @@
 	<indexLatch>171</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -213,7 +213,7 @@
 	<indexLatch>148</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -249,7 +249,7 @@
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -318,7 +318,7 @@
 	<indexLatch>124</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -354,7 +354,7 @@
 	<indexLatch>91</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -390,7 +390,7 @@
 	<indexLatch>139</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -459,7 +459,7 @@
 	<indexLatch>133</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -495,7 +495,7 @@
 	<indexLatch>137</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -531,7 +531,7 @@
 	<indexLatch>131</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -600,7 +600,7 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -636,7 +636,7 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -672,7 +672,7 @@
 	<indexLatch>128</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -741,7 +741,7 @@
 	<indexLatch>135</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -777,7 +777,7 @@
 	<indexLatch>120</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
@@ -813,7 +813,7 @@
 	<indexLatch>141</indexLatch>
 	<isStopOnLatch>false</isStopOnLatch>
 	<homingTPS>10000000</homingTPS>
-	<electroMechanicalSize>standardMicro</electroMechanicalSize>
+	<electroMechanicalSize>towerProMG91</electroMechanicalSize>
 	<electroMechanicalType>hobbyServo</electroMechanicalType>
 	<shaftSize>standardMicro1</shaftSize>
 	<shaftType>hobbyServoHorn</shaftType>
