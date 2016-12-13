@@ -24,7 +24,7 @@ Closure calcHome = { DHParameterKinematics leg ->
 		TransformNR tr = leg.forwardOffset(new TransformNR())
 		tr.setZ(zLock)
 		
-		return h;
+		return tr;
 
 }
 boolean usePhysicsToMove = true;
