@@ -167,7 +167,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 
 
 				}
-
+				boolean resetDetect=false;
 				for(int i=0;i<numlegs;i++){
 					double footx,footy;
 					newFeetLocations[i]=legs.get(i).getCurrentPoseTarget();
@@ -266,6 +266,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								//System.out.println(" Reset "+resettingindex+" Done!\r\n")
 								resetting=false;
 								resettingindex=numlegs;
+								resetDetect=true;
 //							}
 //						}.start();
 						
@@ -273,7 +274,11 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					
 					resetStepTimer();
 				}
-				
+				if(resetDetect){
+					 DriveArc( source,  newPose,  seconds) 
+					 return;
+				}
+					
 				for(int i=0;i<numlegs;i++){
 					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
 						throw new RuntimeException(i + " leg foot locatrion is not acheivable "+newPose);
