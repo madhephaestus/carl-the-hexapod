@@ -53,9 +53,12 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	public void resetStepTimer(){
 		reset = System.currentTimeMillis();
 	}
-	
 	@Override
 	public void DriveArc(MobileBase source, TransformNR newPose, double seconds) {
+		DriveArcLocal( source,  newPose,  seconds,true);
+	}
+	
+	public void DriveArcLocal(MobileBase source, TransformNR newPose, double seconds, boolean retry) {
 		TransformNR incomingTarget=newPose.copy()
 		newPose = newPose.inverse()
 		if(stepResetter==null){
@@ -276,7 +279,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					resetStepTimer();
 				}
 				if(resetDetect){
-					 DriveArc( source,  incomingTarget,  seconds) 
+					 DriveArcLocal( source,  incomingTarget,  seconds,false) 
 					 return;
 				}
 					
