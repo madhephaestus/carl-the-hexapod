@@ -278,7 +278,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					
 					resetStepTimer();
 				}
-				if(resetDetect){
+				if(resetDetect && retry){
 					 DriveArcLocal( source,  incomingTarget,  seconds,false) 
 					 return;
 				}
