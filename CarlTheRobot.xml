@@ -1,11 +1,11 @@
 <root>
 <mobilebase>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<driveEngine>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>WalkingDriveEngine.groovy</file>
 	</driveEngine>
 
@@ -14,11 +14,11 @@
 
 <name>Carl_One</name>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -155,11 +155,11 @@
 
 <name>Carl_Two</name>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -296,11 +296,11 @@
 
 <name>Carl_Three</name>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -437,11 +437,11 @@
 
 <name>Carl_Four</name>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -578,11 +578,11 @@
 
 <name>Carl_Five</name>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
@@ -719,11 +719,11 @@
 
 <name>Carl_Six</name>
 	<cadEngine>
-		<git>https://gist.github.com/4ef911736d351f44aa1fa178d50c897c.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>LinkedCadEngine.groovy</file>
 	</cadEngine>
 	<kinematics>
-		<git>https://gist.github.com/bcb4760a449190206170.git</git>
+		<git>https://github.com/madhephaestus/carl-the-hexapod.git</git>
 		<file>DefaultDhSolver.groovy</file>
 	</kinematics>
 <link>
