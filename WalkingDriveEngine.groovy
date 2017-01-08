@@ -30,8 +30,10 @@ Closure calcHome = { DHParameterKinematics leg ->
 boolean usePhysicsToMove = true;
 
 
-return ScriptingEngine.inlineGistScriptRun("bcb4760a449190206170", 
-"GenericWalkingEngine.groovy" , 
-[stepOverHeight,stepOverTime,zLock,calcHome,usePhysicsToMove]
-);
-	
+return ScriptingEngine
+          .gitScriptRun(
+            "https://github.com/madhephaestus/carl-the-hexapod.git", // git location of the library
+            "GenericWalkingEngine.groovy" , // file to load
+            [stepOverHeight,stepOverTime,zLock,calcHome,usePhysicsToMove]
+         )
+                       
