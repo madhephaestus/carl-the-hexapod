@@ -5,7 +5,7 @@ import eu.mihosoft.vrl.v3d.parametrics.*;
 CSG makeAttach(){
 	double attachmentRodWidth=10;
 	double attachmentBaseWidth=15;
-	double rodLength =  26.5;
+	double rodLength =  36.5;
 	double pinMax = 3;
 	double pinMin =3;
 	LengthParameter printerOffset = new LengthParameter("printerOffset",0.4,[2,0.001])
@@ -18,8 +18,11 @@ CSG makeAttach(){
 	size.setStrValue(id);
 	CSG horn = Vitamins.get(type,size.getStrValue())
 	horn.setParameter(size)
+	
 	if(args != null){
 		horn=args.get(0);
+		attachmentRodWidth = horn.getMaxX()*2+2
+		attachmentBaseWidth = attachmentRodWidth+5
 	}
 	
 	
@@ -38,7 +41,7 @@ CSG makeAttach(){
 	attachmentbase=attachmentbase.difference(cutOffBottomOfAttachment)
 	
 	CSG post = new Cube(	attachmentRodWidth,
-						attachmentRodWidth,
+						10,
 						rodLength
 						+attachmentRodWidth/2)
 						.toCSG()
