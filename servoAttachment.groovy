@@ -11,7 +11,7 @@ CSG makeAttach(){
 	LengthParameter printerOffset = new LengthParameter("printerOffset",0.4,[2,0.001])
 	ScriptingEngine.setAutoupdate(true)
 	String type = "hobbyServoHorn"
-	String id = "standardMicro1"
+	String id = "hv6214mg_1"
 	StringParameter size = new StringParameter(	type+" Default",
 						id,
 						Vitamins.listVitaminSizes(type));
@@ -21,9 +21,10 @@ CSG makeAttach(){
 	
 	if(args != null){
 		horn=args.get(0);
-		attachmentRodWidth = horn.getMaxX()*2+2
-		attachmentBaseWidth = attachmentRodWidth+5
+		
 	}
+	attachmentRodWidth = horn.getMaxX()*2+2
+	attachmentBaseWidth = attachmentRodWidth+5
 	
 	
 	CSG attachmentbase = new RoundedCube(attachmentBaseWidth,attachmentBaseWidth,4)
@@ -32,12 +33,12 @@ CSG makeAttach(){
 						.toCSG()
 						.movex(-attachmentBaseWidth/2)
 						.movey(-(attachmentBaseWidth/2))
-	CSG cutOffBottomOfAttachment 	=new Cube(	(attachmentBaseWidth-attachmentRodWidth)/2,
-								attachmentBaseWidth,
-								10)
+	CSG cutOffBottomOfAttachment 	=new Cube(	attachmentBaseWidth,
+						10,
+						rodLength)
 								.toCSG()
-								.movex(-attachmentBaseWidth/2+(attachmentBaseWidth-attachmentRodWidth)/4)
-								.rotz(-90)
+						.toYMax()	
+						.movey(-5)
 	attachmentbase=attachmentbase.difference(cutOffBottomOfAttachment)
 	
 	CSG post = new Cube(	attachmentRodWidth,
