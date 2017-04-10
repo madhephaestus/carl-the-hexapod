@@ -124,10 +124,10 @@ return new ICadGenerator(){
 		if(conf !=null){
 			h  =Vitamins.get(conf.getShaftType(),conf.getShaftSize())		
 		}
-		return (CSG)(ScriptingEngine.inlineGistScriptRun(
-		"ce4e7c95d516e265b91e",
+		return (CSG)(ScriptingEngine.gitScriptRun(
+		"https://github.com/madhephaestus/carl-the-hexapod.git",
 		"servoAttachment.groovy" ,
-		[h]))
+		[h,conf]))
 	}
 	
 	private CSG getFoot(){
