@@ -101,14 +101,14 @@ return new ICadGenerator(){
 	private CSG toYMax(CSG incoming){
 		return toYMax(incoming,incoming);
 	}
-	private CSG getAppendageMount(){
+	private CSG getAppendageMount(LinkConfiguration conf){
 		double cylindarKeepawayHeight = 80;
 		CSG attachmentbase =new Cylinder(// The first part is the hole to put the screw in
-					40,
+					computeKeepayayRadius(conf)*2,
 					cylindarKeepawayHeight,
 					 (int)20).toCSG()
 					 .toXMin()
-			.transformed(new Transform().translateX(-14*1.2))
+			.transformed(new Transform().translateX(-computeKeepayayRadius(conf)))
 			.transformed(new Transform().translateZ(-cylindarKeepawayHeight/2))
 		
 		return attachmentbase;
@@ -130,8 +130,8 @@ return new ICadGenerator(){
 		[h,conf]))
 	}
 	
-	private CSG getFoot(){
-		CSG attach = getAttachment().toXMax();
+	private CSG getFoot(LinkConfiguration conf){
+		CSG attach = getAttachment(conf).toXMax();
 		CSG foot = new Sphere(attachmentRodWidth).toCSG();
 		return attach.union(foot);
 	}
@@ -146,6 +146,7 @@ return new ICadGenerator(){
 	private CSG moveDHValues(CSG incoming,DHLink dh ){
 		TransformNR step = new TransformNR(dh.DhStep(0)).inverse()
 		Transform move = TransformFactory.nrToCSG(step)
+		println dh
 		return incoming.transformed(move)
 		
 	}
@@ -185,7 +186,7 @@ return new ICadGenerator(){
 		for(DHParameterKinematics l:getLimbDHChains(base)){
 			TransformNR position = l.getRobotToFiducialTransform();
 			Transform csgTrans = TransformFactory.nrToCSG(position)
-			cutouts.add(getAppendageMount()
+			cutouts.add(getAppendageMount(l.getLinkConfiguration(0))
 				.transformed(csgTrans)
 				);
 			CSG attachment = getAttachment(l.getLinkConfiguration(0))// get attachment for root
@@ -250,10 +251,22 @@ return new ICadGenerator(){
 		return bodyParts;
 	}
 
+	private double computeKeepayayRadius(LinkConfiguration conf){
+		HashMap<String, Object> shaftmap = Vitamins.getConfiguration(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+		double x = shaftmap.shaftToShortSideFlandgeEdge
+		double y = shaftmap.servoThinDimentionThickness
+		return Math.sqrt((x*x)+(y*y))
+	}
+	
 	
 	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb, int linkIndex){
 		String legStr = sourceLimb.getXml()
 		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
+		LinkConfiguration lastConf = null;
+		int numLinks = sourceLimb.getChain().getLinks().size() 
+		if(linkIndex< numLinks-1){
+			lastConf =sourceLimb.getLinkConfiguration(linkIndex+1);
+		}
 		String linkStr =conf.getXml()
 		ArrayList<CSG> csg = null;
 		HashMap<String,ArrayList<CSG>> legmap=null;
@@ -295,7 +308,11 @@ return new ICadGenerator(){
 						.movex(-Math.abs(servoReference.getBounds().getMin().x))
 			
 		dh = dhLinks.get(linkIndex);
-		CSG nextAttachment=getAttachment(conf);
+		CSG nextAttachment;
+		if(linkIndex>0)
+			nextAttachment=getAttachment(lastConf);
+		else
+			nextAttachment=getAttachment(conf);
 		
 		
 		CSG servo=servoReference
@@ -315,6 +332,26 @@ return new ICadGenerator(){
 		
 		double rOffsetForNextLinkStart=dh.getR()+mountScrewKeepawaySize+0.75;
 		double rOffsetForNextLink=rOffsetForNextLinkStart;
+		CSG foot = null;
+		if(linkIndex==	dhLinks.size()-1){
+			foot=getFoot(conf);	
+			//test for last link
+			foot.setManufactuing(new PrepForManufacturing() {
+				public CSG prep(CSG arg0) {
+					return 	arg0.transformed(new Transform().rotY(90))
+							.toZMin()
+							.toXMin()
+				}
+			});
+
+		
+			foot.setManipulator(dhLinks.get(dhLinks.size()-1).getListener());
+				
+			
+			foot.setColor(Color.GOLD);
+			csg.add(foot);//This is the root that attaches to the base
+			BowlerStudioController.addCsg(foot);
+		}
 		
 		if(linkIndex==dhLinks.size()-1){
 				 rOffsetForNextLink = rOffsetForNextLink-
@@ -339,16 +376,6 @@ return new ICadGenerator(){
 		double ServoKeepawayRad = Math.sqrt((servoReference.getMinX()*servoReference.getMinX())+
 							(servoReference.getMaxY()*servoReference.getMaxY()))	+1
 		CSG upperLink = toZMin(new Cylinder(ServoKeepawayRad,linkThickness,(int)8).toCSG())
-		/*
-		if(addNub){
-			totalServoExtention
-			upperLink=upperLink.union(new Cylinder(cylandarRadius,linkThickness,(int)20)
-			.toCSG()
-			.toZMin()
-			.movey(-totalServoExtention+cylandarRadius)
-			)
-		}
-		*/
 		
 		double screwsCloseY = 20;
 		double screwsFarY=rOffsetForNextLink+mountScrewKeepawaySize/2
@@ -490,7 +517,7 @@ return new ICadGenerator(){
 		if(linkIndex== dhLinks.size()-1)
 			lowerLink= lowerLink.difference(foot.makeKeepaway(printerOffset.getMM()*2));
 		else
-			lowerLink= lowerLink.difference(getAttachment(null).makeKeepaway(printerOffset.getMM()*2));
+			lowerLink= lowerLink.difference(getAttachment(conf).makeKeepaway(printerOffset.getMM()*2));
 		
 		
 		
@@ -553,25 +580,7 @@ return new ICadGenerator(){
 		csg.add(lowerLink);//White link forming the lower link
 		BowlerStudioController.addCsg(lowerLink);
 			
-		if(linkIndex==	dhLinks.size()-1){
-			CSG foot=getFoot();	
-			//test for last link
-			foot.setManufactuing(new PrepForManufacturing() {
-				public CSG prep(CSG arg0) {
-					return 	arg0.transformed(new Transform().rotY(90))
-							.toZMin()
-							.toXMin()
-				}
-			});
-
 		
-			foot.setManipulator(dhLinks.get(dhLinks.size()-1).getListener());
-				
-			
-			foot.setColor(Color.GOLD);
-			csg.add(foot);//This is the root that attaches to the base
-			BowlerStudioController.addCsg(foot);
-		}
 		
 		return csg;
 	}
