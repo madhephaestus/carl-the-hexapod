@@ -254,7 +254,7 @@ return new ICadGenerator(){
 		
 	
 					
-		upperBody.setColor(Color.CYAN);
+		upperBody.setColor(Color.GREEN);
 		upperBody.setManipulator(base.getRootListener());
 		upperBody.setManufactuing(new PrepForManufacturing() {
 					public CSG prep(CSG arg0) {
@@ -569,7 +569,7 @@ return new ICadGenerator(){
 		nextAttachment.setManipulator(dh.getListener());
 		nextAttachment.setColor(Color.SILVER);
 		servo.setManipulator(dh.getListener());
-		upperLink.setColor(Color.DARKGREY);
+		upperLink.setColor(Color.PURPLE);
 		upperLink.setManipulator(dh.getListener());
 		
 		
