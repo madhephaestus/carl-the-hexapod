@@ -146,7 +146,7 @@ return new ICadGenerator(){
 	private CSG moveDHValues(CSG incoming,DHLink dh ){
 		TransformNR step = new TransformNR(dh.DhStep(0)).inverse()
 		Transform move = TransformFactory.nrToCSG(step)
-		println dh
+		//println dh
 		return incoming.transformed(move)
 		
 	}
@@ -375,143 +375,14 @@ return new ICadGenerator(){
 		double yScrewOffset = 2.5
 		double ServoKeepawayRad = Math.sqrt((servoReference.getMinX()*servoReference.getMinX())+
 							(servoReference.getMaxY()*servoReference.getMaxY()))	+1
-		CSG upperLink = toZMin(new Cylinder(ServoKeepawayRad,linkThickness,(int)8).toCSG())
-		
-		double screwsCloseY = 20;
-		double screwsFarY=rOffsetForNextLink+mountScrewKeepawaySize/2
-		double screwsZ=upperLink.getBounds().getMax().z - linkThickness
-		
-		double mountCylindarRad = (mountScrewKeepawaySize+1)/2
-		CSG mountHoleAttachment = new Cylinder(mountCylindarRad, // Radius at the top
-		  				mountCylindarRad, // Radius at the bottom
-		  				linkThickness, // Height
-		  			         (int)8//resolution
-		  			         ).toCSG()
-		  			         .toZMin()
-										
-		mountHoleAttachment = mountHoleAttachment.movex(mountScrewSeperationDistance)
-		mountHoleAttachment =mountHoleAttachment.union(mountHoleAttachment.movex(-2*mountScrewSeperationDistance))
-		CSG mountHoleAttachmentGroup = mountHoleAttachment
-									.movey(screwsFarY)
-									
-		CSG upperScrews = getMountScrewKeepaway()
-			.movey(screwsFarY)
-			.movez(screwsZ)
-		if(dh.getR()>80){
-			upperScrews =upperScrews.union( getMountScrewKeepaway()
-				
-				.movey(screwsCloseY)
-				)
-				mountHoleAttachmentGroup=mountHoleAttachmentGroup
-				.union(
-					mountHoleAttachment
-									.movey(screwsCloseY)
-					)
-		}
-		double magicNumOffset = 5;
-		// adding the radius rod
-		CSG rod = toYMin(
-							toZMin(
-								new Cube( 
-									attachmentBaseWidth+magicNumOffset,
-									rOffsetForNextLink,
-									upperLink.getBounds().getMax().z
-									).toCSG()
-								)
-							)
-		CSG clip = toYMin(
-			toZMax(
-				new Cube(
-					attachmentBaseWidth+12,
-					9+12,
-					attachmentBaseWidth+magicNumOffset
-					).toCSG()
-				)
-			)
-			.toYMax()
-			.movey(rOffsetForNextLink+8)// allign to the NEXT ATTACHMENT
-			.movez(linkThickness)// allign to the NEXT ATTACHMENT
-		
-		double upperLinkZOffset = Math.abs(servoReference.getBounds().getMax().z-magicNumOffset)
-		//Build the upper link
-		upperLink=upperLink.union(mountHoleAttachmentGroup,rod)
-		.hull()//smooth out the shape
-		CSG projection = upperLink.scalez(10)
-						.intersect(clip)
-		
-		upperLink=upperLink.union(projection.toZMax())// add the clip in
-		
-		upperLink= upperLink.difference(upperScrews);
-		upperLink=upperLink.movez(upperLinkZOffset)
-		
-		upperLink= moveDHValues(upperLink,dh).difference(servo);
+		CSG upperLink =new Cylinder(ServoKeepawayRad,ServoKeepawayRad,2,(int)8).toCSG() // a one line Cylinder
+						.toZMax()
 
-
-			// debugging	
-		projection=moveDHValues(	projection,dh)		
-		projection.setManipulator(dh.getListener());
-		//csg.add(projection);// view the clip
-		if(linkIndex== dhLinks.size()-1)
-			upperLink= upperLink.difference(foot.makeKeepaway(printerOffset.getMM()*2));
-		else
-			upperLink= upperLink.difference(getAttachment(null).makeKeepaway(printerOffset.getMM()*2));
-		
-		double LowerLinkThickness = attachmentRodWidth/2-2
-		CSG lowerLink = new Cylinder(
-			ServoKeepawayRad,
-			 LowerLinkThickness +linkThickness+(magicNumOffset*2),
-			 (int)8)
-			 .toCSG()
-			 .toZMin()
-			 .movez(-LowerLinkThickness)
-		CSG linkSweepCutout= new Cylinder(
-			ServoKeepawayRad+1,
-			 LowerLinkThickness +linkThickness+(magicNumOffset*2),
-			 (int)8)
-			 .toCSG()
-			 .toZMin()
-			 .movez(-attachmentRodWidth/2)
-		CSG pinBlank = new Cylinder( bearingPinRadius-(printerOffset.getMM()/2),
-									 LowerLinkThickness,
-									 (int)20)
-						.toCSG()
+		CSG lowerLink =upperLink
 						.toZMin()
-						.movez(-attachmentRodWidth/2)
-		linkSweepCutout=	linkSweepCutout.difference(	pinBlank)	
-						
-		//lowerLink=lowerLink.union(pinBlank)
-						
-		
-		lowerLink=lowerLink.transformed(new Transform().translateZ(-attachmentRodWidth/2))
-		CSG lowerClip =
-				
-				new Cube(
-					attachmentBaseWidth+(magicNumOffset*1),
-					rOffsetForNextLink-2,
-					LowerLinkThickness +linkThickness+(magicNumOffset*2)
-					).toCSG().toZMin().toYMin()
-			
-			
-			.transformed(new Transform().translateY(8))// allign to the NEXT ATTACHMENT
-			
-			.transformed(new Transform().translateZ(-attachmentRodWidth/2 -LowerLinkThickness ))
-		
-		lowerLink=lowerLink.union(
-			lowerClip,
-			mountHoleAttachmentGroup.movez(lowerLink.getMinZ())
-			
-			).hull();
-		//Remove the divit or the bearing
-		lowerLink= lowerLink.difference(
-				getAttachment(null)
-					.makeKeepaway((double)-0.2)
-					.movez(-0.15),
-				upperScrews
-				.movez(6),
-				linkSweepCutout
-				)// allign to the NEXT ATTACHMENT);
 		
 		lowerLink= moveDHValues(lowerLink,dh);
+		upperLink= moveDHValues(upperLink,dh);
 		//remove the next links connector and the upper link for mating surface
 		lowerLink= lowerLink.difference(upperLink,servo);
 		if(linkIndex== dhLinks.size()-1)
@@ -563,9 +434,9 @@ return new ICadGenerator(){
 		//csg.add(servo);// view the servo
 		//BowlerStudioController.addCsg(servo);
 		
-		upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
+		//upperScrews= moveDHValues(upperScrews.movez(upperLinkZOffset),dh)
 					
-		upperScrews.setManipulator(dh.getListener());
+		//upperScrews.setManipulator(dh.getListener());
 		//csg.add(upperScrews);//view the screws
 		
 		
