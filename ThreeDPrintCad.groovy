@@ -269,7 +269,9 @@ return new ICadGenerator(){
 
 	private double computeKeepayayRadius(LinkConfiguration conf){
 		HashMap<String, Object> shaftmap = Vitamins.getConfiguration(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
-		double x = shaftmap.shaftToShortSideFlandgeEdge
+		double totalFlangLen = (shaftmap.flangeLongDimention-shaftmap.servoThickDimentionThickness)/2
+		double shaftToShortSideFlandgeEdge = shaftmap.shaftToShortSideDistance+totalFlangLen
+		double x = shaftToShortSideFlandgeEdge
 		double y = shaftmap.servoThinDimentionThickness
 		return Math.sqrt((x*x)+(y*y))
 	}
