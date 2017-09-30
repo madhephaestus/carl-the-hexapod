@@ -42,7 +42,11 @@ return new DhInverseSolver() {
 		
 		double zSet = target.getZ() - links.get(0).getD();
 		if(links.size()==5){
-			if(links.get(4).getTheta()>0)
+			double tipAngulationSum =Math.toDegrees( links.get(1).getTheta()+
+								links.get(2).getTheta()+
+								links.get(4).getTheta())
+			//println "Tip angulation orentation = "+tipAngulationSum
+			if(tipAngulationSum==90)
 				zSet+=links.get(4).getD();
 			else{
 				double tipySet = links.get(4).getR()*Math.sin(orentation);
@@ -53,8 +57,12 @@ return new DhInverseSolver() {
 			}
 		}
 		if(links.size()==4){
-			if(links.get(3).getTheta()>0)
-				zSet+=links.get(3).getD();
+			double tipAngulationSum =Math.toDegrees( links.get(1).getTheta()+
+								links.get(2).getTheta()+
+								links.get(3).getTheta())
+			//println "Tip angulation orentation = "+tipAngulationSum
+			if(tipAngulationSum==90)
+				zSet+=links.get(3).getR();
 			else{
 				double tipySet = links.get(3).getR()*Math.sin(orentation);
 				double tipxSet = links.get(3).getR()*Math.cos(orentation);
