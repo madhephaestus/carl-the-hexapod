@@ -41,8 +41,27 @@ return new DhInverseSolver() {
 	
 		
 		double zSet = target.getZ() - links.get(0).getD();
-		if(links.size()>4){
-			zSet+=links.get(4).getD();
+		if(links.size()==5){
+			if(links.get(4).getTheta()>0)
+				zSet+=links.get(4).getD();
+			else{
+				double tipySet = links.get(4).getR()*Math.sin(orentation);
+				double tipxSet = links.get(4).getR()*Math.cos(orentation);
+				//println "5 links back Setting tip x="+tipxSet+" y="+tipySet
+				xSet-=tipxSet
+				ySet-=tipySet
+			}
+		}
+		if(links.size()==4){
+			if(links.get(3).getTheta()>0)
+				zSet+=links.get(3).getD();
+			else{
+				double tipySet = links.get(3).getR()*Math.sin(orentation);
+				double tipxSet = links.get(3).getR()*Math.cos(orentation);
+				//println "4 links back Setting tip x="+tipxSet+" y="+tipySet
+				xSet-=tipxSet
+				ySet-=tipySet
+			}
 		}
 		// Actual target for anylitical solution is above the target minus the z offset
 		TransformNR overGripper = new TransformNR(
