@@ -254,7 +254,22 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 								// lift leg above home
 								stepup = calcHome(leg)
 								stepup.setZ(stepOverHeight + zLock )
-								
+								double[] joints = calcForward( leg ,stepup)
+								for(int x=joints.length-1;x>-1;x--){
+									double ms=(stepOverTime/2)/joints.length
+									try {
+										//step to new target
+										//println "step leg "+resettingindex
+										//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
+										//set new target for the coordinated motion step at the end
+										leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
+									} catch (Exception e) {
+										//println "Failed to reach "+lastGood
+										e.printStackTrace();
+									}
+									ThreadUtil.wait((int)ms);
+								}
+								/*
 								try {
 									
 									leg.setDesiredTaskSpaceTransform(stepup, stepOverTime/2000.0);
@@ -263,8 +278,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 									e.printStackTrace();
 								}
 								ThreadUtil.wait((int)(stepOverTime/2));
-								
-								double[] joints = calcForward( leg ,lastGood)
+								*/
+								joints = calcForward( leg ,lastGood)
 								for(int x=0;x<joints.length;x++){
 									double ms=(stepOverTime/2)/joints.length
 									try {
