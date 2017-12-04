@@ -57,6 +57,15 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	public void DriveArc(MobileBase source, TransformNR newPose, double seconds) {
 		DriveArcLocal( source,  newPose,  seconds,true);
 	}
+	/**
+	 * Calc Inverse kinematics of a limb .
+	 *
+	 * @param jointSpaceVect the joint space vect
+	 * @return the transform nr
+	 */
+	public double[] calcForward(DHParameterKinematics leg ,TransformNR transformTarget){
+		return leg.inverseKinematics(leg.inverseOffset(transformTarget));
+	}
 	
 	public void DriveArcLocal(MobileBase source, TransformNR newPose, double seconds, boolean retry) {
 		TransformNR incomingTarget=newPose.copy()
@@ -181,12 +190,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						//perform the step over
 						home[i] =calcHome(legs.get(i))
 						//println "Leg "+i+" setep over to x="+feetLocations[i].getX()+" y="+feetLocations[i].getY()
-						if(resetting)
-						//System.out.println("\r\nWaiting for "+resettingindex+"  reset to finish...")
-						while(resetting && resettingindex==i && source.isAvailable()){
-							
-							ThreadUtil.wait(10);
-						}
+
 						//println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						feetLocations[i].setZ(zLock);
 						//Force the search for a new foothold to start at the home point
@@ -245,27 +249,36 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						resetting=true;
 //						new Thread(){
 //							public void run(){
-								resettingindex=i;
+								resettingindex=i
+								int stepIncrement = 20
+								// lift leg above home
+								stepup = calcHome(leg)
+								stepup.setZ(stepOverHeight + zLock )
+								
 								try {
-									// lift leg above home
-									stepup = calcHome(leg)
-									stepup.setZ(stepOverHeight + zLock )
+									
 									leg.setDesiredTaskSpaceTransform(stepup, stepOverTime/2000.0);
 								} catch (Exception e) {
 									//println "Failed to reach "+stepup
 									e.printStackTrace();
 								}
-									ThreadUtil.wait((int)stepOverTime);
-								try {
-									//step to new target
-									//println "step leg "+resettingindex
-									leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
-									//set new target for the coordinated motion step at the end
-								} catch (Exception e) {
-									//println "Failed to reach "+lastGood
-									e.printStackTrace();
+								ThreadUtil.wait((int)(stepOverTime/2));
+								
+								double[] joints = calcForward( leg ,lastGood)
+								for(int x=0;x<joints.length;x++){
+									double ms=(stepOverTime/2)/joints.length
+									try {
+										//step to new target
+										//println "step leg "+resettingindex
+										//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
+										//set new target for the coordinated motion step at the end
+										leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
+									} catch (Exception e) {
+										//println "Failed to reach "+lastGood
+										e.printStackTrace();
+									}
+									ThreadUtil.wait((int)ms);
 								}
-								ThreadUtil.wait((int)stepOverTime/2);
 								
 								//System.out.println(" Reset "+resettingindex+" Done!\r\n")
 								resetting=false;
@@ -285,7 +298,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					
 				for(int i=0;i<numlegs;i++){
 					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
-						throw new RuntimeException(i + " leg foot locatrion is not acheivable "+newPose);
+						throw new RuntimeException(i + " leg foot location is not acheivable "+newPose);
 					}
 					
 				}
