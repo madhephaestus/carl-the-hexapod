@@ -257,12 +257,14 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							lastGood=feetLocations[i]
 							stepOverTrajectory.add(stepup.copy())
 						}
-						println "Resetting with "+stepOverTrajectory.size()+" points"
+						resetting=true;
+						resettingindex=i;
+						//println "Resetting with "+stepOverTrajectory.size()+" points"
 						for(int x=0;x<stepOverTrajectory.size();x++){	
 							double time = stepOverTime/stepOverTrajectory.size()	
 							ThreadUtil.wait((int)(time));		
 							try {
-								println stepOverTrajectory.get(x)
+								//println stepOverTrajectory.get(x)
 								leg.setDesiredTaskSpaceTransform(stepOverTrajectory.get(x), time/1000.0);
 							} catch (Exception e) {
 								//println "Failed to reach "+stepup
@@ -270,58 +272,6 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							}
 							
 						}
-						
-		
-						resetting=true;
-						/*
-						resettingindex=i
-						int stepIncrement = 20
-						// lift leg above home
-						stepup = calcHome(leg)
-						stepup.setZ(stepOverHeight + zLock )
-						double[] joints = calcForward( leg ,stepup)
-						for(int x=joints.length-1;x>-1;x--){
-							double ms=(stepOverTime/2)/joints.length
-							try {
-								//step to new target
-								//println "step leg "+resettingindex
-								//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
-								//set new target for the coordinated motion step at the end
-								leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
-							} catch (Exception e) {
-								//println "Failed to reach "+lastGood
-								e.printStackTrace();
-							}
-							ThreadUtil.wait((int)ms);
-						}
-						
-						try {
-							
-							leg.setDesiredTaskSpaceTransform(stepup, stepOverTime/2000.0);
-						} catch (Exception e) {
-							//println "Failed to reach "+stepup
-							e.printStackTrace();
-						}
-						ThreadUtil.wait((int)(stepOverTime/2));
-						
-						joints = calcForward( leg ,lastGood)
-						for(int x=0;x<joints.length;x++){
-							double ms=(stepOverTime/2)/joints.length
-							try {
-								//step to new target
-								//println "step leg "+resettingindex
-								//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
-								//set new target for the coordinated motion step at the end
-								leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
-							} catch (Exception e) {
-								//println "Failed to reach "+lastGood
-								e.printStackTrace();
-							}
-							ThreadUtil.wait((int)ms);
-						}
-						*/
-						
-						//System.out.println(" Reset "+resettingindex+" Done!\r\n")
 						resetting=false;
 						resettingindex=numlegs;
 						resetDetect=true;
