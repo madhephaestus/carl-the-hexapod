@@ -206,9 +206,9 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						//println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						
 						//Force the search for a new foothold to start at the home point
-						//feetLocations[i].setX(home[i].getX());
-						//feetLocations[i].setY(home[i].getY());
-						feetLocations[i]=newFeetLocations[i].copy()
+						feetLocations[i].setX(home[i].getX());
+						feetLocations[i].setY(home[i].getY());
+						//feetLocations[i]=newFeetLocations[i].copy()
 						feetLocations[i].setZ(zLock);
 						int j=0;
 						//println i+" Step over location"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
@@ -225,6 +225,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							 legs.get(i).checkTaskSpaceTransform(stepUnit) &&
 						 */
 						ArrayList<TransformNR> stepOverTrajectory =[]
+					
 						
 						while(j<15){
 							feetLocations[i].setZ(zLock );
@@ -260,6 +261,16 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							}
 							lastGood=feetLocations[i]
 							stepOverTrajectory.add(stepup.copy())
+						}
+						double diffx= newFeetLocations[i].getX() - home[i].getX()
+						double diffy= newFeetLocations[i].getY() - home[i].getY()
+						TransformNR stepupFirst = newFeetLocations[i].copy()
+						stepupFirst.setZ(stepOverHeight +zLock);
+						double numSteps=stepOverTrajectory.size()
+						for(int x=0;x<numSteps;x++){
+							stepupFirst.translateX(-diffx/numSteps);
+							stepupFirst.translateY(-diffy/numSteps);
+							stepOverTrajectory.add(x,stepupFirst.copy())
 						}
 						resetting=true;
 						resettingindex=i;
