@@ -196,16 +196,19 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					newFeetLocations[i]=legs.get(i).getCurrentPoseTarget();
 					// start by storing where the feet are
 					DHParameterKinematics leg=legs.get(i)
-					if(!check(leg,feetLocations[i])){
+					if(!check(leg,feetLocations[i])
+					){
 						//perform the step over
 						home[i] =calcHome(legs.get(i))
 						//println "Leg "+i+" setep over to x="+feetLocations[i].getX()+" y="+feetLocations[i].getY()
 
 						//println i+" foot reset needed "+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
-						feetLocations[i].setZ(zLock);
+						
 						//Force the search for a new foothold to start at the home point
 						feetLocations[i].setX(home[i].getX());
 						feetLocations[i].setY(home[i].getY());
+						//feetLocations[i]=newFeetLocations[i].copy()
+						feetLocations[i].setZ(zLock);
 						int j=0;
 						//println i+" Step over location"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
 						
@@ -222,7 +225,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						 */
 						ArrayList<TransformNR> stepOverTrajectory =[]
 						
-						while(j<10000){
+						while(j<15){
 							feetLocations[i].setZ(zLock );
 							stepUnit=lastGood;
 							lastGood=feetLocations[i].copy();
