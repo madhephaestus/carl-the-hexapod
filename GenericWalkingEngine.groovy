@@ -66,7 +66,17 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 	public double[] calcForward(DHParameterKinematics leg ,TransformNR transformTarget){
 		return leg.inverseKinematics(leg.inverseOffset(transformTarget));
 	}
-	
+	boolean check(DHParameterKinematics leg,TransformNR newPose){
+		TransformNR stepup = newPose.copy();
+		stepup.setZ(stepOverHeight + zLock );
+		if(!leg.checkTaskSpaceTransform(newPose)){
+			return false
+		}
+		if(!leg.checkTaskSpaceTransform(stepup)){
+			return false
+		}
+		return true
+	}
 	public void DriveArcLocal(MobileBase source, TransformNR newPose, double seconds, boolean retry) {
 		TransformNR incomingTarget=newPose.copy()
 		newPose = newPose.inverse()
@@ -78,7 +88,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					ArrayList<DHParameterKinematics> legs = source.getLegs();
 					while(source.isAvailable()){
 						ThreadUtil.wait(10);
-						if(reset+5000 < System.currentTimeMillis()){
+						if(reset+3000 < System.currentTimeMillis()){
 							//println "FIRING reset from reset thread"
 							resetting=true;
 							long tmp= reset;
@@ -185,8 +195,8 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 					double footx,footy;
 					newFeetLocations[i]=legs.get(i).getCurrentPoseTarget();
 					// start by storing where the feet are
-					
-					if(!legs.get(i).checkTaskSpaceTransform(feetLocations[i])){
+					DHParameterKinematics leg=legs.get(i)
+					if(!check(leg,feetLocations[i])){
 						//perform the step over
 						home[i] =calcHome(legs.get(i))
 						//println "Leg "+i+" setep over to x="+feetLocations[i].getX()+" y="+feetLocations[i].getY()
@@ -205,10 +215,14 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 						TransformNR stepup = feetLocations[i].copy();
 						TransformNR stepUnit = feetLocations[i].copy();
 						stepup.setZ(stepOverHeight + zLock );
-						while(legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
+						/*
+						 * legs.get(i).checkTaskSpaceTransform(feetLocations[i]) &&
 							 legs.get(i).checkTaskSpaceTransform(stepup) &&
 							 legs.get(i).checkTaskSpaceTransform(stepUnit) &&
-							 j<10000){
+						 */
+						ArrayList<TransformNR> stepOverTrajectory =[]
+						
+						while(j<10000){
 							feetLocations[i].setZ(zLock );
 							stepUnit=lastGood;
 							lastGood=feetLocations[i].copy();
@@ -232,75 +246,86 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							//feetLocations[i].translateX(-newPose.getX());
 							//feetLocations[i].translateY(-newPose.getX());
 							j++;
-							stepup = lastGood.copy();
+							stepup = feetLocations[i].copy()
 							stepup.setZ(stepOverHeight + zLock );
+							if(!check(leg,feetLocations[i])){
+								lastGood.setZ(zLock );
+								feetLocations[i]=lastGood.copy()
+								stepOverTrajectory.add(feetLocations[i])
+								break
+							}
+							lastGood=feetLocations[i]
+							stepOverTrajectory.add(stepup.copy())
 						}
-						//println i+" furthest availible x:"+lastGood.getX()+" y:"+lastGood.getY()
-						//step back one unit vector to get to acheivable location
-						feetLocations[i]=stepUnit;
-						stepup = stepUnit.copy();
-						lastGood= stepUnit.copy();
-						lastGood.setZ(zLock );
-						stepup.setZ(stepOverHeight + zLock );
+						println "Resetting with "+stepOverTrajectory.size()+" points"
+						for(int x=0;x<stepOverTrajectory.size();x++){	
+							double time = stepOverTime/stepOverTrajectory.size()	
+							ThreadUtil.wait((int)(time));		
+							try {
+								println stepOverTrajectory.get(x)
+								leg.setDesiredTaskSpaceTransform(stepOverTrajectory.get(x), time/1000.0);
+							} catch (Exception e) {
+								//println "Failed to reach "+stepup
+								e.printStackTrace();
+							}
+							
+						}
 						
-						//println i+" new step y:"+feetLocations[i].getX()+" y:"+feetLocations[i].getY()
-						DHParameterKinematics leg = legs.get(i);
-						
+		
 						resetting=true;
-//						new Thread(){
-//							public void run(){
-								resettingindex=i
-								int stepIncrement = 20
-								// lift leg above home
-								stepup = calcHome(leg)
-								stepup.setZ(stepOverHeight + zLock )
-								double[] joints = calcForward( leg ,stepup)
-								for(int x=joints.length-1;x>-1;x--){
-									double ms=(stepOverTime/2)/joints.length
-									try {
-										//step to new target
-										//println "step leg "+resettingindex
-										//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
-										//set new target for the coordinated motion step at the end
-										leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
-									} catch (Exception e) {
-										//println "Failed to reach "+lastGood
-										e.printStackTrace();
-									}
-									ThreadUtil.wait((int)ms);
-								}
-								/*
-								try {
-									
-									leg.setDesiredTaskSpaceTransform(stepup, stepOverTime/2000.0);
-								} catch (Exception e) {
-									//println "Failed to reach "+stepup
-									e.printStackTrace();
-								}
-								ThreadUtil.wait((int)(stepOverTime/2));
-								*/
-								joints = calcForward( leg ,lastGood)
-								for(int x=0;x<joints.length;x++){
-									double ms=(stepOverTime/2)/joints.length
-									try {
-										//step to new target
-										//println "step leg "+resettingindex
-										//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
-										//set new target for the coordinated motion step at the end
-										leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
-									} catch (Exception e) {
-										//println "Failed to reach "+lastGood
-										e.printStackTrace();
-									}
-									ThreadUtil.wait((int)ms);
-								}
-								
-								//System.out.println(" Reset "+resettingindex+" Done!\r\n")
-								resetting=false;
-								resettingindex=numlegs;
-								resetDetect=true;
-//							}
-//						}.start();
+						/*
+						resettingindex=i
+						int stepIncrement = 20
+						// lift leg above home
+						stepup = calcHome(leg)
+						stepup.setZ(stepOverHeight + zLock )
+						double[] joints = calcForward( leg ,stepup)
+						for(int x=joints.length-1;x>-1;x--){
+							double ms=(stepOverTime/2)/joints.length
+							try {
+								//step to new target
+								//println "step leg "+resettingindex
+								//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
+								//set new target for the coordinated motion step at the end
+								leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
+							} catch (Exception e) {
+								//println "Failed to reach "+lastGood
+								e.printStackTrace();
+							}
+							ThreadUtil.wait((int)ms);
+						}
+						
+						try {
+							
+							leg.setDesiredTaskSpaceTransform(stepup, stepOverTime/2000.0);
+						} catch (Exception e) {
+							//println "Failed to reach "+stepup
+							e.printStackTrace();
+						}
+						ThreadUtil.wait((int)(stepOverTime/2));
+						
+						joints = calcForward( leg ,lastGood)
+						for(int x=0;x<joints.length;x++){
+							double ms=(stepOverTime/2)/joints.length
+							try {
+								//step to new target
+								//println "step leg "+resettingindex
+								//leg.setDesiredTaskSpaceTransform(lastGood, stepOverTime/4000.0);
+								//set new target for the coordinated motion step at the end
+								leg.setDesiredJointAxisValue(x,joints[x],ms/1000.0)
+							} catch (Exception e) {
+								//println "Failed to reach "+lastGood
+								e.printStackTrace();
+							}
+							ThreadUtil.wait((int)ms);
+						}
+						*/
+						
+						//System.out.println(" Reset "+resettingindex+" Done!\r\n")
+						resetting=false;
+						resettingindex=numlegs;
+						resetDetect=true;
+
 						
 					}
 					
