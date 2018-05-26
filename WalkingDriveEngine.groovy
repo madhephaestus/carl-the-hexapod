@@ -35,7 +35,7 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 	}
 	boolean usePhysicsToMove = true;
 	long stepCycleTime =5000
-	int numStepCycleGroups = 6
+	int numStepCycleGroups = 2
 	double standardHeadTailAngle = -20
 	double staticPanOffset = 10
 	double coriolisGain = 1
