@@ -17,7 +17,7 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 
 	double stepOverHeight=5;
 	long stepOverTime=40;
-	Double zLock=0;
+	Double zLock=5;
 	Closure calcHome = { DHParameterKinematics leg -> 
 			TransformNR h=leg.calcHome() 
 	 		TransformNR  legRoot= leg.getRobotToFiducialTransform()
@@ -35,13 +35,13 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 	}
 	boolean usePhysicsToMove = true;
 	long stepCycleTime =5000
-	int numStepCycleGroups = 2
+	int numStepCycleGroups = 6
 	double standardHeadTailAngle = -20
 	double staticPanOffset = 10
 	double coriolisGain = 1
 	boolean headStable = false
 	double maxBodyDisplacementPerStep = 20
-	double minBodyDisplacementPerStep = 10
+	double minBodyDisplacementPerStep = 15
 	def ar =  [stepOverHeight,
 	stepOverTime,
 	zLock,
