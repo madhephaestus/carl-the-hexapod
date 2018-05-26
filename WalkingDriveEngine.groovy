@@ -41,7 +41,7 @@ import com.neuronrobotics.sdk.addons.kinematics.IDriveEngine;
 	double coriolisGain = 1
 	boolean headStable = false
 	double maxBodyDisplacementPerStep = 20
-	double minBodyDisplacementPerStep = 5
+	double minBodyDisplacementPerStep = 10
 	def ar =  [stepOverHeight,
 	stepOverTime,
 	zLock,
