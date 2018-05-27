@@ -22,6 +22,11 @@ return new DhInverseSolver() {
 		
 		int linkNum = jointSpaceVector.length;
 		double [] inv = new double[linkNum];
+		if(linkNum<3){
+			for(int i=i;i<linkNum;i++){
+				inv[i]=jointSpaceVector[i]+0.0001
+			}
+		}
 		// this is an ad-hock kinematic model for d-h parameters and only works for specific configurations
 		
 		double d = links.get(1).getD()- links.get(2).getD();
