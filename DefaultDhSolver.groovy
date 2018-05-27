@@ -13,6 +13,9 @@ return new DhInverseSolver() {
 	public double[] inverseKinematics(TransformNR target,
 			double[] jointSpaceVector,DHChain chain ) {
 		ArrayList<DHLink> links = chain.getLinks();
+		if(links.size()<3){
+			return jointSpaceVector
+		}
 		// THis is the jacobian for the given configuration
 		//Matrix jacobian =  chain.getJacobian(jointSpaceVector);
 		Matrix taskSpacMatrix = target.getMatrixTransform();
