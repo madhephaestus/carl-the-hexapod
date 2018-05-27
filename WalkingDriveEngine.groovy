@@ -35,6 +35,7 @@ Closure calcHome = { DHParameterKinematics leg ->
 }
 boolean usePhysicsToMove = true;
 long stepCycleTime =5000
+long walkingTimeout =stepCycleTime*2
 int numStepCycleGroups = 6
 double standardHeadTailAngle = -20
 double staticPanOffset = 10
@@ -54,7 +55,8 @@ staticPanOffset,
 coriolisGain,
 headStable,
 maxBodyDisplacementPerStep,
-minBodyDisplacementPerStep]
+minBodyDisplacementPerStep,
+	walkingTimeout]
 
 
 return ScriptingEngine
