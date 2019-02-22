@@ -61,7 +61,7 @@ minBodyDisplacementPerStep,
 
 return ScriptingEngine
           .gitScriptRun(
-            "https://github.com/keionbis/SmallKat.git", // git location of the library
+            "https://github.com/CommonWealthRobotics/SmallKat.git", // git location of the library
             "Bowler/DynamicWalking.groovy" , // file to load
             ar
          )
