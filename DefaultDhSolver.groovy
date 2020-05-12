@@ -25,7 +25,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	@Override
 	public double[] inverseKinematics(TransformNR target, double[] jointSpaceVector, DHChain chain) {
 		//System.out.println("My IK");
-		try {
+//		try {
 			ArrayList<DHLink> links = chain.getLinks();
 			int linkNum = jointSpaceVector.length;
 
@@ -172,10 +172,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 			
 			//println "Success "+inv
 			return inv;
-		} catch (Throwable t) {
-			BowlerStudio.printStackTrace(t);
-			return jointSpaceVector;
-		}
+//		} catch (Throwable t) {
+//			BowlerStudio.printStackTrace(t);
+//			return jointSpaceVector;
+//		}
 	}
 
 }
