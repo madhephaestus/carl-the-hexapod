@@ -1,7 +1,12 @@
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator;
+import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
 import com.neuronrobotics.bowlerstudio.creature.CreatureLab;
 import org.apache.commons.io.IOUtils;
 import com.neuronrobotics.bowlerstudio.vitamins.*;
+import com.neuronrobotics.sdk.addons.kinematics.DHParameterKinematics
+import com.neuronrobotics.sdk.addons.kinematics.MobileBase
+
+import eu.mihosoft.vrl.v3d.CSG
 //First we load teh default cad generator script 
 ICadGenerator defaultCadGen=(ICadGenerator) ScriptingEngine
 	                    .gitScriptRun(
