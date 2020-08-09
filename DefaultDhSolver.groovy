@@ -40,8 +40,8 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		Transform l1Offset = linkOffset(links.get(1))
 		Transform l2Offset = linkOffset(links.get(2))
 		Transform l3Offset = linkOffset(links.get(3))
-		println l0Offset
-		
+		//println l0Offset
+
 		// Vector decompose the tip target
 		double z = target.getZ();
 		double y = target.getY();
@@ -60,38 +60,35 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		double a1d = Math.toDegrees(baseVectorAngle);
 		// this projection number becomes the base link angle directly
 		jointSpaceVector[0]=a1d;
-		println "New base "+a1d
+		//println "New base "+a1d
 		jointSpaceVector[0]=0;// TESTING
 
-		// Rotate the tip into the xZ plane 
-		// apply a transform to the tip here to compute where it 
+		// Rotate the tip into the xZ plane
+		// apply a transform to the tip here to compute where it
 		// would be on the ZX plane if the base angel was 0
-		double alphaBase = 
-			Math.toDegrees(
+		double alphaBase =
+				Math.toDegrees(
 				links.get(0).getAlpha()
 				)
-			
-		println "Incomming tip target Tip \tx="+x+" z="+z+" and y="+y+" alph baseLink "+alphaBase
-		
-		def newTip = new Transform()
-				
-				.movex(x)
-				.movey(y)
-				.movez(z)
-				.rotz(a1d)
-				.apply(l0Offset
-					.rotX(alphaBase)// remove the base rotation from the link to account for the 
-					.inverse()
-					)
+		def firstLink =new TransformNR(links.get(0).DhStep(baseVectorAngle)).inverse()
+		def tipNoRot =new TransformNR(x,y,z,new RotationNR())
+		//println "Incomming tip target Tip \tx="+x+" z="+z+" and y="+y+" alph baseLink "+alphaBase
+		//println firstLink
+		//println tipNoRot
+
+		def newTip = firstLink
+				.times(tipNoRot)
+
 		x=newTip.getX()
 		y=newTip.getY()
 		z=newTip.getZ()
-		println "New Tip                             \tx="+x+" z="+z+" and y should be 0 and is="+y
+		println "New Tip                             \tx="+x+" y="+y+" and z should be 0 and is="+z
+		//println newTip
 		// Tip y should be 0
 		// this is the angle of the vector from base to tip
 		double tipToBaseAngle = Math.atan2(z,x); // Z angle using x axis and z axis
 		double tipToBaseAngleDegrees = Math.toDegrees(tipToBaseAngle);
-		
+
 		def wristCenter = new Transform()
 
 		return jointSpaceVector;
@@ -161,9 +158,9 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		double elev = Math.toDegrees(q.getRotationElevation() )
 		//println "R Vector Angle "+a2d
 
-//		double r1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // X and Y plane Vector
-//		double r2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y,2)+Math.pow(z, 2)); // Leg Vector
-//		double r3 = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)); // x and z vector
+		//		double r1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)); // X and Y plane Vector
+		//		double r2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y,2)+Math.pow(z, 2)); // Leg Vector
+		//		double r3 = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)); // x and z vector
 		/*
 		 def rvector = new Cube(r2,1,1).toCSG()
 		 .toXMin()
