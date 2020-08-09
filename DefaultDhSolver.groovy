@@ -13,11 +13,16 @@ import com.neuronrobotics.sdk.addons.kinematics.DhInverseSolver;
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR;
 import com.neuronrobotics.sdk.common.Log;
 import Jama.Matrix;
+import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
+import eu.mihosoft.vrl.v3d.Cylinder
 import eu.mihosoft.vrl.v3d.Transform;
+import javafx.application.Platform
 
 public class scriptJavaIKModel implements DhInverseSolver {
-
+	boolean debug = true;
+	CSG tipPointer =null; 
+	CSG tipPointer2 =null;
 	int limbIndex =0;
 	public scriptJavaIKModel(int index){
 		limbIndex=index;
@@ -29,17 +34,30 @@ public class scriptJavaIKModel implements DhInverseSolver {
 			return inverseKinematics34dof(target,jointSpaceVector,chain);
 		return inverseKinematics6dof(target,jointSpaceVector,chain);
 	}
-	Transform linkOffset(DHLink link) {
-		return TransformFactory.nrToCSG(new TransformNR(link.DhStep(0)))
+	TransformNR linkOffset(DHLink link) {
+		return new TransformNR(link.DhStep(0))
 	}
 	public double[] inverseKinematics6dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
+		if(debug) {
+			if(tipPointer==null) {
+				tipPointer=new Cylinder(5, 0, 30,9).toCSG().toZMax()
+				.setColor(javafx.scene.paint.Color.BLUE)
+				BowlerStudioController.addCsg(tipPointer)
+				tipPointer2=new Cylinder(5, 0, 30,9).toCSG().toZMax()
+				.setColor(javafx.scene.paint.Color.BLACK)
+				BowlerStudioController.addCsg(tipPointer2)
+			}
+			
+			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,tipPointer.getManipulator())})
+			
+		}
 		//System.out.println("My 6dof IK "+target);
 		ArrayList<DHLink> links = chain.getLinks();
 		int linkNum = jointSpaceVector.length;
-		Transform l0Offset = linkOffset(links.get(0))
-		Transform l1Offset = linkOffset(links.get(1))
-		Transform l2Offset = linkOffset(links.get(2))
-		Transform l3Offset = linkOffset(links.get(3))
+		TransformNR l0Offset = linkOffset(links.get(0))
+		TransformNR l1Offset = linkOffset(links.get(1))
+		TransformNR l2Offset = linkOffset(links.get(2))
+		TransformNR l3Offset = linkOffset(links.get(3))
 		//println l0Offset
 
 		// Vector decompose the tip target
@@ -60,8 +78,8 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		double a1d = Math.toDegrees(baseVectorAngle);
 		// this projection number becomes the base link angle directly
 		jointSpaceVector[0]=a1d;
-		//println "New base "+a1d
-		jointSpaceVector[0]=0;// TESTING
+		println "New base "+a1d
+		//jointSpaceVector[0]=0;// TESTING
 
 		// Rotate the tip into the xZ plane
 		// apply a transform to the tip here to compute where it
@@ -83,14 +101,52 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		y=newTip.getY()
 		z=newTip.getZ()
 		println "New Tip                             \tx="+x+" y="+y+" and z should be 0 and is="+z
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(newTip,tipPointer.getManipulator())})
+		
+				
 		//println newTip
 		// Tip y should be 0
 		// this is the angle of the vector from base to tip
-		double tipToBaseAngle = Math.atan2(z,x); // Z angle using x axis and z axis
+		double tipToBaseAngle = Math.atan2(y,x); // we now have the rest of the links in the XY plane
 		double tipToBaseAngleDegrees = Math.toDegrees(tipToBaseAngle);
+		println "Base link to tip angle elevation "+tipToBaseAngleDegrees
+		def transformAngleOfTipToTriangle = new TransformNR(0,0,0,new RotationNR(0,-tipToBaseAngleDegrees,0))
+		def xyTip = new TransformNR(x,y,0,new RotationNR())
+		//Transform the tip into the x Vector
+		def tipXPlane =transformAngleOfTipToTriangle
+							.times(xyTip)
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(tipXPlane,tipPointer2.getManipulator())})
+		//println tipXYPlane
+		double wristVect = tipXPlane.getX();
+		// add together the last two links
+		TransformNR wristCenterToElbow = 	l2Offset.times(l3Offset)//.inverse()
+		// find the angle formed by the two links, includes the elbows theta
+		double elbowLink2CompositeAngle = Math.atan2(wristCenterToElbow.getY(),wristCenterToElbow.getX());
+		double elbowLink2CompositeAngleDegrees = Math.toDegrees(elbowLink2CompositeAngle)
+		// COmpute teh vector length of the two links combined
+		double elbowLink2CompositeLength = Math.sqrt(
+											Math.pow(wristCenterToElbow.getY(), 2) +
+											Math.pow(wristCenterToElbow.getX(), 2));
+	    // assume no D on this link as that would break everything
+		double elbowLink1CompositeLength = links.get(1).getR();
+		println "Elbow 2 link data "+elbowLink2CompositeAngleDegrees+" vector "+elbowLink2CompositeLength
 
-		def wristCenter = new Transform()
-
+		if(wristVect>elbowLink2CompositeLength+elbowLink1CompositeLength)
+				throw new ArithmeticException("Total reach longer than possible "+inv);
+		// Use the law of cosines to calculate the elbow and the shoulder tilt
+		double shoulderTiltAngle =-( Math.toDegrees(Math.acos(
+					(Math.pow(elbowLink1CompositeLength,2)+Math.pow(wristVect,2)-Math.pow(elbowLink2CompositeLength,2))/
+					(2*elbowLink1CompositeLength*wristVect)
+					))-tipToBaseAngleDegrees+Math.toDegrees(links.get(1).getTheta()))
+		double elbowTiltAngle =-( Math.toDegrees(Math.acos(
+					(Math.pow(elbowLink2CompositeLength,2)+Math.pow(elbowLink1CompositeLength,2)-Math.pow(wristVect,2))/
+					(2*elbowLink2CompositeLength*elbowLink1CompositeLength)
+					))+elbowLink2CompositeAngleDegrees-180)
+	    jointSpaceVector[2]=elbowTiltAngle
+		jointSpaceVector[1]=shoulderTiltAngle
+		
+		
+		println "Law of cosines results "+shoulderTiltAngle+" and "+elbowTiltAngle
 		return jointSpaceVector;
 	}
 
