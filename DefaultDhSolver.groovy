@@ -18,11 +18,16 @@ import eu.mihosoft.vrl.v3d.Cube
 import eu.mihosoft.vrl.v3d.Cylinder
 import eu.mihosoft.vrl.v3d.Transform;
 import javafx.application.Platform
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention
+import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class scriptJavaIKModel implements DhInverseSolver {
-	boolean debug = true;
-	CSG tipPointer =null; 
+	boolean debug = false;
+	CSG tipPointer =null;
 	CSG tipPointer2 =null;
+	CSG tipPointer3 =null;
 	int limbIndex =0;
 	public scriptJavaIKModel(int index){
 		limbIndex=index;
@@ -40,16 +45,18 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	public double[] inverseKinematics6dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
 		if(debug) {
 			if(tipPointer==null) {
-				tipPointer=new Cylinder(5, 0, 30,9).toCSG().toZMax()
-				.setColor(javafx.scene.paint.Color.BLUE)
-				BowlerStudioController.addCsg(tipPointer)
-				tipPointer2=new Cylinder(5, 0, 30,9).toCSG().toZMax()
-				.setColor(javafx.scene.paint.Color.BLACK)
-				BowlerStudioController.addCsg(tipPointer2)
+				tipPointer=new Cylinder(0, 5, 30,9).toCSG()
+				.rotx(90)
+						.setColor(javafx.scene.paint.Color.BLUE)
+				tipPointer2=new Cylinder(0, 5, 30,9).toCSG().rotx(90)
+						.setColor(javafx.scene.paint.Color.GREEN)
+				tipPointer3=new Cylinder(0, 5, 30,9).toCSG().rotx(90)
+						.setColor(javafx.scene.paint.Color.RED)
 			}
-			
+			BowlerStudioController.addCsg(tipPointer)
+			BowlerStudioController.addCsg(tipPointer2)
+			BowlerStudioController.addCsg(tipPointer3)
 			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,tipPointer.getManipulator())})
-			
 		}
 		//System.out.println("My 6dof IK "+target);
 		ArrayList<DHLink> links = chain.getLinks();
@@ -58,18 +65,33 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		TransformNR l1Offset = linkOffset(links.get(1))
 		TransformNR l2Offset = linkOffset(links.get(2))
 		TransformNR l3Offset = linkOffset(links.get(3))
-		//println l0Offset
 
 		// Vector decompose the tip target
 		double z = target.getZ();
 		double y = target.getY();
 		double x = target.getX();
 		RotationNR q = target.getRotation();
+		def newCenter =target.copy()
 		// Start by finding the IK to the wrist center
 		if(linkNum>=6) {
 			//offset for tool
 			println "Offestting for tool"
+			def tool = new TransformNR()
+			if(linkNum==7)
+				tool=linkOffset(links.get(6))
+			// compute the transform from tip to wrist center
+			def wristCenterOffsetTransform = linkOffset(links.get(5)).times(tool)
+			//println wristCenterOffsetTransform
+			// take off the tool from the target to get the center of the wrist
+			newCenter = target.times(wristCenterOffsetTransform.inverse())
+			
+			if(debug)Platform.runLater({TransformFactory.nrToAffine(target,tipPointer.getManipulator())})
+			//if(debug)Platform.runLater({TransformFactory.nrToAffine(newCenter,tipPointer2.getManipulator())})	
 		}
+		// recompute the X,y,z with the new center
+		z = newCenter.getZ();
+		y = newCenter.getY();
+		x = newCenter.getX();
 		//xyz now are at the wrist center
 		// Compute the xy plane projection of the tip
 		// this is the angle of the tipto the base link
@@ -90,6 +112,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 				)
 		def firstLink =new TransformNR(links.get(0).DhStep(baseVectorAngle)).inverse()
 		def tipNoRot =new TransformNR(x,y,z,new RotationNR())
+		
 		//println "Incomming tip target Tip \tx="+x+" z="+z+" and y="+y+" alph baseLink "+alphaBase
 		//println firstLink
 		//println tipNoRot
@@ -101,9 +124,8 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		y=newTip.getY()
 		z=newTip.getZ()
 		println "New Tip                             \tx="+x+" y="+y+" and z should be 0 and is="+z
-		if(debug)Platform.runLater({TransformFactory.nrToAffine(newTip,tipPointer.getManipulator())})
-		
-				
+
+
 		//println newTip
 		// Tip y should be 0
 		// this is the angle of the vector from base to tip
@@ -114,8 +136,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		def xyTip = new TransformNR(x,y,0,new RotationNR())
 		//Transform the tip into the x Vector
 		def tipXPlane =transformAngleOfTipToTriangle
-							.times(xyTip)
-		if(debug)Platform.runLater({TransformFactory.nrToAffine(tipXPlane,tipPointer2.getManipulator())})
+				.times(xyTip)
 		//println tipXYPlane
 		double wristVect = tipXPlane.getX();
 		// add together the last two links
@@ -125,28 +146,56 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		double elbowLink2CompositeAngleDegrees = Math.toDegrees(elbowLink2CompositeAngle)
 		// COmpute teh vector length of the two links combined
 		double elbowLink2CompositeLength = Math.sqrt(
-											Math.pow(wristCenterToElbow.getY(), 2) +
-											Math.pow(wristCenterToElbow.getX(), 2));
-	    // assume no D on this link as that would break everything
+				Math.pow(wristCenterToElbow.getY(), 2) +
+				Math.pow(wristCenterToElbow.getX(), 2));
+		// assume no D on this link as that would break everything
 		double elbowLink1CompositeLength = links.get(1).getR();
 		println "Elbow 2 link data "+elbowLink2CompositeAngleDegrees+" vector "+elbowLink2CompositeLength
 
 		if(wristVect>elbowLink2CompositeLength+elbowLink1CompositeLength)
-				throw new ArithmeticException("Total reach longer than possible "+inv);
+			throw new ArithmeticException("Total reach longer than possible "+inv);
 		// Use the law of cosines to calculate the elbow and the shoulder tilt
 		double shoulderTiltAngle =-( Math.toDegrees(Math.acos(
-					(Math.pow(elbowLink1CompositeLength,2)+Math.pow(wristVect,2)-Math.pow(elbowLink2CompositeLength,2))/
-					(2*elbowLink1CompositeLength*wristVect)
-					))-tipToBaseAngleDegrees+Math.toDegrees(links.get(1).getTheta()))
+				(Math.pow(elbowLink1CompositeLength,2)+Math.pow(wristVect,2)-Math.pow(elbowLink2CompositeLength,2))/
+				(2*elbowLink1CompositeLength*wristVect)
+				))-tipToBaseAngleDegrees+Math.toDegrees(links.get(1).getTheta()))
 		double elbowTiltAngle =-( Math.toDegrees(Math.acos(
-					(Math.pow(elbowLink2CompositeLength,2)+Math.pow(elbowLink1CompositeLength,2)-Math.pow(wristVect,2))/
-					(2*elbowLink2CompositeLength*elbowLink1CompositeLength)
-					))+elbowLink2CompositeAngleDegrees-180)
-	    jointSpaceVector[2]=elbowTiltAngle
+				(Math.pow(elbowLink2CompositeLength,2)+Math.pow(elbowLink1CompositeLength,2)-Math.pow(wristVect,2))/
+				(2*elbowLink2CompositeLength*elbowLink1CompositeLength)
+				))+elbowLink2CompositeAngleDegrees-180)
+		jointSpaceVector[2]=elbowTiltAngle
 		jointSpaceVector[1]=shoulderTiltAngle
+		// compute the top of the wrist now that the first 3 links are calculated
+		TransformNR startOfWristSet = new TransformNR()
+		for(int i=0;i<3;i++)
+			startOfWristSet=startOfWristSet.times(new TransformNR(links.get(i).DhStep(jointSpaceVector[i])))
+		// compute a tip angle vector
+		def	virtualTip = newCenter.times(new TransformNR().translateZ(10))
+		TransformNR wristMOvedToCenter =startOfWristSet.inverse().times(target
+			)
+		RotationNR qWrist=wristMOvedToCenter.getRotation()
 		
 		
-		println "Law of cosines results "+shoulderTiltAngle+" and "+elbowTiltAngle
+	    // Now compute the 3 points of the wrist center
+//		Vector3D topOfWrist = new Vector3D(startOfWristSet.getX(),startOfWristSet.getY(),startOfWristSet.getZ())
+//		Vector3D centerOfWrist = new Vector3D(newCenter.getX(),newCenter.getY(),newCenter.getZ())
+//		Vector3D tip = new Vector3D(virtualTip.getX(),virtualTip.getY(),virtualTip.getZ())
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(newCenter,tipPointer2.getManipulator())})
+		if(debug)Platform.runLater({TransformFactory.nrToAffine(wristMOvedToCenter,tipPointer3.getManipulator())})
+//
+//		Rotation wristDecompositionRotation =new Rotation(tip,centerOfWrist,topOfWrist,centerOfWrist)
+//		
+//		def angles =wristDecompositionRotation.getAngles(RotationOrder.ZYX, RotationConvention.VECTOR_OPERATOR)
+		double w0=Math.toDegrees(qWrist.getRotationAzimuth())+Math.toDegrees(links.get(3).getTheta())+90
+		double w1=Math.toDegrees(qWrist.getRotationTilt())+Math.toDegrees(links.get(4).getTheta())
+		double w2=Math.toDegrees(qWrist.getRotationElevation())+Math.toDegrees(links.get(5).getTheta())-90
+		
+		println "Euler Decomposition \n"+w0+" \n"+w1+" \n"+w2
+		jointSpaceVector[3]=w0;
+		jointSpaceVector[4]=w1;
+		jointSpaceVector[5]=w2;
+		
+		//println "Law of cosines results "+shoulderTiltAngle+" and "+elbowTiltAngle
 		return jointSpaceVector;
 	}
 
