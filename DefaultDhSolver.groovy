@@ -28,7 +28,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	CSG tipPointer2 =null;
 	CSG tipPointer3 =null;
 	int limbIndex =0;
-	def 6dof=null;
+	def sixDofSolver=null;
 	public scriptJavaIKModel(int index){
 		limbIndex=index;
 	}
@@ -37,9 +37,9 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		ArrayList<DHLink> links = chain.getLinks();
 		if(links.size()==3 || (links.size()==4 && (Math.abs(links.get(2).alpha)<0.001)))
 			return inverseKinematics34dof(target,jointSpaceVector,chain);
-		if(6dof==null)
-			6dof=ScriptingEngine.gitScriptRun("https://github.com/madhephaestus/6dofServoArm.git","DefaultDhSolver.groovy")
-		return 6dof.inverseKinematics(target,jointSpaceVector,chain)
+		if(sixDofSolver==null)
+			sixDofSolver=ScriptingEngine.gitScriptRun("https://github.com/madhephaestus/6dofServoArm.git","DefaultDhSolver.groovy")
+		return sixDofSolver.inverseKinematics(target,jointSpaceVector,chain)
 	}
 	TransformNR linkOffset(DHLink link) {
 		return new TransformNR(link.DhStep(0))
