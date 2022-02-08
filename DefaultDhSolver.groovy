@@ -32,9 +32,25 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	public scriptJavaIKModel(int index){
 		limbIndex=index;
 	}
+	
+	public double[] inverseKinematics1dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
+		double z = target.getZ();
+		double y = target.getY();
+		double x = target.getX();
+		double a1 = Math.atan2(y , x);
+		double a1d = Math.toDegrees(a1);
+		
+		jointSpaceVector[0]=a1d;
+		
+		return jointSpaceVector;
+	}
+	
 	@Override
 	public double[] inverseKinematics(TransformNR target, double[] jointSpaceVector, DHChain chain) {
 		ArrayList<DHLink> links = chain.getLinks();
+		if(links.size()==1) {
+			return inverseKinematics1dof(target,jointSpaceVector,chain)
+		}
 		if(links.size()==3 || (links.size()==4 && (Math.abs(links.get(2).alpha)<0.001)))
 			return inverseKinematics34dof(target,jointSpaceVector,chain);
 		if(sixDofSolver==null)

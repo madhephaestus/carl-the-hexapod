@@ -34,7 +34,7 @@ Closure calcHome = { DHParameterKinematics leg ->
 
 }
 boolean usePhysicsToMove = true;
-long stepCycleTime =5000
+long stepCycleTime =1000
 long walkingTimeout =stepCycleTime*2
 int numStepCycleGroups = 2
 double standardHeadTailAngle = -20
