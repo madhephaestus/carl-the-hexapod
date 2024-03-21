@@ -9,7 +9,7 @@ CSG makeAttach(){
 	double pinMax = 3;
 	double pinMin =3;
 	LengthParameter printerOffset = new LengthParameter("printerOffset",0.4,[2,0.001])
-	ScriptingEngine.setAutoupdate(true)
+	//ScriptingEngine.setAutoupdate(true)
 	String type = "hobbyServoHorn"
 	String id = "hv6214mg_1"
 	StringParameter size = new StringParameter(	type+" Default",
