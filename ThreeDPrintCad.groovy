@@ -200,7 +200,7 @@ return new ICadGenerator(){
 			return bodyMap.get(legStr)
 		}
 		println "Generating body"
-		CSG attachUnion=null;
+		CSG attachUnion=new Cube(20).toCSG();
 		for(DHParameterKinematics l:getLimbDHChains(base)){
 			TransformNR position = l.getRobotToFiducialTransform();
 			Transform csgTrans = TransformFactory.nrToCSG(position)
