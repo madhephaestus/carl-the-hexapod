@@ -47,7 +47,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	
 	@Override
 	public double[] inverseKinematics(TransformNR target, double[] jointSpaceVector, DHChain chain) {
-		ArrayList<DHLink> links = chain.getLinks();
+		ArrayList links = chain.getLinks();
 		if(links.size()==1) {
 			return inverseKinematics1dof(target,jointSpaceVector,chain)
 		}
@@ -64,7 +64,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	public double[] inverseKinematics34dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
 		//System.out.println("My IK");
 		//		try {
-		ArrayList<DHLink> links = chain.getLinks();
+		ArrayList links = chain.getLinks();
 		int linkNum = jointSpaceVector.length;
 
 		double z = target.getZ();
