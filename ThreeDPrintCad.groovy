@@ -39,8 +39,8 @@ import com.neuronrobotics.bowlerstudio.physics.*;
 
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
-	def map = new HashMap<String, HashMap<String, ArrayList<CSG>>>()	
-	HashMap<String,ArrayList<CSG>> bodyMap =  new HashMap();
+	def map = new HashMap()	
+	def bodyMap =  new HashMap();
 	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
 		"fb4cf429372deeb36f52", 
 		"dyioCad.groovy" ,
@@ -172,8 +172,8 @@ return new ICadGenerator(){
 	 *
 	 * @return the all dh chains
 	 */
-	public ArrayList<DHParameterKinematics> getLimbDHChains(MobileBase base) {
-		ArrayList<DHParameterKinematics> copy = new ArrayList<DHParameterKinematics>();
+	public def getLimbDHChains(MobileBase base) {
+		def copy = new ArrayList();
 		for(DHParameterKinematics l:base.getLegs()){
 			copy.add(l);	
 		}
@@ -183,10 +183,10 @@ return new ICadGenerator(){
 		return copy;
 	}
 
-	ArrayList<CSG> generateBody(MobileBase base){
+	ArrayList generateBody(MobileBase base){
 
-		ArrayList<CSG> cutouts=new ArrayList();
-		ArrayList<CSG> attach=new ArrayList();
+		ArrayList cutouts=new ArrayList();
+		ArrayList attach=new ArrayList();
 		String legStr =""
 		for(DHParameterKinematics l:getLimbDHChains(base)){
 			legStr+=l.getRobotToFiducialTransform(). getXml();
@@ -263,13 +263,13 @@ return new ICadGenerator(){
 					}
 				});
 		
-		def bodyParts = [upperBody]as ArrayList<CSG>
+		def bodyParts = [upperBody]as ArrayList
 		bodyMap.put(legStr,bodyParts)
 		return bodyParts;
 	}
 
 	private double computeKeepayayRadius(LinkConfiguration conf){
-		HashMap<String, Object> shaftmap = Vitamins.getConfiguration(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+		def shaftmap = Vitamins.getConfiguration(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
 		double totalFlangLen = (shaftmap.flangeLongDimention-shaftmap.servoThickDimentionThickness)/2
 		double shaftToShortSideFlandgeEdge = shaftmap.shaftToShortSideDistance+totalFlangLen
 		double x = shaftToShortSideFlandgeEdge
@@ -278,7 +278,7 @@ return new ICadGenerator(){
 	}
 	
 	
-	public ArrayList<CSG> generateCad(DHParameterKinematics sourceLimb, int linkIndex){
+	public ArrayList generateCad(DHParameterKinematics sourceLimb, int linkIndex){
 		String legStr = sourceLimb.getXml()
 		LinkConfiguration conf = sourceLimb.getLinkConfiguration(linkIndex);
 		LinkConfiguration lastConf = null;
@@ -287,15 +287,15 @@ return new ICadGenerator(){
 			lastConf =sourceLimb.getLinkConfiguration(linkIndex+1);
 		}
 		String linkStr =conf.getXml()
-		ArrayList<CSG> csg = null;
-		HashMap<String,ArrayList<CSG>> legmap=null;
+		ArrayList csg = null;
+		def legmap=null;
 		if(map.get(legStr)==null){
-			map.put(legStr, new HashMap<String,ArrayList<CSG>>())	
+			map.put(legStr, new HashMap())	
 			// now load the cad and return it. 
 		}
 		legmap=map.get(legStr)
 		if(legmap.get(linkStr) == null ){
-			legmap.put(linkStr,new ArrayList<CSG>())
+			legmap.put(linkStr,new ArrayList())
 		}
 		csg = legmap.get(linkStr)
 		if(csg.size()>linkIndex){
@@ -305,11 +305,10 @@ return new ICadGenerator(){
 		}
 		
 		//printBed=true;
-		ArrayList<DHLink> dhLinks=sourceLimb.getChain().getLinks();
+		def dhLinks=sourceLimb.getChain().getLinks();
 		
 		
-		
-		HashMap<String, Object> shaftmap = Vitamins.getConfiguration(conf.getShaftType(),conf.getShaftSize())
+		def shaftmap = Vitamins.getConfiguration(conf.getShaftType(),conf.getShaftSize())
 		double hornOffset = 	shaftmap.get("hornThickness")	
 		
 		CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
