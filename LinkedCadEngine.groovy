@@ -1,8 +1,8 @@
-import com.neuronrobotics.bowlerstudio.creature.ICadGenerator
+import com.neuronrobotics.bowlerstudio.creature.ICadGenerator;
 import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
-import com.neuronrobotics.bowlerstudio.creature.CreatureLab
-import org.apache.commons.io.IOUtils
-import com.neuronrobotics.bowlerstudio.vitamins.*
+import com.neuronrobotics.bowlerstudio.creature.CreatureLab;
+import org.apache.commons.io.IOUtils;
+import com.neuronrobotics.bowlerstudio.vitamins.*;
 import com.neuronrobotics.sdk.addons.kinematics.DHParameterKinematics
 import com.neuronrobotics.sdk.addons.kinematics.MobileBase
 
@@ -16,17 +16,17 @@ ICadGenerator defaultCadGen=(ICadGenerator) ScriptingEngine
                         )
 return new ICadGenerator(){
 	@Override 
-	public ArrayList generateCad(DHParameterKinematics d, int linkIndex) {
-		ArrayList allCad=defaultCadGen.generateCad(d,linkIndex)
+	public ArrayList<CSG> generateCad(DHParameterKinematics d, int linkIndex) {
+		ArrayList<CSG> allCad=defaultCadGen.generateCad(d,linkIndex);
 		//If you want you can add things here
 		//allCad.add(myCSG);
-		return allCad
+		return allCad;
 	}
 	@Override 
-	public ArrayList generateBody(MobileBase b ) {
-		ArrayList allCad=defaultCadGen.generateBody(b)
+	public ArrayList<CSG> generateBody(MobileBase b ) {
+		ArrayList<CSG> allCad=defaultCadGen.generateBody(b);
 		//If you want you can add things here
 		//allCad.add(myCSG);
-		return allCad
+		return allCad;
 	}
-}
+};

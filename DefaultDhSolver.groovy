@@ -16,12 +16,13 @@ import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
 import eu.mihosoft.vrl.v3d.Cylinder
 import eu.mihosoft.vrl.v3d.Transform;
+import groovy.transform.CompileStatic
 import javafx.application.Platform
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention
 import org.apache.commons.math3.geometry.euclidean.threed.RotationOrder
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
+@CompileStatic
 public class scriptJavaIKModel implements DhInverseSolver {
 	boolean debug = true;
 	CSG tipPointer =null;
@@ -45,9 +46,10 @@ public class scriptJavaIKModel implements DhInverseSolver {
 		return jointSpaceVector;
 	}
 	
-	@Override
+	@Override 
+	@SuppressWarnings("unchecked")
 	public double[] inverseKinematics(TransformNR target, double[] jointSpaceVector, DHChain chain) {
-		ArrayList links = chain.getLinks();
+		ArrayList<DHLink> links = chain.getLinks();
 		if(links.size()==1) {
 			return inverseKinematics1dof(target,jointSpaceVector,chain)
 		}
@@ -64,7 +66,7 @@ public class scriptJavaIKModel implements DhInverseSolver {
 	public double[] inverseKinematics34dof(TransformNR target, double[] jointSpaceVector, DHChain chain) {
 		//System.out.println("My IK");
 		//		try {
-		ArrayList links = chain.getLinks();
+		ArrayList<DHLink> links = chain.getLinks();
 		int linkNum = jointSpaceVector.length;
 
 		double z = target.getZ();

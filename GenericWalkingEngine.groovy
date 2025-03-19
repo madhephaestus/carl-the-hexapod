@@ -85,7 +85,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				public void run(){
 					//println "Starting step reset thread"
 					int numlegs = source.getLegs().size();
-					ArrayList legs = source.getLegs();
+					ArrayList<DHParameterKinematics> legs = source.getLegs();
 					while(source.isAvailable()){
 						ThreadUtil.wait(10);
 						if(reset+3000 < System.currentTimeMillis()){
@@ -145,7 +145,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 				int numlegs = source.getLegs().size();
 				TransformNR [] feetLocations = new TransformNR[numlegs];
 				TransformNR [] newFeetLocations = new TransformNR[numlegs];
-				ArrayList legs = source.getLegs();
+				ArrayList<DHParameterKinematics> legs = source.getLegs();
 				
 				if(home==null){
 					Log.enableSystemPrint(true)
@@ -224,7 +224,7 @@ return new com.neuronrobotics.sdk.addons.kinematics.IDriveEngine (){
 							 legs.get(i).checkTaskSpaceTransform(stepup) &&
 							 legs.get(i).checkTaskSpaceTransform(stepUnit) &&
 						 */
-						ArrayList stepOverTrajectory =[]
+						ArrayList<TransformNR> stepOverTrajectory =[]
 					
 						
 						while(j<15){
