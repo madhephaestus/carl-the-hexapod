@@ -16,15 +16,15 @@ ICadGenerator defaultCadGen=(ICadGenerator) ScriptingEngine
                         )
 return new ICadGenerator(){
 	@Override 
-	public ArrayList<CSG> generateCad(DHParameterKinematics d, int linkIndex) {
-		ArrayList<CSG> allCad=defaultCadGen.generateCad(d,linkIndex);
+	public ArrayList generateCad(DHParameterKinematics d, int linkIndex) {
+		def allCad=defaultCadGen.generateCad(d,linkIndex);
 		//If you want you can add things here
 		//allCad.add(myCSG);
 		return allCad;
 	}
 	@Override 
-	public ArrayList<CSG> generateBody(MobileBase b ) {
-		ArrayList<CSG> allCad=defaultCadGen.generateBody(b);
+	public ArrayList generateBody(MobileBase b ) {
+		def allCad=defaultCadGen.generateBody(b);
 		//If you want you can add things here
 		//allCad.add(myCSG);
 		return allCad;
