@@ -10,11 +10,8 @@ import java.util.HashMap;
 import javafx.scene.paint.Color;
 import javax.vecmath.Matrix4d;
 import Jama.Matrix;
-import com.neuronrobotics.bowlerstudio.BowlerStudioController;
-import com.neuronrobotics.bowlerstudio.creature.CreatureLab;
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator;
 import com.neuronrobotics.imageprovider.NativeResource;
-import com.neuronrobotics.nrconsole.plugin.BowlerCam.RGBSlider.ColorBox;
 import com.neuronrobotics.sdk.addons.kinematics.DHLink;
 import com.neuronrobotics.sdk.addons.kinematics.DHParameterKinematics;
 import com.neuronrobotics.sdk.addons.kinematics.LinkConfiguration
@@ -36,6 +33,7 @@ import eu.mihosoft.vrl.v3d.Cylinder;
 import eu.mihosoft.vrl.v3d.Vector3d;
 import javafx.scene.paint.Color;
 import com.neuronrobotics.bowlerstudio.physics.*;
+import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
 
 return new ICadGenerator(){
 	//CSG servoReference= new MicroServo().toCSG();
@@ -257,7 +255,7 @@ return new ICadGenerator(){
 					
 		upperBody.setColor(Color.GREEN);
 		upperBody.setManipulator(base.getRootListener());
-		upperBody.setManufactuing(new PrepForManufacturing() {
+		upperBody.setManufacturing(new PrepForManufacturing() {
 					public CSG prep(CSG arg0) {
 						return arg0.toZMin();
 					}
@@ -354,7 +352,7 @@ return new ICadGenerator(){
 		if(linkIndex==	dhLinks.size()-1){
 			foot=getFoot(conf);	
 			//test for last link
-			foot.setManufactuing(new PrepForManufacturing() {
+			foot.setManufacturing(new PrepForManufacturing() {
 				public CSG prep(CSG arg0) {
 					return 	arg0.transformed(new Transform().rotY(90))
 							.toZMin()
@@ -368,7 +366,7 @@ return new ICadGenerator(){
 			
 			foot.setColor(Color.GOLD);
 			csg.add(foot);//This is the root that attaches to the base
-			BowlerStudioController.addCsg(foot);
+			//BowlerStudioController.addCsg(foot);
 		}
 		
 		if(linkIndex==dhLinks.size()-1){
@@ -539,7 +537,7 @@ return new ICadGenerator(){
 		
 		
 		
-		upperLink.setManufactuing(new PrepForManufacturing() {
+		upperLink.setManufacturing(new PrepForManufacturing() {
 			public CSG prep(CSG arg0) {
 				return reverseDHValues(arg0,dhLinks.get(linkIndex))
 						.roty(180)
@@ -549,7 +547,7 @@ return new ICadGenerator(){
 		});
 		
 		
-		lowerLink.setManufactuing(new PrepForManufacturing() {
+		lowerLink.setManufacturing(new PrepForManufacturing() {
 			public CSG prep(CSG arg0) {
 				return 	reverseDHValues(arg0,dhLinks.get(linkIndex))
 						.toZMin()
@@ -557,7 +555,7 @@ return new ICadGenerator(){
 			}
 		});
 		
-		nextAttachment.setManufactuing(new PrepForManufacturing() {
+		nextAttachment.setManufacturing(new PrepForManufacturing() {
 			public CSG prep(CSG arg0) {
 				return 	arg0
 						//.transformed(new Transform().rotY(90))
@@ -589,14 +587,14 @@ return new ICadGenerator(){
 		
 		if(linkIndex<dhLinks.size()-1){
 			csg.add(nextAttachment);//This is the root that attaches to the base
-			BowlerStudioController.addCsg(nextAttachment);
+			//BowlerStudioController.addCsg(nextAttachment);
 		}
 		
 		csg.add(upperLink);//This is the root that attaches to the base
-		BowlerStudioController.addCsg(upperLink);
+		//BowlerStudioController.addCsg(upperLink);
 		
 		csg.add(lowerLink);//White link forming the lower link
-		BowlerStudioController.addCsg(lowerLink);
+		//BowlerStudioController.addCsg(lowerLink);
 			
 		
 		
