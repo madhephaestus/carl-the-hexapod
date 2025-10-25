@@ -316,7 +316,7 @@ class myCadGen implements ICadGenerator{
 		def shaftmap = Vitamins.getConfiguration(conf.getShaftType(),conf.getShaftSize())
 		double hornOffset = 	shaftmap.get("hornThickness")	
 		
-		CSG servoReference=   Vitamins.get(conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
+		CSG servoReference=   Vitamins.get(csgdb,conf.getElectroMechanicalType(),conf.getElectroMechanicalSize())
 		.transformed(new Transform().rotZ(-90))
 		
 		CSG servoKeepaway = toXMin(toZMax(	new Cube(Math.abs(servoReference.getBounds().getMin().x) +
