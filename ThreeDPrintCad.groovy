@@ -38,12 +38,18 @@ import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
 class myCadGen implements ICadGenerator{
 	eu.mihosoft.vrl.v3d.parametrics.CSGDatabaseInstance csgdb;
 	CSG dyioReference;
+	CSG mountScrewKeepaway;
 	public myCadGen(eu.mihosoft.vrl.v3d.parametrics.CSGDatabaseInstance db) {
 		csgdb=db;
 		dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(db,
 			"fb4cf429372deeb36f52",
 			"dyioCad.groovy" ,
 			null))
+		mountScrewKeepaway = (CSG)(ScriptingEngine.inlineGistScriptRun(db,
+			"488e0ee249a5c16ae4d8",
+			"moutScrewKeepaway.groovy" ,
+			null))
+		printerOffset = new LengthParameter(db,"printerOffset",0.5,[2,0.001])
 	}
 	//CSG servoReference= new MicroServo().toCSG();
 	def map = new HashMap()	
@@ -54,10 +60,6 @@ class myCadGen implements ICadGenerator{
 	
 	//CSG horn=  STL.file(NativeResource.inJarLoad(IVitamin.class,"smallmotorhorn.stl").toPath())
 
-	CSG mountScrewKeepaway = (CSG)(ScriptingEngine.inlineGistScriptRun(
-		"488e0ee249a5c16ae4d8",
-		"moutScrewKeepaway.groovy" ,
-		null))
 	private double attachmentRodWidth=10;
 	private double attachmentBaseWidth=15;
 	//private double printerTollerence =0.5;
@@ -66,7 +68,7 @@ class myCadGen implements ICadGenerator{
 	private double mountScrewSeperationDistance=attachmentRodWidth/2+mountScrewHoleKeepawaySize/2+0.5;
 	double cylandarRadius = 13.5;
 	private double bearingPinRadius=3;
-	LengthParameter printerOffset = new LengthParameter("printerOffset",0.5,[2,0.001])
+	LengthParameter printerOffset
 	
 	private CSG toZMin(CSG incoming,CSG target){
 		return incoming.transformed(new Transform().translateZ(-target.getBounds().getMin().z));
