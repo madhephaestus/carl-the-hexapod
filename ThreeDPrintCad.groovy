@@ -35,14 +35,19 @@ import javafx.scene.paint.Color;
 import com.neuronrobotics.bowlerstudio.physics.*;
 import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
 
-return new ICadGenerator(){
+class myCadGen implements ICadGenerator{
+	eu.mihosoft.vrl.v3d.parametrics.CSGDatabaseInstance csgdb;
+	CSG dyioReference;
+	public myCadGen(eu.mihosoft.vrl.v3d.parametrics.CSGDatabaseInstance db) {
+		csgdb=db;
+		dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(db,
+			"fb4cf429372deeb36f52",
+			"dyioCad.groovy" ,
+			null))
+	}
 	//CSG servoReference= new MicroServo().toCSG();
 	def map = new HashMap()	
 	def bodyMap =  new HashMap();
-	CSG dyioReference=   (CSG)(ScriptingEngine.inlineGistScriptRun(
-		"fb4cf429372deeb36f52", 
-		"dyioCad.groovy" ,
-		null))
 	
 //	.transformed(new Transform().translateZ(12.0))
 //	.transformed(new Transform().translateX(5.4));
@@ -601,3 +606,6 @@ return new ICadGenerator(){
 		return csg;
 	}
 };
+
+return new myCadGen(csgdb)
+
