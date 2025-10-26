@@ -127,9 +127,9 @@ class myCadGen implements ICadGenerator{
 	private CSG getAttachment(LinkConfiguration conf){
 		CSG h  =new Cube(1,1,1).toCSG()
 		if(conf !=null){
-			h  =Vitamins.get(conf.getShaftType(),conf.getShaftSize())		
+			h  =Vitamins.get(csgdb,conf.getShaftType(),conf.getShaftSize())		
 		}
-		return (CSG)(ScriptingEngine.gitScriptRun(
+		return (CSG)(ScriptingEngine.gitScriptRun(csgdb,
 		"https://github.com/madhephaestus/carl-the-hexapod.git",
 		"servoAttachment.groovy" ,
 		[h,conf]))
@@ -330,7 +330,7 @@ class myCadGen implements ICadGenerator{
 		servoKeepaway = servoKeepaway
 						.movex(-Math.abs(servoReference.getBounds().getMin().x))
 			
-		dh = dhLinks.get(linkIndex);
+		def dh = dhLinks.get(linkIndex);
 		CSG nextAttachment;
 		if(linkIndex>0)
 			nextAttachment=getAttachment(lastConf);
